@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/restaurants-cdk.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/SocialNetwork-cdk.ts",
   "watch": {
     "include": [
       "**"

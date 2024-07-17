@@ -1,8 +1,8 @@
 {
-  "name": "restaurants-cdk",
+  "name": "socialnetwork-cdk",
   "version": "0.1.0",
   "bin": {
-    "restaurants-cdk": "bin/restaurants-cdk.js"
+    "SocialNetwork-cdk": "bin/SocialNetwork-cdk.js"
   },
   "scripts": {
     "build": "tsc",
