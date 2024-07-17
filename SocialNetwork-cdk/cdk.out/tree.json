@@ -357,7 +357,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "c1ec7c2ef0f621b31513974ab4ecf6fae91a3f9cca14f883b8ac94433c6d3728.zip"
+                      "s3Key": "2e7dc2f7c7b84f68cd75bbb4b49b754e44dd9a0d347ae14dabb3ce6c39b7bda5.zip"
                     },
                     "environment": {
                       "variables": {
