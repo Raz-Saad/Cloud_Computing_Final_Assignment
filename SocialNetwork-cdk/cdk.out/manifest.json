@@ -1,0 +1,277 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "SocialNetworkCdkStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SocialNetworkCdkStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SocialNetworkCdkStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://361602391862/us-east-1",
+      "properties": {
+        "templateFile": "SocialNetworkCdkStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleExternalId": "",
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/a07ddbdf0604da2eef1d68b67e6770bb0349b00125254df6ab9afff7a325d4e9.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SocialNetworkCdkStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
+          "assumeRoleExternalId": "",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SocialNetworkCdkStack.assets"
+      ],
+      "metadata": {
+        "/SocialNetworkCdkStack/MyCfnEIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyCfnEIP"
+          }
+        ],
+        "/SocialNetworkCdkStack/MyCfnNatGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyCfnNatGateway"
+          }
+        ],
+        "/SocialNetworkCdkStack/PrivateRouteTable0": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PrivateRouteTable0"
+          }
+        ],
+        "/SocialNetworkCdkStack/PrivateRoute0": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PrivateRoute0"
+          }
+        ],
+        "/SocialNetworkCdkStack/SubnetRouteTableAssociation0": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubnetRouteTableAssociation0"
+          }
+        ],
+        "/SocialNetworkCdkStack/PrivateRouteTable1": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PrivateRouteTable1"
+          }
+        ],
+        "/SocialNetworkCdkStack/PrivateRoute1": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PrivateRoute1"
+          }
+        ],
+        "/SocialNetworkCdkStack/SubnetRouteTableAssociation1": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubnetRouteTableAssociation1"
+          }
+        ],
+        "/SocialNetworkCdkStack/Users/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Users0A0EEA89"
+          }
+        ],
+        "/SocialNetworkCdkStack/TableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TableName"
+          }
+        ],
+        "/SocialNetworkCdkStack/ImageStorage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImageStorage82E68681"
+          }
+        ],
+        "/SocialNetworkCdkStack/ImageBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImageBucketName"
+          }
+        ],
+        "/SocialNetworkCdkStack/RegistrationFunction/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegistrationFunctionSecurityGroupCD7EC9F0"
+          }
+        ],
+        "/SocialNetworkCdkStack/RegistrationFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegistrationFunction288DEDD6"
+          }
+        ],
+        "/SocialNetworkCdkStack/GetUserFunction/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetUserFunctionSecurityGroup60A0385C"
+          }
+        ],
+        "/SocialNetworkCdkStack/GetUserFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetUserFunctionD3D353B4"
+          }
+        ],
+        "/SocialNetworkCdkStack/DeleteUserFunction/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeleteUserFunctionSecurityGroup59DF1809"
+          }
+        ],
+        "/SocialNetworkCdkStack/DeleteUserFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeleteUserFunctionF8A542EC"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiACB67AB1"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiDeploymentA74B3F221f415dbc1daaef65361aa6770d957629"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiDeploymentStageprod4C6E8575"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiEndpointE7682DC6"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/registration/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiregistration36768A6D"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/registration/POST/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..registration": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiregistrationPOSTApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9POSTregistration1B009A35"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/registration/POST/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..registration": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiregistrationPOSTApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9POSTregistration7F04FAE1"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/registration/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiregistrationPOST127123FF"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetUser1CD8563F"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getUser": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetUserGETApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetUser0B73CDFA"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/GET/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getUser": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetUserGETApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetUser3AFBE9FB"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetUserGETEF6541CD"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApideleteUserCFD79263"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/DELETE/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.DELETE..deleteUser": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApideleteUserDELETEApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9DELETEdeleteUser4FEA608B"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/DELETE/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.DELETE..deleteUser": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApideleteUserDELETEApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9DELETEdeleteUser56021C79"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApideleteUserDELETE3193D5E6"
+          }
+        ],
+        "/SocialNetworkCdkStack/Run Test Command": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RunTestCommand"
+          }
+        ],
+        "/SocialNetworkCdkStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SocialNetworkCdkStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SocialNetworkCdkStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SocialNetworkCdkStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

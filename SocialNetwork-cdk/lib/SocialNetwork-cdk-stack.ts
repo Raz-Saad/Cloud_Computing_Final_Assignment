@@ -17,7 +17,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     // TODO: Replace with your existing VPC ID
     const vpc = ec2.Vpc.fromLookup(this, 'VPC', {
-      vpcId: 'vpc-052733467352389cf',
+      vpcId: 'vpc-08c17e89eddc8e4da',
     });
 
     this.createNatGatewayForPrivateSubnet(vpc);
@@ -25,7 +25,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const table = this.createDynamoDBTable();
 
     // Create an S3 bucket
-    const deploymentBucket = this.deployTheApplicationArtifactToS3Bucket(labRole);
+    //const deploymentBucket = this.deployTheApplicationArtifactToS3Bucket(labRole);
     const imageBucket = this.createImageStorageBucket();
 
     const registrationFunction = this.createLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc);
@@ -83,28 +83,28 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     });
   }
 
-  private deployTheApplicationArtifactToS3Bucket(labRole: iam.IRole) {
-    // Create deployment bucket
-    const bucket = new s3.Bucket(this, 'DeploymentArtifact', {
-      removalPolicy: cdk.RemovalPolicy.RETAIN,
-    });
+  // private deployTheApplicationArtifactToS3Bucket(labRole: iam.IRole) {
+  //   // Create deployment bucket
+  //   const bucket = new s3.Bucket(this, 'DeploymentArtifact', {
+  //     removalPolicy: cdk.RemovalPolicy.RETAIN,
+  //   });
 
-    // Deploy website content to S3 bucket
-    new s3Deployment.BucketDeployment(this, 'DeployWebsite', {
-      sources: [s3Deployment.Source.asset('./../service-files', {
-        exclude: ['node_modules', '*.test.js'],
-      })],
-      destinationBucket: bucket,
-      role: labRole,
-    });
+  //   // Deploy website content to S3 bucket
+  //   new s3Deployment.BucketDeployment(this, 'DeployWebsite', {
+  //     sources: [s3Deployment.Source.asset('./../service-files', {
+  //       exclude: ['node_modules', '*.test.js'],
+  //     })],
+  //     destinationBucket: bucket,
+  //     role: labRole,
+  //   });
 
-    // Output bucket name
-    new cdk.CfnOutput(this, 'BucketName', {
-      value: bucket.bucketName,
-    });
+  //   // Output bucket name
+  //   new cdk.CfnOutput(this, 'BucketName', {
+  //     value: bucket.bucketName,
+  //   });
 
-    return bucket;
-  }
+  //   return bucket;
+  // }
 
   private createImageStorageBucket() {
     // Create image storage bucket
@@ -144,7 +144,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     // Create Lambda function
     return new lambda.Function(this, id, {
-      runtime: lambda.Runtime.NODEJS_14_X,
+      runtime: lambda.Runtime.NODEJS_20_X,
       handler: 'index.handler',
       code: lambda.Code.fromAsset(path),
       role: labRole,

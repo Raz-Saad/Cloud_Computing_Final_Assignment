@@ -1,0 +1,776 @@
+{
+ "Resources": {
+  "MyCfnEIP": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/MyCfnEIP"
+   }
+  },
+  "MyCfnNatGateway": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "MyCfnEIP",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": "subnet-085fdb2a6d2b5f2f0"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/MyCfnNatGateway"
+   }
+  },
+  "PrivateRouteTable0": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "VpcId": "vpc-08c17e89eddc8e4da"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/PrivateRouteTable0"
+   }
+  },
+  "PrivateRoute0": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "MyCfnNatGateway"
+    },
+    "RouteTableId": {
+     "Ref": "PrivateRouteTable0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/PrivateRoute0"
+   }
+  },
+  "SubnetRouteTableAssociation0": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "PrivateRouteTable0"
+    },
+    "SubnetId": "subnet-0e6afa12b16163530"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SubnetRouteTableAssociation0"
+   }
+  },
+  "PrivateRouteTable1": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "VpcId": "vpc-08c17e89eddc8e4da"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/PrivateRouteTable1"
+   }
+  },
+  "PrivateRoute1": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "MyCfnNatGateway"
+    },
+    "RouteTableId": {
+     "Ref": "PrivateRouteTable1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/PrivateRoute1"
+   }
+  },
+  "SubnetRouteTableAssociation1": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "PrivateRouteTable1"
+    },
+    "SubnetId": "subnet-00e485f68f2bfe1f3"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SubnetRouteTableAssociation1"
+   }
+  },
+  "Users0A0EEA89": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "UserName",
+      "AttributeType": "S"
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "UserName",
+      "KeyType": "HASH"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 1,
+     "WriteCapacityUnits": 1
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/Users/Resource"
+   }
+  },
+  "ImageStorage82E68681": {
+   "Type": "AWS::S3::Bucket",
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/ImageStorage/Resource"
+   }
+  },
+  "RegistrationFunctionSecurityGroupCD7EC9F0": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackRegistrationFunctionDE74C79D",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": "vpc-08c17e89eddc8e4da"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/RegistrationFunction/SecurityGroup/Resource"
+   }
+  },
+  "RegistrationFunction288DEDD6": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+     "S3Key": "c1ec7c2ef0f621b31513974ab4ecf6fae91a3f9cca14f883b8ac94433c6d3728.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "Users0A0EEA89"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Runtime": "nodejs20.x",
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "RegistrationFunctionSecurityGroupCD7EC9F0",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      "subnet-0e6afa12b16163530",
+      "subnet-00e485f68f2bfe1f3"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/RegistrationFunction/Resource",
+    "aws:asset:path": "asset.c1ec7c2ef0f621b31513974ab4ecf6fae91a3f9cca14f883b8ac94433c6d3728",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetUserFunctionSecurityGroup60A0385C": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackGetUserFunction0262B3CB",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": "vpc-08c17e89eddc8e4da"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/GetUserFunction/SecurityGroup/Resource"
+   }
+  },
+  "GetUserFunctionD3D353B4": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+     "S3Key": "df4979cc6181898551b76a5f769e5c3e433d531e73ce625132026ec80937fbf0.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "Users0A0EEA89"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Runtime": "nodejs20.x",
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "GetUserFunctionSecurityGroup60A0385C",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      "subnet-0e6afa12b16163530",
+      "subnet-00e485f68f2bfe1f3"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/GetUserFunction/Resource",
+    "aws:asset:path": "asset.df4979cc6181898551b76a5f769e5c3e433d531e73ce625132026ec80937fbf0",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DeleteUserFunctionSecurityGroup59DF1809": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackDeleteUserFunction0648D5FB",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": "vpc-08c17e89eddc8e4da"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/DeleteUserFunction/SecurityGroup/Resource"
+   }
+  },
+  "DeleteUserFunctionF8A542EC": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+     "S3Key": "c1ec7c2ef0f621b31513974ab4ecf6fae91a3f9cca14f883b8ac94433c6d3728.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "Users0A0EEA89"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Runtime": "nodejs20.x",
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "DeleteUserFunctionSecurityGroup59DF1809",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      "subnet-0e6afa12b16163530",
+      "subnet-00e485f68f2bfe1f3"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/DeleteUserFunction/Resource",
+    "aws:asset:path": "asset.c1ec7c2ef0f621b31513974ab4ecf6fae91a3f9cca14f883b8ac94433c6d3728",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SocialNetworkApiACB67AB1": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "Social Network Service"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Resource"
+   }
+  },
+  "SocialNetworkApiDeploymentA74B3F221f415dbc1daaef65361aa6770d957629": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "DependsOn": [
+    "SocialNetworkApideleteUserDELETE3193D5E6",
+    "SocialNetworkApideleteUserCFD79263",
+    "SocialNetworkApigetUserGETEF6541CD",
+    "SocialNetworkApigetUser1CD8563F",
+    "SocialNetworkApiregistrationPOST127123FF",
+    "SocialNetworkApiregistration36768A6D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Deployment/Resource"
+   }
+  },
+  "SocialNetworkApiDeploymentStageprod4C6E8575": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "SocialNetworkApiDeploymentA74B3F221f415dbc1daaef65361aa6770d957629"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "SocialNetworkApiregistration36768A6D": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "SocialNetworkApiACB67AB1",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "registration",
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/registration/Resource"
+   }
+  },
+  "SocialNetworkApiregistrationPOSTApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9POSTregistration1B009A35": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "RegistrationFunction288DEDD6",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:361602391862:",
+       {
+        "Ref": "SocialNetworkApiACB67AB1"
+       },
+       "/",
+       {
+        "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
+       },
+       "/POST/registration"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/registration/POST/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..registration"
+   }
+  },
+  "SocialNetworkApiregistrationPOSTApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9POSTregistration7F04FAE1": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "RegistrationFunction288DEDD6",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:361602391862:",
+       {
+        "Ref": "SocialNetworkApiACB67AB1"
+       },
+       "/test-invoke-stage/POST/registration"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/registration/POST/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..registration"
+   }
+  },
+  "SocialNetworkApiregistrationPOST127123FF": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "RegistrationFunction288DEDD6",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SocialNetworkApiregistration36768A6D"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/registration/POST/Resource"
+   }
+  },
+  "SocialNetworkApigetUser1CD8563F": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "SocialNetworkApiACB67AB1",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "getUser",
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/Resource"
+   }
+  },
+  "SocialNetworkApigetUserGETApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetUser0B73CDFA": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetUserFunctionD3D353B4",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:361602391862:",
+       {
+        "Ref": "SocialNetworkApiACB67AB1"
+       },
+       "/",
+       {
+        "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
+       },
+       "/GET/getUser"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getUser"
+   }
+  },
+  "SocialNetworkApigetUserGETApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetUser3AFBE9FB": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetUserFunctionD3D353B4",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:361602391862:",
+       {
+        "Ref": "SocialNetworkApiACB67AB1"
+       },
+       "/test-invoke-stage/GET/getUser"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/GET/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getUser"
+   }
+  },
+  "SocialNetworkApigetUserGETEF6541CD": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "GetUserFunctionD3D353B4",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SocialNetworkApigetUser1CD8563F"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/GET/Resource"
+   }
+  },
+  "SocialNetworkApideleteUserCFD79263": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "SocialNetworkApiACB67AB1",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "deleteUser",
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/Resource"
+   }
+  },
+  "SocialNetworkApideleteUserDELETEApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9DELETEdeleteUser4FEA608B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "DeleteUserFunctionF8A542EC",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:361602391862:",
+       {
+        "Ref": "SocialNetworkApiACB67AB1"
+       },
+       "/",
+       {
+        "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
+       },
+       "/DELETE/deleteUser"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/DELETE/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.DELETE..deleteUser"
+   }
+  },
+  "SocialNetworkApideleteUserDELETEApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9DELETEdeleteUser56021C79": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "DeleteUserFunctionF8A542EC",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:361602391862:",
+       {
+        "Ref": "SocialNetworkApiACB67AB1"
+       },
+       "/test-invoke-stage/DELETE/deleteUser"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/DELETE/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.DELETE..deleteUser"
+   }
+  },
+  "SocialNetworkApideleteUserDELETE3193D5E6": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "DELETE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "DeleteUserFunctionF8A542EC",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SocialNetworkApideleteUserCFD79263"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/DELETE/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02QTW/CMAyGfwv3kFH2cYeyoR22oXZ35KaGBdqkqp2hKup/n5Iw6MmPXyevP5Yye3qRixlcaK7q87zRlfQlgzqLAsm6XqGAC+09qqX0+cG8vu9EfjCfwFtgvMAQssI6xm+oGrxlAUpXGeR7cUVklQbW1ogSles1D9veui4+ngqjqAcDra0r6W++EUZBj9KvnTojB/FKKayBcBQNtFUN0r85o2Kv/GCmvMO+1UTammC2ByJkkqsQBHT6mPaSvkDiVafjSlfcYNfYoUUTe0+ykuGYdo7wf7sw0P2QySjxB/KPrYOUaBwDfznuHIs4S3DS5jj9NQpja5QnevhdLmT2LLPZibSe986wblEWKf4BeZ/aWtUBAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "TableName": {
+   "Value": {
+    "Ref": "Users0A0EEA89"
+   }
+  },
+  "ImageBucketName": {
+   "Value": {
+    "Ref": "ImageStorage82E68681"
+   }
+  },
+  "SocialNetworkApiEndpointE7682DC6": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "SocialNetworkApiACB67AB1"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "RunTestCommand": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "TABLE_NAME='",
+      {
+       "Ref": "Users0A0EEA89"
+      },
+      "' AWS_REGION='us-east-1' npm test"
+     ]
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
