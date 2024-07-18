@@ -1,18 +1,17 @@
 const { DynamoDBClient, GetItemCommand, PutItemCommand } = require("@aws-sdk/client-dynamodb");
+const crypto = require('crypto');
 
 const TABLE_NAME = process.env.TABLE_NAME;
-
 const client = new DynamoDBClient({ region: process.env.AWS_REGION });
 
 exports.handler = async function(event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
-  
-// Extracting parameters from query string if present
+
+  // Extracting parameters from query string if present
   const username = event.queryStringParameters ? event.queryStringParameters.username : null;
   const email = event.queryStringParameters ? event.queryStringParameters.email : null;
   const password = event.queryStringParameters ? event.queryStringParameters.password : null;
   const fullName = event.queryStringParameters ? event.queryStringParameters.fullName : null;
-
 
   // Validate input
   if (!username || !email || !password || !fullName) {
@@ -46,11 +45,14 @@ exports.handler = async function(event) {
     };
   }
 
-  // Insert new user into DynamoDB
+  // Hash the password using SHA-256
+  const hashedPassword = hashPassword(password);
+
+  // Insert new user into DynamoDB with hashed password
   const newUser = {
     UserName: { S: username },
     Email: { S: email },
-    Password: { S: password },
+    Password: { S: hashedPassword }, // Store hashed password instead of plain text
     FullName: { S: fullName }
   };
 
@@ -93,4 +95,11 @@ async function checkUserExists(username) {
     console.error("Error checking user existence:", error);
     throw new Error("Error checking user existence");
   }
+}
+
+// Function to hash the password using SHA-256
+function hashPassword(password) {
+  const hash = crypto.createHash('sha256');
+  hash.update(password);
+  return hash.digest('hex');
 }
