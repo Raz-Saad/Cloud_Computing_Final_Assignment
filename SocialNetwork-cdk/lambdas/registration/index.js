@@ -1,14 +1,18 @@
-const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient, GetItemCommand, PutItemCommand } = require("@aws-sdk/client-dynamodb");
 
 const TABLE_NAME = process.env.TABLE_NAME;
 
+const client = new DynamoDBClient({ region: process.env.AWS_REGION });
 
 exports.handler = async function(event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
+  
+// Extracting parameters from query string if present
+  const username = event.queryStringParameters ? event.queryStringParameters.username : null;
+  const email = event.queryStringParameters ? event.queryStringParameters.email : null;
+  const password = event.queryStringParameters ? event.queryStringParameters.password : null;
+  const fullName = event.queryStringParameters ? event.queryStringParameters.fullName : null;
 
-  const requestBody = JSON.parse(event.body);
-  const { username, email, password, fullName } = requestBody;
 
   // Validate input
   if (!username || !email || !password || !fullName) {
@@ -21,7 +25,8 @@ exports.handler = async function(event) {
 
   // Check if extra parameters are provided
   const validParams = ["username", "email", "password", "fullName"];
-  for (const key of Object.keys(requestBody)) {
+  const allParams = { username, email, password, fullName };
+  for (const key of Object.keys(allParams)) {
     if (!validParams.includes(key)) {
       return {
         statusCode: 400,
@@ -43,17 +48,19 @@ exports.handler = async function(event) {
 
   // Insert new user into DynamoDB
   const newUser = {
-    UserName: username,
-    Email: email,
-    Password: password,
-    FullName: fullName
+    UserName: { S: username },
+    Email: { S: email },
+    Password: { S: password },
+    FullName: { S: fullName }
+  };
+
+  const putParams = {
+    TableName: TABLE_NAME,
+    Item: newUser
   };
 
   try {
-    await dynamoDb.put({
-      TableName: TABLE_NAME,
-      Item: newUser
-    }).promise();
+    await client.send(new PutItemCommand(putParams));
 
     return {
       statusCode: 201,
@@ -72,15 +79,15 @@ exports.handler = async function(event) {
 
 // Function to check if a user already exists
 async function checkUserExists(username) {
-  const params = {
+  const getParams = {
     TableName: TABLE_NAME,
     Key: {
-      UserName: username
+      UserName: { S: username }
     }
   };
 
   try {
-    const result = await dynamoDb.get(params).promise();
+    const result = await client.send(new GetItemCommand(getParams));
     return result.Item ? true : false;
   } catch (error) {
     console.error("Error checking user existence:", error);
