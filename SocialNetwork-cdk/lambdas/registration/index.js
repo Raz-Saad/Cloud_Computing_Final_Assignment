@@ -1,3 +1,6 @@
+//Registration
+
+
 const { DynamoDBClient, GetItemCommand, PutItemCommand } = require("@aws-sdk/client-dynamodb");
 const crypto = require('crypto');
 
@@ -54,7 +57,7 @@ exports.handler = async function(event) {
     UserName: { S: username },
     Email: { S: email },
     Password: { S: hashedPassword }, // Store hashed password instead of plain text
-    Fullname: { S: fullname }
+    FullName: { S: fullname }
   };
 
   const putParams = {

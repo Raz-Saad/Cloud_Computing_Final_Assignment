@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const baseURL = 'https://nxeghe1jg5.execute-api.us-east-1.amazonaws.com/prod/';
+const baseURL = 'https://liulv40kxb.execute-api.us-east-1.amazonaws.com/prod/';
 
 describe('Registration API', () => {
   it('should register a new user successfully', async () => {
@@ -50,7 +50,6 @@ describe('GetUser API', () => {
         const fullname = 'Test User';
 
         const response = await axios.get(`${baseURL}getUser?username=${username}`);
-        console.log(response.data);
         expect(response.status).toBe(200);
         expect(response.data.username).toBe(username);
         expect(response.data.email).toBe(email);
