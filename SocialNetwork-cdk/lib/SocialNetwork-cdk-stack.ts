@@ -4,7 +4,6 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-import * as s3Deployment from 'aws-cdk-lib/aws-s3-deployment';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 
@@ -28,9 +27,10 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     //const deploymentBucket = this.deployTheApplicationArtifactToS3Bucket(labRole);
     const imageBucket = this.createImageStorageBucket();
 
-    const registrationFunction = this.createLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc);
-    const getUserFunction = this.createLambdaFunction('GetUserFunction', 'lambdas/getUserById', labRole, table, vpc);
-    const deleteUserFunction = this.createLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, table, vpc);
+    const registrationFunction = this.createLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc, imageBucket);
+    const getUserFunction = this.createLambdaFunction('GetUserFunction', 'lambdas/getUserById', labRole, table, vpc, imageBucket);
+    const deleteUserFunction = this.createLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, table, vpc, imageBucket);
+    const getPresignUrlForUplodingProfileImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, table, vpc, imageBucket);
 
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
       restApiName: 'Social Network Service',
@@ -45,6 +45,9 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     const deleteUser = api.root.addResource('deleteUser');
     deleteUser.addMethod('DELETE', new apigateway.LambdaIntegration(deleteUserFunction));
+
+    const getPresignUrlForUplodingProfileImage = api.root.addResource('getPresignUrlForUplodingProfileImage');
+    getPresignUrlForUplodingProfileImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingProfileImageFunction));
 
     // Output for testing purposes
     new cdk.CfnOutput(this, 'Run Test Command', {
@@ -120,6 +123,38 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     return bucket;
   }
 
+  
+  // private createImageStorageBucket(): s3.Bucket {
+  //   // Create image storage bucket
+  //   const bucket = new s3.Bucket(this, 'ImageStorage', {
+  //     removalPolicy: cdk.RemovalPolicy.RETAIN,
+  //   });
+    
+  //   // Output bucket name
+  //   new cdk.CfnOutput(this, 'ImageBucketName', {
+  //     value: bucket.bucketName,
+  //   });
+    
+  //   // Attach bucket policy to allow access
+  //   bucket.addToResourcePolicy(new iam.PolicyStatement({
+  //     effect: iam.Effect.ALLOW,
+  //     actions: [
+  //       "s3:ListBucket",
+  //       "s3:GetObject",
+  //       "s3:PutObject"
+  //     ],
+  //     resources: [
+  //       bucket.bucketArn,
+  //       `${bucket.bucketArn}/*`
+  //     ],
+  //     principals: [
+  //       new iam.AnyPrincipal()
+  //     ]
+  //   }));
+    
+  //   return bucket;
+  // }
+  
   private createDynamoDBTable() {
     // Create DynamoDB table
     const table = new dynamodb.Table(this, 'Users', {
@@ -138,21 +173,28 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     return table;
   }
 
-  private createLambdaFunction(id: string, path: string, labRole: iam.IRole, table: dynamodb.Table , vpc: cdk.aws_ec2.IVpc) {
+  private createLambdaFunction(id: string, path: string, labRole: iam.IRole, table: dynamodb.Table , vpc: cdk.aws_ec2.IVpc , imageBucket: s3.Bucket) {
     // Grant permissions to Lambda function
     table.grantReadWriteData(labRole);
-
+    imageBucket.grantReadWrite(labRole); // Grant permissions to the bucket
+    
     // Create Lambda function
-    return new lambda.Function(this, id, {
+      return new lambda.Function(this, id, {
       runtime: lambda.Runtime.NODEJS_20_X,
       handler: 'index.handler',
       code: lambda.Code.fromAsset(path),
       role: labRole,
       environment: {
         TABLE_NAME: table.tableName,
+        IMAGE_BUCKET_NAME: imageBucket.bucketName,
       },
       vpc: vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS},
     });
+
+    }
   }
-}
+
+
+
+

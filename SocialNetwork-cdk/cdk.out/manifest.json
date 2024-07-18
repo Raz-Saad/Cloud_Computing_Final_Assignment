@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/ab238f0e30c9ff8736cb387d3a5be75246d848cc5768eaa1d0182a86ea96f853.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/0bddd6f5f01d1f89a89abb8dd02b7dad02c592596025bc87de021eb1fea23612.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -144,6 +144,18 @@
             "data": "DeleteUserFunctionF8A542EC"
           }
         ],
+        "/SocialNetworkCdkStack/GetPresignUrlForUplodingProfileImage/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetPresignUrlForUplodingProfileImageSecurityGroupB0759402"
+          }
+        ],
+        "/SocialNetworkCdkStack/GetPresignUrlForUplodingProfileImage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetPresignUrlForUplodingProfileImageA0888C75"
+          }
+        ],
         "/SocialNetworkCdkStack/SocialNetworkApi/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -153,7 +165,7 @@
         "/SocialNetworkCdkStack/SocialNetworkApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SocialNetworkApiDeploymentA74B3F221f415dbc1daaef65361aa6770d957629"
+            "data": "SocialNetworkApiDeploymentA74B3F22dcad7f95fdb55713f7d3cc093530944a"
           }
         ],
         "/SocialNetworkCdkStack/SocialNetworkApi/DeploymentStage.prod/Resource": [
@@ -238,6 +250,30 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "SocialNetworkApideleteUserDELETE3193D5E6"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetPresignUrlForUplodingProfileImageECBD9743"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingProfileImage": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetPresignUrlForUplodingProfileImageGETApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetPresignUrlForUplodingProfileImage62CB0C98"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/GET/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingProfileImage": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetPresignUrlForUplodingProfileImageGETApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetPresignUrlForUplodingProfileImage6D55DC21"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetPresignUrlForUplodingProfileImageGET263376DB"
           }
         ],
         "/SocialNetworkCdkStack/Run Test Command": [

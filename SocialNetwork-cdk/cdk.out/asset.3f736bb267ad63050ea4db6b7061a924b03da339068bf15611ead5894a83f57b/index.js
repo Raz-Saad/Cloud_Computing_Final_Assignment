@@ -5,6 +5,8 @@ const { S3Client, PutObjectCommand, ListObjectsV2Command } = require("@aws-sdk/c
 const { S3RequestPresigner } = require("@aws-sdk/s3-request-presigner");
 const { HttpRequest } = require("@aws-sdk/protocol-http");
 const { formatUrl } = require("@aws-sdk/util-format-url");
+const { v4: uuidv4 } = require('uuid');
+const { fromNodeProviderChain } = require("@aws-sdk/credential-provider-node");
 
 const dynamoDbClient = new DynamoDBClient();
 const s3Client = new S3Client();
@@ -13,9 +15,9 @@ const TABLE_NAME = process.env.TABLE_NAME;
 const BUCKET_NAME = process.env.IMAGE_BUCKET_NAME;
 
 exports.handler = async (event) => {
-  const username = event.queryStringParameters ? event.queryStringParameters.username : null;
+    const username = event.queryStringParameters ? event.queryStringParameters.username : null;
 
-  // Validate input
+      // Validate input
   if (username == null) {
     return {
       statusCode: 400,
@@ -28,7 +30,7 @@ exports.handler = async (event) => {
   const params = {
     TableName: TABLE_NAME,
     Key: {
-      UserName: { S: username }
+      username: { S: username }
     }
   };
 
@@ -41,7 +43,7 @@ exports.handler = async (event) => {
         body: JSON.stringify({ message: 'User not found' })
       };
     }
-    
+
     // Define the folder path
     const folderPath = `${username}/`;
 
@@ -65,7 +67,7 @@ exports.handler = async (event) => {
     }
 
     // Generate a pre-signed URL for uploading an image to this folder
-    const fileName = `${username}_ProfilePicture.jpg`; // You may use uuidv4() for generating a unique filename
+    const fileName = `${username}_ProfilePicture.jpg` //uuidv4() + '.jpg';
     const uploadParams = {
       Bucket: BUCKET_NAME,
       Key: `${folderPath}${fileName}`
@@ -73,6 +75,7 @@ exports.handler = async (event) => {
 
     const presigner = new S3RequestPresigner({
       client: s3Client,
+      credentials: fromNodeProviderChain(),
       region: process.env.AWS_REGION
     });
 
@@ -83,10 +86,9 @@ exports.handler = async (event) => {
       hostname: `${BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`,
       path: `/${folderPath}${fileName}`,
     });
-  
+
     const signedUrl = formatUrl(await presigner.presign(request, { expiresIn: 3600 }));
 
-    // Return the signed URL as the response
     return {
       statusCode: 200,
       body: JSON.stringify({ uploadUrl: signedUrl })

@@ -152,12 +152,15 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "04055f1fe005b9df908b33b49ad5a93c1c18b343e6747d6f9db116acc394aa83.zip"
+     "S3Key": "2236996cddb405468735dcc5af8d18555118cff4c25bedbf986038c6b4309890.zip"
     },
     "Environment": {
      "Variables": {
       "TABLE_NAME": {
        "Ref": "Users0A0EEA89"
+      },
+      "IMAGE_BUCKET_NAME": {
+       "Ref": "ImageStorage82E68681"
       }
      }
     },
@@ -181,7 +184,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/RegistrationFunction/Resource",
-    "aws:asset:path": "asset.04055f1fe005b9df908b33b49ad5a93c1c18b343e6747d6f9db116acc394aa83",
+    "aws:asset:path": "asset.2236996cddb405468735dcc5af8d18555118cff4c25bedbf986038c6b4309890",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -208,12 +211,15 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "99d0b47f04f3b6d0de2ae3074f13c91708c1541e796dbf1f6523c83f0d31b073.zip"
+     "S3Key": "bb37a8105d0e90b7758c301ddbb2cf942e1c14082cdb161851a359a4a7e83a74.zip"
     },
     "Environment": {
      "Variables": {
       "TABLE_NAME": {
        "Ref": "Users0A0EEA89"
+      },
+      "IMAGE_BUCKET_NAME": {
+       "Ref": "ImageStorage82E68681"
       }
      }
     },
@@ -237,7 +243,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetUserFunction/Resource",
-    "aws:asset:path": "asset.99d0b47f04f3b6d0de2ae3074f13c91708c1541e796dbf1f6523c83f0d31b073",
+    "aws:asset:path": "asset.bb37a8105d0e90b7758c301ddbb2cf942e1c14082cdb161851a359a4a7e83a74",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -264,12 +270,15 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "619bf9163ee5af129ed1eac2c1235b32600f42ce503c46a15c6651a285dec1ad.zip"
+     "S3Key": "ce28eaaebb89982e82a07975acdc05f5cdc5f75e22592ab8af4ed0dafae7e0b7.zip"
     },
     "Environment": {
      "Variables": {
       "TABLE_NAME": {
        "Ref": "Users0A0EEA89"
+      },
+      "IMAGE_BUCKET_NAME": {
+       "Ref": "ImageStorage82E68681"
       }
      }
     },
@@ -293,7 +302,66 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/DeleteUserFunction/Resource",
-    "aws:asset:path": "asset.619bf9163ee5af129ed1eac2c1235b32600f42ce503c46a15c6651a285dec1ad",
+    "aws:asset:path": "asset.ce28eaaebb89982e82a07975acdc05f5cdc5f75e22592ab8af4ed0dafae7e0b7",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetPresignUrlForUplodingProfileImageSecurityGroupB0759402": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackGetPresignUrlForUplodingProfileImageAF8CF15D",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": "vpc-08c17e89eddc8e4da"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/GetPresignUrlForUplodingProfileImage/SecurityGroup/Resource"
+   }
+  },
+  "GetPresignUrlForUplodingProfileImageA0888C75": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+     "S3Key": "23d33eb3cb87fcfd0743815d14a4970ab318ad219ac67dbd9ee3ea8ce171cf54.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "Users0A0EEA89"
+      },
+      "IMAGE_BUCKET_NAME": {
+       "Ref": "ImageStorage82E68681"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Runtime": "nodejs20.x",
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "GetPresignUrlForUplodingProfileImageSecurityGroupB0759402",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      "subnet-0e6afa12b16163530",
+      "subnet-00e485f68f2bfe1f3"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/GetPresignUrlForUplodingProfileImage/Resource",
+    "aws:asset:path": "asset.23d33eb3cb87fcfd0743815d14a4970ab318ad219ac67dbd9ee3ea8ce171cf54",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -307,7 +375,7 @@
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Resource"
    }
   },
-  "SocialNetworkApiDeploymentA74B3F221f415dbc1daaef65361aa6770d957629": {
+  "SocialNetworkApiDeploymentA74B3F22dcad7f95fdb55713f7d3cc093530944a": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -318,6 +386,8 @@
    "DependsOn": [
     "SocialNetworkApideleteUserDELETE3193D5E6",
     "SocialNetworkApideleteUserCFD79263",
+    "SocialNetworkApigetPresignUrlForUplodingProfileImageGET263376DB",
+    "SocialNetworkApigetPresignUrlForUplodingProfileImageECBD9743",
     "SocialNetworkApigetUserGETEF6541CD",
     "SocialNetworkApigetUser1CD8563F",
     "SocialNetworkApiregistrationPOST127123FF",
@@ -331,7 +401,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "SocialNetworkApiDeploymentA74B3F221f415dbc1daaef65361aa6770d957629"
+     "Ref": "SocialNetworkApiDeploymentA74B3F22dcad7f95fdb55713f7d3cc093530944a"
     },
     "RestApiId": {
      "Ref": "SocialNetworkApiACB67AB1"
@@ -679,6 +749,119 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/DELETE/Resource"
+   }
+  },
+  "SocialNetworkApigetPresignUrlForUplodingProfileImageECBD9743": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "SocialNetworkApiACB67AB1",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "getPresignUrlForUplodingProfileImage",
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/Resource"
+   }
+  },
+  "SocialNetworkApigetPresignUrlForUplodingProfileImageGETApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetPresignUrlForUplodingProfileImage62CB0C98": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetPresignUrlForUplodingProfileImageA0888C75",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:361602391862:",
+       {
+        "Ref": "SocialNetworkApiACB67AB1"
+       },
+       "/",
+       {
+        "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
+       },
+       "/GET/getPresignUrlForUplodingProfileImage"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingProfileImage"
+   }
+  },
+  "SocialNetworkApigetPresignUrlForUplodingProfileImageGETApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetPresignUrlForUplodingProfileImage6D55DC21": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetPresignUrlForUplodingProfileImageA0888C75",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:361602391862:",
+       {
+        "Ref": "SocialNetworkApiACB67AB1"
+       },
+       "/test-invoke-stage/GET/getPresignUrlForUplodingProfileImage"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/GET/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingProfileImage"
+   }
+  },
+  "SocialNetworkApigetPresignUrlForUplodingProfileImageGET263376DB": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "GetPresignUrlForUplodingProfileImageA0888C75",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SocialNetworkApigetPresignUrlForUplodingProfileImageECBD9743"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/GET/Resource"
    }
   },
   "CDKMetadata": {
