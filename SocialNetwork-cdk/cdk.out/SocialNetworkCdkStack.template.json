@@ -152,7 +152,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "09fdc467b405b162837fe30a2f28a34ad3d7ef9409d6d44426baafa4a9be37c5.zip"
+     "S3Key": "597e15b830d74e272181e19b41b5b25ba56b67a17ca7c334e7a7f73df94eff29.zip"
     },
     "Environment": {
      "Variables": {
@@ -181,7 +181,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/RegistrationFunction/Resource",
-    "aws:asset:path": "asset.09fdc467b405b162837fe30a2f28a34ad3d7ef9409d6d44426baafa4a9be37c5",
+    "aws:asset:path": "asset.597e15b830d74e272181e19b41b5b25ba56b67a17ca7c334e7a7f73df94eff29",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -208,7 +208,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "2d3c788ddbb523f974fb7b8ceccf4a2b53cd73b04313bc0cbeda7e350598e2b9.zip"
+     "S3Key": "4403432f46b06e3c28070af2f59591fc7bec643a301d72c6ac874f9f0b0124ec.zip"
     },
     "Environment": {
      "Variables": {
@@ -237,7 +237,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetUserFunction/Resource",
-    "aws:asset:path": "asset.2d3c788ddbb523f974fb7b8ceccf4a2b53cd73b04313bc0cbeda7e350598e2b9",
+    "aws:asset:path": "asset.4403432f46b06e3c28070af2f59591fc7bec643a301d72c6ac874f9f0b0124ec",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -264,7 +264,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "f7bc97f3c698208afb1353cf2327a03a981a3fb2c929342e9e9a3a601ca929dd.zip"
+     "S3Key": "06838a0095a4708303206584811faa106973f0885ba314da46d19dc5b87f1623.zip"
     },
     "Environment": {
      "Variables": {
@@ -293,7 +293,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/DeleteUserFunction/Resource",
-    "aws:asset:path": "asset.f7bc97f3c698208afb1353cf2327a03a981a3fb2c929342e9e9a3a601ca929dd",
+    "aws:asset:path": "asset.06838a0095a4708303206584811faa106973f0885ba314da46d19dc5b87f1623",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
