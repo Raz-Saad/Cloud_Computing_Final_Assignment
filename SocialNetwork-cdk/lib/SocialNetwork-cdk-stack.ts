@@ -24,7 +24,6 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const table = this.createDynamoDBTable();
 
     // Create an S3 bucket
-    //const deploymentBucket = this.deployTheApplicationArtifactToS3Bucket(labRole);
     const imageBucket = this.createImageStorageBucket();
 
     const registrationFunction = this.createLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc, imageBucket);
@@ -86,34 +85,23 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     });
   }
 
-  // private deployTheApplicationArtifactToS3Bucket(labRole: iam.IRole) {
-  //   // Create deployment bucket
-  //   const bucket = new s3.Bucket(this, 'DeploymentArtifact', {
-  //     removalPolicy: cdk.RemovalPolicy.RETAIN,
-  //   });
-
-  //   // Deploy website content to S3 bucket
-  //   new s3Deployment.BucketDeployment(this, 'DeployWebsite', {
-  //     sources: [s3Deployment.Source.asset('./../service-files', {
-  //       exclude: ['node_modules', '*.test.js'],
-  //     })],
-  //     destinationBucket: bucket,
-  //     role: labRole,
-  //   });
-
-  //   // Output bucket name
-  //   new cdk.CfnOutput(this, 'BucketName', {
-  //     value: bucket.bucketName,
-  //   });
-
-  //   return bucket;
-  // }
-
   private createImageStorageBucket() {
     // Create image storage bucket
     const bucket = new s3.Bucket(this, 'ImageStorage', {
       removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
+
+    // Add policy to the bucket
+    bucket.addToResourcePolicy(
+      new iam.PolicyStatement({
+        resources: [
+          bucket.arnForObjects("*"), 
+          bucket.bucketArn,
+        ],
+        actions: ["s3:List*", "s3:Get*", "s3:PutObject", "s3:DeleteObject"],
+        principals: [new iam.ArnPrincipal("arn:aws:iam::361602391862:role/LabRole")]
+      })
+    );
 
     // Output bucket name
     new cdk.CfnOutput(this, 'ImageBucketName', {
@@ -123,38 +111,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     return bucket;
   }
 
-  
-  // private createImageStorageBucket(): s3.Bucket {
-  //   // Create image storage bucket
-  //   const bucket = new s3.Bucket(this, 'ImageStorage', {
-  //     removalPolicy: cdk.RemovalPolicy.RETAIN,
-  //   });
-    
-  //   // Output bucket name
-  //   new cdk.CfnOutput(this, 'ImageBucketName', {
-  //     value: bucket.bucketName,
-  //   });
-    
-  //   // Attach bucket policy to allow access
-  //   bucket.addToResourcePolicy(new iam.PolicyStatement({
-  //     effect: iam.Effect.ALLOW,
-  //     actions: [
-  //       "s3:ListBucket",
-  //       "s3:GetObject",
-  //       "s3:PutObject"
-  //     ],
-  //     resources: [
-  //       bucket.bucketArn,
-  //       `${bucket.bucketArn}/*`
-  //     ],
-  //     principals: [
-  //       new iam.AnyPrincipal()
-  //     ]
-  //   }));
-    
-  //   return bucket;
-  // }
-  
+
   private createDynamoDBTable() {
     // Create DynamoDB table
     const table = new dynamodb.Table(this, 'Users', {

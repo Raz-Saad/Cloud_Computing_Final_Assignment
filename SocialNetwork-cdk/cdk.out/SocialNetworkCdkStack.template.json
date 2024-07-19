@@ -130,6 +130,56 @@
     "aws:cdk:path": "SocialNetworkCdkStack/ImageStorage/Resource"
    }
   },
+  "ImageStoragePolicy8AD6DC86": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "ImageStorage82E68681"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:DeleteObject",
+        "s3:Get*",
+        "s3:List*",
+        "s3:PutObject"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "arn:aws:iam::361602391862:role/LabRole"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ImageStorage82E68681",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ImageStorage82E68681",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/ImageStorage/Policy/Resource"
+   }
+  },
   "RegistrationFunctionSecurityGroupCD7EC9F0": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
@@ -867,7 +917,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02QTW/CMAyGfwv3kFH2cYeyoR22oXZ35KaGBdqkqp2hKup/n5Iw6MmPXyevP5Yye3qRixlcaK7q87zRlfQlgzqLAsm6XqGAC+09qqX0+cG8vu9EfjCfwFtgvMAQssI6xm+oGrxlAUpXGeR7cUVklQbW1ogSles1D9veui4+ngqjqAcDra0r6W++EUZBj9KvnTojB/FKKayBcBQNtFUN0r85o2Kv/GCmvMO+1UTammC2ByJkkqsQBHT6mPaSvkDiVafjSlfcYNfYoUUTe0+ykuGYdo7wf7sw0P2QySjxB/KPrYOUaBwDfznuHIs4S3DS5jj9NQpja5QnevhdLmT2LLPZibSe986wblEWKf4BeZ/aWtUBAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02Qy3LCMAxFv4W9cYE+9jxapou2maR7RnEENSR2JpLLZDz5947tFLLSude2fKWVXD69yMUMrjRX1WVe61L6gkFdRI5kXadQwJUOHtVK+u3RvL5nYns0n8B7YLxCH1RuHeM3lDXeVIDClQb5frgmskoDa2tEgcp1mvt9Z10bL0+NQVS9gcZWpfS3vhEGQY/Sb5y6IAdzpFQyW2vV3+1RJ7EBwkHU0JQVSP/mjIpBtkcz5Qy7RhNpa8JPByBCJrkORUCrT2lo6XMkXrc6zjviDtva9g2aGGyiCoZTWkiE/8WGQPctp0aJP5B/bBWsRMMQ+Mtx61jELKGTNqfpq0EYW6E808PvaiGXz3I5O5PW884Z1g3KPNU/4HidnfIBAAA="
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/CDKMetadata/Default"

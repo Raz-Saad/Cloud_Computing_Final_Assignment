@@ -272,6 +272,71 @@
                   "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
                   "version": "2.146.0"
                 }
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "SocialNetworkCdkStack/ImageStorage/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/ImageStorage/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "ImageStorage82E68681"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "s3:DeleteObject",
+                                "s3:Get*",
+                                "s3:List*",
+                                "s3:PutObject"
+                              ],
+                              "Effect": "Allow",
+                              "Principal": {
+                                "AWS": "arn:aws:iam::361602391862:role/LabRole"
+                              },
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "ImageStorage82E68681",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "ImageStorage82E68681",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                  "version": "2.146.0"
+                }
               }
             },
             "constructInfo": {
