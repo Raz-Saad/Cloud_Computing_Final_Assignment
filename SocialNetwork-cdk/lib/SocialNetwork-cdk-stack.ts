@@ -6,6 +6,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
 
 export class SocialNetworkCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -47,6 +48,24 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     const getPresignUrlForUplodingProfileImage = api.root.addResource('getPresignUrlForUplodingProfileImage');
     getPresignUrlForUplodingProfileImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingProfileImageFunction));
+
+    // Lambda function that gets called with a trigger
+    const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, table, imageBucket , vpc);
+    //this.setupS3Trigger(imageBucket, updateProfilePictureFunction);
+
+
+    // Add IAM Policy for S3 bucket notifications
+    // new iam.Policy(this, 'BucketNotificationPolicy', {
+    //   statements: [
+    //     new iam.PolicyStatement({
+    //       actions: ['s3:PutBucketNotificationConfiguration'],
+    //       resources: [imageBucket.bucketArn],
+    //       effect: iam.Effect.ALLOW,
+    //       principals: [new iam.ArnPrincipal(labRole.roleArn)]
+    //     }),
+    //   ],
+    //   roles: [labRole] // Attach this policy to the labRole
+    // });
 
     // Output for testing purposes
     new cdk.CfnOutput(this, 'Run Test Command', {
@@ -150,6 +169,37 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     });
 
     }
+
+    // lambda for updating DB with user's profile picture
+    private createUpdateProfilePictureFunction(labRole: iam.IRole, table: dynamodb.Table, imageBucket: s3.Bucket , vpc: cdk.aws_ec2.IVpc) {
+      // Grant permissions to Lambda function
+      table.grantReadWriteData(labRole);
+      imageBucket.grantRead(labRole); // Grant read permissions to the bucket
+  
+      // Create Lambda function
+      return new lambda.Function(this, 'UpdateProfilePictureFunction', {
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: 'index.handler',
+        code: lambda.Code.fromAsset('lambdas/updateProfilePicture'),
+        role: labRole,
+        environment: {
+          TABLE_NAME: table.tableName,
+          IMAGE_BUCKET_NAME: imageBucket.bucketName,
+        },
+        vpc: vpc,
+        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS},
+      });
+    }
+    
+    // trigger for s3 that triggers lambda function
+    // private setupS3Trigger(bucket: s3.Bucket, lambdaFunction: lambda.IFunction) {
+    //   // Add S3 event notification to trigger the Lambda function
+    //   bucket.addEventNotification(
+    //     s3.EventType.OBJECT_CREATED,
+    //     new s3n.LambdaDestination(lambdaFunction)
+    //   );
+    // }
+
   }
 
 

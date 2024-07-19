@@ -320,7 +320,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "ce28eaaebb89982e82a07975acdc05f5cdc5f75e22592ab8af4ed0dafae7e0b7.zip"
+     "S3Key": "64fc3a8e1c0ff30ee4736a1ff683570ba6ef8bb4110c7dba09be413e0e97b888.zip"
     },
     "Environment": {
      "Variables": {
@@ -352,7 +352,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/DeleteUserFunction/Resource",
-    "aws:asset:path": "asset.ce28eaaebb89982e82a07975acdc05f5cdc5f75e22592ab8af4ed0dafae7e0b7",
+    "aws:asset:path": "asset.64fc3a8e1c0ff30ee4736a1ff683570ba6ef8bb4110c7dba09be413e0e97b888",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -379,7 +379,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "23d33eb3cb87fcfd0743815d14a4970ab318ad219ac67dbd9ee3ea8ce171cf54.zip"
+     "S3Key": "f44802a3064c9458ff248d187b0d3574e0adb8f2b208340ede4dc4de1a65e7ba.zip"
     },
     "Environment": {
      "Variables": {
@@ -411,7 +411,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetPresignUrlForUplodingProfileImage/Resource",
-    "aws:asset:path": "asset.23d33eb3cb87fcfd0743815d14a4970ab318ad219ac67dbd9ee3ea8ce171cf54",
+    "aws:asset:path": "asset.f44802a3064c9458ff248d187b0d3574e0adb8f2b208340ede4dc4de1a65e7ba",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -912,6 +912,65 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/GET/Resource"
+   }
+  },
+  "UpdateProfilePictureFunctionSecurityGroupE88B9621": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackUpdateProfilePictureFunction77137028",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": "vpc-08c17e89eddc8e4da"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup/Resource"
+   }
+  },
+  "UpdateProfilePictureFunction78295F9B": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+     "S3Key": "dae2820c432b0c58ef3702dab036e794ed19a2fa9ef0171daec76b55df03c84f.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "Users0A0EEA89"
+      },
+      "IMAGE_BUCKET_NAME": {
+       "Ref": "ImageStorage82E68681"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Runtime": "nodejs20.x",
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "UpdateProfilePictureFunctionSecurityGroupE88B9621",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      "subnet-0e6afa12b16163530",
+      "subnet-00e485f68f2bfe1f3"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Resource",
+    "aws:asset:path": "asset.dae2820c432b0c58ef3702dab036e794ed19a2fa9ef0171daec76b55df03c84f",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
    }
   },
   "CDKMetadata": {
