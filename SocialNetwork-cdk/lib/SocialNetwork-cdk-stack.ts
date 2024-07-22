@@ -201,7 +201,3 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     // }
 
   }
-
-
-
-

@@ -379,7 +379,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "f44802a3064c9458ff248d187b0d3574e0adb8f2b208340ede4dc4de1a65e7ba.zip"
+     "S3Key": "aa37ac26bcca5195b5df5759b616657a6ba19a375ef8412c6685345232ff35ff.zip"
     },
     "Environment": {
      "Variables": {
@@ -411,7 +411,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetPresignUrlForUplodingProfileImage/Resource",
-    "aws:asset:path": "asset.f44802a3064c9458ff248d187b0d3574e0adb8f2b208340ede4dc4de1a65e7ba",
+    "aws:asset:path": "asset.aa37ac26bcca5195b5df5759b616657a6ba19a375ef8412c6685345232ff35ff",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
