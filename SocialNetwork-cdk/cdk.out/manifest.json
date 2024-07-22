@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/499169356a101487ad7639274e78b31daff61ae63d094b68a1a0f14caede3407.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/fb1940b7b289725a499b2804cacdf5e0008f574859631d5f5c1c3152fa3e2b39.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -292,12 +292,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "UpdateProfilePictureFunction78295F9B"
-          }
-        ],
-        "/SocialNetworkCdkStack/Run Test Command": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RunTestCommand"
           }
         ],
         "/SocialNetworkCdkStack/CDKMetadata/Default": [

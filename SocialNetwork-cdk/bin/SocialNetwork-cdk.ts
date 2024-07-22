@@ -60,7 +60,7 @@ new SocialNetworkCdkStack(app, 'SocialNetworkCdkStack', {
    * want to deploy the stack to. */
 
 
-  // Students TODO Account Details: change the account and region to your own
+  // TODO  - Account Details: change the account and region to your own
   env: { account: '361602391862', region: 'us-east-1' },
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */

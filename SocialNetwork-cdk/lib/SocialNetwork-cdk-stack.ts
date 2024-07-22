@@ -17,26 +17,54 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     // TODO: Replace with your existing VPC ID
     const vpc = ec2.Vpc.fromLookup(this, 'VPC', {
-      vpcId: 'vpc-08c17e89eddc8e4da',
+      vpcId: 'vpc-080ea6ee750be2371',
     });
+
+    // Create VPC
+    // const vpc = new ec2.Vpc(this, 'VPC', {
+    //   cidr: '10.0.0.0/16',
+    //   maxAzs: 2,
+    //   subnetConfiguration: [
+    //     {
+    //       subnetType: ec2.SubnetType.PUBLIC,
+    //       name: 'Public',
+    //       cidrMask: 24,
+    //     },
+    //     {
+    //       subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+    //       name: 'Private',
+    //       cidrMask: 24,
+    //     },
+    //   ],
+    //   natGateways: 0,
+    // });
 
     this.createNatGatewayForPrivateSubnet(vpc);
 
+    //creating a Dynamo DB Table for storing user's data
     const table = this.createDynamoDBTable();
 
-    // Create an S3 bucket
+    // create an S3 bucket
     const imageBucket = this.createImageStorageBucket();
 
+    // creating lambdas functions
     const registrationFunction = this.createLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc, imageBucket);
     const getUserFunction = this.createLambdaFunction('GetUserFunction', 'lambdas/getUserById', labRole, table, vpc, imageBucket);
     const deleteUserFunction = this.createLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, table, vpc, imageBucket);
     const getPresignUrlForUplodingProfileImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, table, vpc, imageBucket);
 
+    // create an api gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
       restApiName: 'Social Network Service',
     });
 
-    // Creating API endpoints
+    // Output API Gateway URL
+    new cdk.CfnOutput(this, 'ApiUrl', {
+      value: api.url,
+      exportName: 'SocialNetworkApiUrl',
+    });
+
+    // creating API endpoints
     const registration = api.root.addResource('registration');
     registration.addMethod('POST', new apigateway.LambdaIntegration(registrationFunction));
 
@@ -52,25 +80,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     // Lambda function that gets called with a trigger
     const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, table, imageBucket , vpc);
     //this.setupS3Trigger(imageBucket, updateProfilePictureFunction);
-
-
-    // Add IAM Policy for S3 bucket notifications
-    // new iam.Policy(this, 'BucketNotificationPolicy', {
-    //   statements: [
-    //     new iam.PolicyStatement({
-    //       actions: ['s3:PutBucketNotificationConfiguration'],
-    //       resources: [imageBucket.bucketArn],
-    //       effect: iam.Effect.ALLOW,
-    //       principals: [new iam.ArnPrincipal(labRole.roleArn)]
-    //     }),
-    //   ],
-    //   roles: [labRole] // Attach this policy to the labRole
-    // });
-
-    // Output for testing purposes
-    new cdk.CfnOutput(this, 'Run Test Command', {
-      value: `TABLE_NAME='${table.tableName}' AWS_REGION='${this.region}' npm test`,
-    });
+    
   }
 
   private createNatGatewayForPrivateSubnet(vpc: ec2.IVpc) {

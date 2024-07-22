@@ -18,7 +18,7 @@
       "AllocationId"
      ]
     },
-    "SubnetId": "subnet-085fdb2a6d2b5f2f0"
+    "SubnetId": "subnet-0bf69582b3d0c1c6c"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/MyCfnNatGateway"
@@ -27,7 +27,7 @@
   "PrivateRouteTable0": {
    "Type": "AWS::EC2::RouteTable",
    "Properties": {
-    "VpcId": "vpc-08c17e89eddc8e4da"
+    "VpcId": "vpc-080ea6ee750be2371"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/PrivateRouteTable0"
@@ -54,7 +54,7 @@
     "RouteTableId": {
      "Ref": "PrivateRouteTable0"
     },
-    "SubnetId": "subnet-0e6afa12b16163530"
+    "SubnetId": "subnet-02191ed6e6e1338d5"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SubnetRouteTableAssociation0"
@@ -63,7 +63,7 @@
   "PrivateRouteTable1": {
    "Type": "AWS::EC2::RouteTable",
    "Properties": {
-    "VpcId": "vpc-08c17e89eddc8e4da"
+    "VpcId": "vpc-080ea6ee750be2371"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/PrivateRouteTable1"
@@ -90,7 +90,7 @@
     "RouteTableId": {
      "Ref": "PrivateRouteTable1"
     },
-    "SubnetId": "subnet-00e485f68f2bfe1f3"
+    "SubnetId": "subnet-09ce96651389ff92f"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SubnetRouteTableAssociation1"
@@ -191,7 +191,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-08c17e89eddc8e4da"
+    "VpcId": "vpc-080ea6ee750be2371"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/RegistrationFunction/SecurityGroup/Resource"
@@ -227,8 +227,8 @@
       }
      ],
      "SubnetIds": [
-      "subnet-0e6afa12b16163530",
-      "subnet-00e485f68f2bfe1f3"
+      "subnet-02191ed6e6e1338d5",
+      "subnet-09ce96651389ff92f"
      ]
     }
    },
@@ -250,7 +250,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-08c17e89eddc8e4da"
+    "VpcId": "vpc-080ea6ee750be2371"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetUserFunction/SecurityGroup/Resource"
@@ -261,7 +261,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "bb37a8105d0e90b7758c301ddbb2cf942e1c14082cdb161851a359a4a7e83a74.zip"
+     "S3Key": "3800c0ab7cd8a2c911e586329cea3ce2426e51f5872d627a609b2d2bc1933a2e.zip"
     },
     "Environment": {
      "Variables": {
@@ -286,14 +286,14 @@
       }
      ],
      "SubnetIds": [
-      "subnet-0e6afa12b16163530",
-      "subnet-00e485f68f2bfe1f3"
+      "subnet-02191ed6e6e1338d5",
+      "subnet-09ce96651389ff92f"
      ]
     }
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetUserFunction/Resource",
-    "aws:asset:path": "asset.bb37a8105d0e90b7758c301ddbb2cf942e1c14082cdb161851a359a4a7e83a74",
+    "aws:asset:path": "asset.3800c0ab7cd8a2c911e586329cea3ce2426e51f5872d627a609b2d2bc1933a2e",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -309,7 +309,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-08c17e89eddc8e4da"
+    "VpcId": "vpc-080ea6ee750be2371"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/DeleteUserFunction/SecurityGroup/Resource"
@@ -320,7 +320,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "64fc3a8e1c0ff30ee4736a1ff683570ba6ef8bb4110c7dba09be413e0e97b888.zip"
+     "S3Key": "12d7f1eb394d52de77e1961940b6245616321a7223432b8195a74dde9d159008.zip"
     },
     "Environment": {
      "Variables": {
@@ -345,14 +345,14 @@
       }
      ],
      "SubnetIds": [
-      "subnet-0e6afa12b16163530",
-      "subnet-00e485f68f2bfe1f3"
+      "subnet-02191ed6e6e1338d5",
+      "subnet-09ce96651389ff92f"
      ]
     }
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/DeleteUserFunction/Resource",
-    "aws:asset:path": "asset.64fc3a8e1c0ff30ee4736a1ff683570ba6ef8bb4110c7dba09be413e0e97b888",
+    "aws:asset:path": "asset.12d7f1eb394d52de77e1961940b6245616321a7223432b8195a74dde9d159008",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -368,7 +368,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-08c17e89eddc8e4da"
+    "VpcId": "vpc-080ea6ee750be2371"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetPresignUrlForUplodingProfileImage/SecurityGroup/Resource"
@@ -379,7 +379,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "aa37ac26bcca5195b5df5759b616657a6ba19a375ef8412c6685345232ff35ff.zip"
+     "S3Key": "bf92ac1b08790a0ef378740bd8c17fded76fd7b796141ce5b3cd3b51c43e0662.zip"
     },
     "Environment": {
      "Variables": {
@@ -404,14 +404,14 @@
       }
      ],
      "SubnetIds": [
-      "subnet-0e6afa12b16163530",
-      "subnet-00e485f68f2bfe1f3"
+      "subnet-02191ed6e6e1338d5",
+      "subnet-09ce96651389ff92f"
      ]
     }
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetPresignUrlForUplodingProfileImage/Resource",
-    "aws:asset:path": "asset.aa37ac26bcca5195b5df5759b616657a6ba19a375ef8412c6685345232ff35ff",
+    "aws:asset:path": "asset.bf92ac1b08790a0ef378740bd8c17fded76fd7b796141ce5b3cd3b51c43e0662",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -925,7 +925,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-08c17e89eddc8e4da"
+    "VpcId": "vpc-080ea6ee750be2371"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup/Resource"
@@ -961,8 +961,8 @@
       }
      ],
      "SubnetIds": [
-      "subnet-0e6afa12b16163530",
-      "subnet-00e485f68f2bfe1f3"
+      "subnet-02191ed6e6e1338d5",
+      "subnet-09ce96651389ff92f"
      ]
     }
    },
@@ -1012,20 +1012,6 @@
        "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
       },
       "/"
-     ]
-    ]
-   }
-  },
-  "RunTestCommand": {
-   "Value": {
-    "Fn::Join": [
-     "",
-     [
-      "TABLE_NAME='",
-      {
-       "Ref": "Users0A0EEA89"
-      },
-      "' AWS_REGION='us-east-1' npm test"
      ]
     ]
    }

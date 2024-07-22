@@ -2,8 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
-
-const baseURL = 'https://4jybxfcfw2.execute-api.us-east-1.amazonaws.com/prod/'; // need to be updated each deploy
+const baseURL = 'https://ybr1iagk0m.execute-api.us-east-1.amazonaws.com/prod/'; // need to be updated each deploy
 
 describe('Registration API', () => {
   it('should register a new user successfully', async () => {
@@ -30,7 +29,7 @@ describe('Registration API', () => {
     }
   });
 
-  it('should handle invalid parameters', async () => {
+  it('should handle invalid parameters - extra parameter', async () => {
     const username = 'testuser';
     const email = 'testuser@example.com';
     const password = 'password123';

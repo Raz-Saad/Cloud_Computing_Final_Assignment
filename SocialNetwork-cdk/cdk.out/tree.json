@@ -92,7 +92,7 @@
                     "AllocationId"
                   ]
                 },
-                "subnetId": "subnet-085fdb2a6d2b5f2f0"
+                "subnetId": "subnet-0bf69582b3d0c1c6c"
               }
             },
             "constructInfo": {
@@ -106,7 +106,7 @@
             "attributes": {
               "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
               "aws:cdk:cloudformation:props": {
-                "vpcId": "vpc-08c17e89eddc8e4da"
+                "vpcId": "vpc-080ea6ee750be2371"
               }
             },
             "constructInfo": {
@@ -143,7 +143,7 @@
                 "routeTableId": {
                   "Ref": "PrivateRouteTable0"
                 },
-                "subnetId": "subnet-0e6afa12b16163530"
+                "subnetId": "subnet-02191ed6e6e1338d5"
               }
             },
             "constructInfo": {
@@ -157,7 +157,7 @@
             "attributes": {
               "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
               "aws:cdk:cloudformation:props": {
-                "vpcId": "vpc-08c17e89eddc8e4da"
+                "vpcId": "vpc-080ea6ee750be2371"
               }
             },
             "constructInfo": {
@@ -194,7 +194,7 @@
                 "routeTableId": {
                   "Ref": "PrivateRouteTable1"
                 },
-                "subnetId": "subnet-00e485f68f2bfe1f3"
+                "subnetId": "subnet-09ce96651389ff92f"
               }
             },
             "constructInfo": {
@@ -400,7 +400,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-08c17e89eddc8e4da"
+                        "vpcId": "vpc-080ea6ee750be2371"
                       }
                     },
                     "constructInfo": {
@@ -439,8 +439,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-0e6afa12b16163530",
-                        "subnet-00e485f68f2bfe1f3"
+                        "subnet-02191ed6e6e1338d5",
+                        "subnet-09ce96651389ff92f"
                       ],
                       "securityGroupIds": [
                         {
@@ -512,7 +512,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-08c17e89eddc8e4da"
+                        "vpcId": "vpc-080ea6ee750be2371"
                       }
                     },
                     "constructInfo": {
@@ -534,7 +534,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "bb37a8105d0e90b7758c301ddbb2cf942e1c14082cdb161851a359a4a7e83a74.zip"
+                      "s3Key": "3800c0ab7cd8a2c911e586329cea3ce2426e51f5872d627a609b2d2bc1933a2e.zip"
                     },
                     "environment": {
                       "variables": {
@@ -551,8 +551,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-0e6afa12b16163530",
-                        "subnet-00e485f68f2bfe1f3"
+                        "subnet-02191ed6e6e1338d5",
+                        "subnet-09ce96651389ff92f"
                       ],
                       "securityGroupIds": [
                         {
@@ -624,7 +624,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-08c17e89eddc8e4da"
+                        "vpcId": "vpc-080ea6ee750be2371"
                       }
                     },
                     "constructInfo": {
@@ -646,7 +646,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "64fc3a8e1c0ff30ee4736a1ff683570ba6ef8bb4110c7dba09be413e0e97b888.zip"
+                      "s3Key": "12d7f1eb394d52de77e1961940b6245616321a7223432b8195a74dde9d159008.zip"
                     },
                     "environment": {
                       "variables": {
@@ -663,8 +663,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-0e6afa12b16163530",
-                        "subnet-00e485f68f2bfe1f3"
+                        "subnet-02191ed6e6e1338d5",
+                        "subnet-09ce96651389ff92f"
                       ],
                       "securityGroupIds": [
                         {
@@ -736,7 +736,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-08c17e89eddc8e4da"
+                        "vpcId": "vpc-080ea6ee750be2371"
                       }
                     },
                     "constructInfo": {
@@ -758,7 +758,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "aa37ac26bcca5195b5df5759b616657a6ba19a375ef8412c6685345232ff35ff.zip"
+                      "s3Key": "bf92ac1b08790a0ef378740bd8c17fded76fd7b796141ce5b3cd3b51c43e0662.zip"
                     },
                     "environment": {
                       "variables": {
@@ -775,8 +775,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-0e6afa12b16163530",
-                        "subnet-00e485f68f2bfe1f3"
+                        "subnet-02191ed6e6e1338d5",
+                        "subnet-09ce96651389ff92f"
                       ],
                       "securityGroupIds": [
                         {
@@ -1559,7 +1559,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-08c17e89eddc8e4da"
+                        "vpcId": "vpc-080ea6ee750be2371"
                       }
                     },
                     "constructInfo": {
@@ -1598,8 +1598,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-0e6afa12b16163530",
-                        "subnet-00e485f68f2bfe1f3"
+                        "subnet-02191ed6e6e1338d5",
+                        "subnet-09ce96651389ff92f"
                       ],
                       "securityGroupIds": [
                         {
@@ -1620,14 +1620,6 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda.Function",
-              "version": "2.146.0"
-            }
-          },
-          "Run Test Command": {
-            "id": "Run Test Command",
-            "path": "SocialNetworkCdkStack/Run Test Command",
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.146.0"
             }
           },
