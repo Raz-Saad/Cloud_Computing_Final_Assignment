@@ -82,7 +82,8 @@ cdk deploy
 * npm install --save-dev jest
 * npm install axios
 ### Test command
-* npx jest api.test.js
+* chmod +x runTests.sh && ./runTests.sh
+* OLD - npx jest api.test.js
 
 ## Create a package for lambda function
 * npm init -y

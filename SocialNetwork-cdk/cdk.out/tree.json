@@ -1511,6 +1511,14 @@
               "version": "2.146.0"
             }
           },
+          "ApiUrl": {
+            "id": "ApiUrl",
+            "path": "SocialNetworkCdkStack/ApiUrl",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.146.0"
+            }
+          },
           "UpdateProfilePictureFunction": {
             "id": "UpdateProfilePictureFunction",
             "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction",

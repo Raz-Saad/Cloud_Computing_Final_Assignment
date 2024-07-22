@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/fb1940b7b289725a499b2804cacdf5e0008f574859631d5f5c1c3152fa3e2b39.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/a419f081136feb2778c2be08ae86aed3f09841222b302ac845fc3dd48b57b73a.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -280,6 +280,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "SocialNetworkApigetPresignUrlForUplodingProfileImageGET263376DB"
+          }
+        ],
+        "/SocialNetworkCdkStack/ApiUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUrl"
           }
         ],
         "/SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup/Resource": [

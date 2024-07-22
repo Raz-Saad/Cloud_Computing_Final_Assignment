@@ -2,7 +2,8 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
-const baseURL = 'https://ybr1iagk0m.execute-api.us-east-1.amazonaws.com/prod/'; // need to be updated each deploy
+//const baseURL = 'https://ybr1iagk0m.execute-api.us-east-1.amazonaws.com/prod/'; // need to be updated each deploy
+const baseURL = process.env.API_URL; // environment variable for api gateway
 
 describe('Registration API', () => {
   it('should register a new user successfully', async () => {

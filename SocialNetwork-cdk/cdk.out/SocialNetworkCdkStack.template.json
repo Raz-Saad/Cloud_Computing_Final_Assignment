@@ -1015,6 +1015,31 @@
      ]
     ]
    }
+  },
+  "ApiUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "SocialNetworkApiACB67AB1"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
+      },
+      "/"
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "SocialNetworkApiUrl"
+   }
   }
  },
  "Parameters": {
