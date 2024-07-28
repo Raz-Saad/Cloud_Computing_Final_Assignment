@@ -18,7 +18,7 @@
       "AllocationId"
      ]
     },
-    "SubnetId": "subnet-0bf69582b3d0c1c6c"
+    "SubnetId": "subnet-0d753b76d128abe1f"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/MyCfnNatGateway"
@@ -27,7 +27,7 @@
   "PrivateRouteTable0": {
    "Type": "AWS::EC2::RouteTable",
    "Properties": {
-    "VpcId": "vpc-080ea6ee750be2371"
+    "VpcId": "vpc-05fc44f3c7d685edb"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/PrivateRouteTable0"
@@ -54,7 +54,7 @@
     "RouteTableId": {
      "Ref": "PrivateRouteTable0"
     },
-    "SubnetId": "subnet-02191ed6e6e1338d5"
+    "SubnetId": "subnet-0c2283da7ffab1df2"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SubnetRouteTableAssociation0"
@@ -63,7 +63,7 @@
   "PrivateRouteTable1": {
    "Type": "AWS::EC2::RouteTable",
    "Properties": {
-    "VpcId": "vpc-080ea6ee750be2371"
+    "VpcId": "vpc-05fc44f3c7d685edb"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/PrivateRouteTable1"
@@ -90,7 +90,7 @@
     "RouteTableId": {
      "Ref": "PrivateRouteTable1"
     },
-    "SubnetId": "subnet-09ce96651389ff92f"
+    "SubnetId": "subnet-0cff5a0113ea24898"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SubnetRouteTableAssociation1"
@@ -271,7 +271,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-080ea6ee750be2371"
+    "VpcId": "vpc-05fc44f3c7d685edb"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/RegistrationFunction/SecurityGroup/Resource"
@@ -307,8 +307,8 @@
       }
      ],
      "SubnetIds": [
-      "subnet-02191ed6e6e1338d5",
-      "subnet-09ce96651389ff92f"
+      "subnet-0c2283da7ffab1df2",
+      "subnet-0cff5a0113ea24898"
      ]
     }
    },
@@ -330,7 +330,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-080ea6ee750be2371"
+    "VpcId": "vpc-05fc44f3c7d685edb"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetUserFunction/SecurityGroup/Resource"
@@ -366,8 +366,8 @@
       }
      ],
      "SubnetIds": [
-      "subnet-02191ed6e6e1338d5",
-      "subnet-09ce96651389ff92f"
+      "subnet-0c2283da7ffab1df2",
+      "subnet-0cff5a0113ea24898"
      ]
     }
    },
@@ -389,7 +389,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-080ea6ee750be2371"
+    "VpcId": "vpc-05fc44f3c7d685edb"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/DeleteUserFunction/SecurityGroup/Resource"
@@ -425,8 +425,8 @@
       }
      ],
      "SubnetIds": [
-      "subnet-02191ed6e6e1338d5",
-      "subnet-09ce96651389ff92f"
+      "subnet-0c2283da7ffab1df2",
+      "subnet-0cff5a0113ea24898"
      ]
     }
    },
@@ -448,7 +448,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-080ea6ee750be2371"
+    "VpcId": "vpc-05fc44f3c7d685edb"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetPresignUrlForUplodingProfileImage/SecurityGroup/Resource"
@@ -484,8 +484,8 @@
       }
      ],
      "SubnetIds": [
-      "subnet-02191ed6e6e1338d5",
-      "subnet-09ce96651389ff92f"
+      "subnet-0c2283da7ffab1df2",
+      "subnet-0cff5a0113ea24898"
      ]
     }
    },
@@ -507,7 +507,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-080ea6ee750be2371"
+    "VpcId": "vpc-05fc44f3c7d685edb"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetPresignUrlForUplodingPostImage/SecurityGroup/Resource"
@@ -543,8 +543,8 @@
       }
      ],
      "SubnetIds": [
-      "subnet-02191ed6e6e1338d5",
-      "subnet-09ce96651389ff92f"
+      "subnet-0c2283da7ffab1df2",
+      "subnet-0cff5a0113ea24898"
      ]
     }
    },
@@ -566,7 +566,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-080ea6ee750be2371"
+    "VpcId": "vpc-05fc44f3c7d685edb"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup/Resource"
@@ -602,8 +602,8 @@
       }
      ],
      "SubnetIds": [
-      "subnet-02191ed6e6e1338d5",
-      "subnet-09ce96651389ff92f"
+      "subnet-0c2283da7ffab1df2",
+      "subnet-0cff5a0113ea24898"
      ]
     }
    },
@@ -619,7 +619,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "9cd724187884e224fa2ff51ace1d3c8b3d3408e5f1fe738df18f6f95a4ca35d2.zip"
+     "S3Key": "2bc78a1022fbe15d9283a1e4bf1e9f60486794d49d1797c046ff76049a95d64e.zip"
     },
     "Environment": {
      "Variables": {
@@ -637,7 +637,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/TextractFunction/Resource",
-    "aws:asset:path": "asset.9cd724187884e224fa2ff51ace1d3c8b3d3408e5f1fe738df18f6f95a4ca35d2",
+    "aws:asset:path": "asset.2bc78a1022fbe15d9283a1e4bf1e9f60486794d49d1797c046ff76049a95d64e",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -1272,10 +1272,66 @@
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage/GET/Resource"
    }
   },
+  "S3SendMessagePolicy": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Version": "2012-10-17",
+     "Id": {
+      "Fn::Join": [
+       "",
+       [
+        {
+         "Fn::GetAtt": [
+          "ImageUploadQueue828B2CCD",
+          "Arn"
+         ]
+        },
+        "/SQSDefaultPolicy"
+       ]
+      ]
+     },
+     "Statement": [
+      {
+       "Sid": "example-statement-ID",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Action": "SQS:SendMessage",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ImageUploadQueue828B2CCD",
+         "Arn"
+        ]
+       },
+       "Condition": {
+        "ArnLike": {
+         "aws:SourceArn": {
+          "Fn::GetAtt": [
+           "PostsStorage00A69DB4",
+           "Arn"
+          ]
+         }
+        }
+       }
+      }
+     ]
+    },
+    "Queues": [
+     {
+      "Ref": "ImageUploadQueue828B2CCD"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/S3SendMessagePolicy"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22Ry3LCMAxFv4W9cYE+9kAp0wUtJd0ziiOoIbHTSIbJePLvHdvhsehK517ZGj0mcvz0IkcDONNQFcdhqXPpMwZ1FBsk6xqFAs609agm0s93ZvG+FvOd+QBeAuMZ2qA21jF+Q17iVQXIXG6Qb8kpkVUaWFsjMlSu0dwuG+vq+Pje6ETRGqhskUt/rRuhE/Qo/cypI3Iwe0phbUut2pvd6yRmQOH3L0n/5dDFkhE6UUKVFyD9mzMqdjffmSsvTmg4i6tYQV1rsw/p/901NpUm0taEPrdAhExyGoKAWu/TyqTfIPG01nFbPb5iXdq2QhPHulMZwz6tM8LlLGGc241SocQr5B9bBCtR1wX+dFw7FrGXUKnv+PKrE8YWKA/0cJqM5PhZjgcH0nrYOMO6QrlJ8Q8D5HwIMAIAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22Ry27CMBBFv6V74wJ97IFS1AUtJd2jiTNQQ2KnmTEosvLvle3wqNTVnHvHHs1jLEePz3J4BycaqOIwKHUufcagDmKNZF2jUMCJNh7VWPrZ1szfVmK2Ne/AC2A8QRvU2jrGL8hLvKgAmcsN8jU5IbJKA2trRIbKNZrbRWNdHR/fGp0oWgOVLXLpL3UjdIIepJ86dUAOZk8prGypVXu1e53EFCj8/iHpPx26WPIvpOedKKHKC5D+1RkVm51tzYXnRzScxc0soa612YX0/+4Km0oTaWtC2xsgQiY5CUFArXdpg9KvkXhS67i8Hl+wLm1boYlT3qiMYZe2G+F8pTDd9WSpUOIl8rctgpWo6wJ/OK4di9hLqNR3fP7VCWMLlHu6P46HcvQkR3d70nrQOMO6QrlO8RcvEvBdPwIAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/CDKMetadata/Default"

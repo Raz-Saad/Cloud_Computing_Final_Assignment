@@ -1,3 +1,5 @@
+//textractImage
+
 const { TextractClient, DetectDocumentTextCommand } = require('@aws-sdk/client-textract');
 const { SQSClient, SendMessageCommand } = require('@aws-sdk/client-sqs');
 
@@ -6,16 +8,7 @@ const textractClient = new TextractClient();
 const sqsClient = new SQSClient();
 
 exports.handler = async (event) => {
-  console.log('Received event:', JSON.stringify(event, null, 2));
-
   const promises = event.Records.map(async (record) => {
-    console.log('Processing record:', JSON.stringify(record, null, 2));
-    
-    if (!record.s3) {
-      console.error('No s3 object in record:', record);
-      return;
-    }
-
     const bucket = record.s3.bucket.name;
     const key = decodeURIComponent(record.s3.object.key.replace(/\+/g, ' '));
 

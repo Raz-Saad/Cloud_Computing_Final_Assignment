@@ -19,7 +19,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     // TODO: Replace with your existing VPC ID
     const vpc = ec2.Vpc.fromLookup(this, 'VPC', {
-      vpcId: 'vpc-080ea6ee750be2371',
+      vpcId: 'vpc-05fc44f3c7d685edb',
     });
 
     // Create VPC
@@ -98,7 +98,11 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const getPresignUrlForUplodingPostImage = api.root.addResource('getPresignUrlForUplodingPostImage');
     getPresignUrlForUplodingPostImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingPostImageFunction));
 
+      // Add the policy to the SQS queue
+      this.addS3SendMessagePolicyToQueue(sqsQueueImageUpload, postsBucket.bucketArn);
 
+      // Add bucket notification to trigger SQS queue
+      //this.addBucketNotification(postsBucket, sqsQueueTextractResult);
     
   }
 
@@ -239,6 +243,8 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
 
     private createTextractLambda(functionName: string, labRole: iam.IRole, bucket: s3.Bucket, sqsQueueImageUpload: sqs.Queue, sqsQueueTextractResult: sqs.Queue) {
+      bucket.grantRead(labRole); // Grant read permissions to the bucket
+      
       const textractLambda = new lambda.Function(this, functionName, {
         runtime: lambda.Runtime.NODEJS_20_X,
         handler: 'textract.handler',
@@ -265,6 +271,38 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     }
   
 
+    private addS3SendMessagePolicyToQueue(queue: sqs.Queue, bucketArn: string) {
+      // Add policy to SQS queue to allow S3 to send messages
+      const policy = new sqs.CfnQueuePolicy(this, 'S3SendMessagePolicy', {
+        queues: [queue.queueUrl],
+        policyDocument: {
+          Version: "2012-10-17",
+          Id: `${queue.queueArn}/SQSDefaultPolicy`,
+          Statement: [
+            {
+              Sid: "example-statement-ID",
+              Effect: "Allow",
+              Principal: {
+                AWS: "*"
+              },
+              Action: "SQS:SendMessage",
+              Resource: queue.queueArn,
+              Condition: {
+                ArnLike: {
+                  "aws:SourceArn": bucketArn
+                }
+              }
+            }
+          ]
+        }
+      });
+    }
 
+    // private addBucketNotification(bucket: s3.Bucket, queue: sqs.Queue) {
+    //   bucket.addEventNotification(
+    //     s3.EventType.OBJECT_CREATED,
+    //     new s3n.SqsDestination(queue)
+    //   );
+    // }
 
   }

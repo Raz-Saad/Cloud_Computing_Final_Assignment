@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/2c1062650ad949fa7230912cc5cca5166d5c0a279b97c5128d7c141d2053a50f.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/5e88f9c1f2ed6114c60647f153bc88aafcf43e98b532c44565c08de9b7892ca0.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -370,6 +370,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ApiUrl"
+          }
+        ],
+        "/SocialNetworkCdkStack/S3SendMessagePolicy": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "S3SendMessagePolicy"
           }
         ],
         "/SocialNetworkCdkStack/CDKMetadata/Default": [

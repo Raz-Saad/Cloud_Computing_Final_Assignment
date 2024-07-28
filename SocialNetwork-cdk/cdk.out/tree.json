@@ -92,7 +92,7 @@
                     "AllocationId"
                   ]
                 },
-                "subnetId": "subnet-0bf69582b3d0c1c6c"
+                "subnetId": "subnet-0d753b76d128abe1f"
               }
             },
             "constructInfo": {
@@ -106,7 +106,7 @@
             "attributes": {
               "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
               "aws:cdk:cloudformation:props": {
-                "vpcId": "vpc-080ea6ee750be2371"
+                "vpcId": "vpc-05fc44f3c7d685edb"
               }
             },
             "constructInfo": {
@@ -143,7 +143,7 @@
                 "routeTableId": {
                   "Ref": "PrivateRouteTable0"
                 },
-                "subnetId": "subnet-02191ed6e6e1338d5"
+                "subnetId": "subnet-0c2283da7ffab1df2"
               }
             },
             "constructInfo": {
@@ -157,7 +157,7 @@
             "attributes": {
               "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
               "aws:cdk:cloudformation:props": {
-                "vpcId": "vpc-080ea6ee750be2371"
+                "vpcId": "vpc-05fc44f3c7d685edb"
               }
             },
             "constructInfo": {
@@ -194,7 +194,7 @@
                 "routeTableId": {
                   "Ref": "PrivateRouteTable1"
                 },
-                "subnetId": "subnet-09ce96651389ff92f"
+                "subnetId": "subnet-0cff5a0113ea24898"
               }
             },
             "constructInfo": {
@@ -535,7 +535,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-080ea6ee750be2371"
+                        "vpcId": "vpc-05fc44f3c7d685edb"
                       }
                     },
                     "constructInfo": {
@@ -574,8 +574,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-02191ed6e6e1338d5",
-                        "subnet-09ce96651389ff92f"
+                        "subnet-0c2283da7ffab1df2",
+                        "subnet-0cff5a0113ea24898"
                       ],
                       "securityGroupIds": [
                         {
@@ -647,7 +647,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-080ea6ee750be2371"
+                        "vpcId": "vpc-05fc44f3c7d685edb"
                       }
                     },
                     "constructInfo": {
@@ -686,8 +686,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-02191ed6e6e1338d5",
-                        "subnet-09ce96651389ff92f"
+                        "subnet-0c2283da7ffab1df2",
+                        "subnet-0cff5a0113ea24898"
                       ],
                       "securityGroupIds": [
                         {
@@ -759,7 +759,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-080ea6ee750be2371"
+                        "vpcId": "vpc-05fc44f3c7d685edb"
                       }
                     },
                     "constructInfo": {
@@ -798,8 +798,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-02191ed6e6e1338d5",
-                        "subnet-09ce96651389ff92f"
+                        "subnet-0c2283da7ffab1df2",
+                        "subnet-0cff5a0113ea24898"
                       ],
                       "securityGroupIds": [
                         {
@@ -871,7 +871,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-080ea6ee750be2371"
+                        "vpcId": "vpc-05fc44f3c7d685edb"
                       }
                     },
                     "constructInfo": {
@@ -910,8 +910,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-02191ed6e6e1338d5",
-                        "subnet-09ce96651389ff92f"
+                        "subnet-0c2283da7ffab1df2",
+                        "subnet-0cff5a0113ea24898"
                       ],
                       "securityGroupIds": [
                         {
@@ -983,7 +983,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-080ea6ee750be2371"
+                        "vpcId": "vpc-05fc44f3c7d685edb"
                       }
                     },
                     "constructInfo": {
@@ -1022,8 +1022,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-02191ed6e6e1338d5",
-                        "subnet-09ce96651389ff92f"
+                        "subnet-0c2283da7ffab1df2",
+                        "subnet-0cff5a0113ea24898"
                       ],
                       "securityGroupIds": [
                         {
@@ -1095,7 +1095,7 @@
                             "ipProtocol": "-1"
                           }
                         ],
-                        "vpcId": "vpc-080ea6ee750be2371"
+                        "vpcId": "vpc-05fc44f3c7d685edb"
                       }
                     },
                     "constructInfo": {
@@ -1134,8 +1134,8 @@
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
-                        "subnet-02191ed6e6e1338d5",
-                        "subnet-09ce96651389ff92f"
+                        "subnet-0c2283da7ffab1df2",
+                        "subnet-0cff5a0113ea24898"
                       ],
                       "securityGroupIds": [
                         {
@@ -1197,7 +1197,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "9cd724187884e224fa2ff51ace1d3c8b3d3408e5f1fe738df18f6f95a4ca35d2.zip"
+                      "s3Key": "2bc78a1022fbe15d9283a1e4bf1e9f60486794d49d1797c046ff76049a95d64e.zip"
                     },
                     "environment": {
                       "variables": {
@@ -2126,6 +2126,67 @@
             "path": "SocialNetworkCdkStack/ApiUrl",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.146.0"
+            }
+          },
+          "S3SendMessagePolicy": {
+            "id": "S3SendMessagePolicy",
+            "path": "SocialNetworkCdkStack/S3SendMessagePolicy",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::SQS::QueuePolicy",
+              "aws:cdk:cloudformation:props": {
+                "policyDocument": {
+                  "Version": "2012-10-17",
+                  "Id": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        {
+                          "Fn::GetAtt": [
+                            "ImageUploadQueue828B2CCD",
+                            "Arn"
+                          ]
+                        },
+                        "/SQSDefaultPolicy"
+                      ]
+                    ]
+                  },
+                  "Statement": [
+                    {
+                      "Sid": "example-statement-ID",
+                      "Effect": "Allow",
+                      "Principal": {
+                        "AWS": "*"
+                      },
+                      "Action": "SQS:SendMessage",
+                      "Resource": {
+                        "Fn::GetAtt": [
+                          "ImageUploadQueue828B2CCD",
+                          "Arn"
+                        ]
+                      },
+                      "Condition": {
+                        "ArnLike": {
+                          "aws:SourceArn": {
+                            "Fn::GetAtt": [
+                              "PostsStorage00A69DB4",
+                              "Arn"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "queues": [
+                  {
+                    "Ref": "ImageUploadQueue828B2CCD"
+                  }
+                ]
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_sqs.CfnQueuePolicy",
               "version": "2.146.0"
             }
           },
