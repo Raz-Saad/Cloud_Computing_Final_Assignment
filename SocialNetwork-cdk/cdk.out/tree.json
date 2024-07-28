@@ -8,210 +8,19 @@
         "id": "SocialNetworkCdkStack",
         "path": "SocialNetworkCdkStack",
         "children": {
-          "MySocialNetworkRole": {
-            "id": "MySocialNetworkRole",
-            "path": "SocialNetworkCdkStack/MySocialNetworkRole",
-            "children": {
-              "ImportMySocialNetworkRole": {
-                "id": "ImportMySocialNetworkRole",
-                "path": "SocialNetworkCdkStack/MySocialNetworkRole/ImportMySocialNetworkRole",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.Resource",
-                  "version": "2.146.0"
-                }
-              },
-              "Resource": {
-                "id": "Resource",
-                "path": "SocialNetworkCdkStack/MySocialNetworkRole/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
-                  "aws:cdk:cloudformation:props": {
-                    "assumeRolePolicyDocument": {
-                      "Statement": [
-                        {
-                          "Action": "sts:AssumeRole",
-                          "Effect": "Allow",
-                          "Principal": {
-                            "Service": "lambda.amazonaws.com"
-                          }
-                        }
-                      ],
-                      "Version": "2012-10-17"
-                    },
-                    "managedPolicyArns": [
-                      {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:",
-                            {
-                              "Ref": "AWS::Partition"
-                            },
-                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-                          ]
-                        ]
-                      },
-                      {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:",
-                            {
-                              "Ref": "AWS::Partition"
-                            },
-                            ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
-                          ]
-                        ]
-                      }
-                    ]
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                  "version": "2.146.0"
-                }
-              },
-              "DefaultPolicy": {
-                "id": "DefaultPolicy",
-                "path": "SocialNetworkCdkStack/MySocialNetworkRole/DefaultPolicy",
-                "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "SocialNetworkCdkStack/MySocialNetworkRole/DefaultPolicy/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
-                      "aws:cdk:cloudformation:props": {
-                        "policyDocument": {
-                          "Statement": [
-                            {
-                              "Action": [
-                                "dynamodb:DeleteItem",
-                                "dynamodb:GetItem",
-                                "dynamodb:PutItem",
-                                "dynamodb:Query",
-                                "dynamodb:Scan",
-                                "dynamodb:UpdateItem",
-                                "ec2:AssociateRouteTable",
-                                "ec2:CreateNatGateway",
-                                "ec2:DeleteNatGateway",
-                                "ec2:DescribeInternetGateways",
-                                "ec2:DescribeNatGateways",
-                                "ec2:DescribeRouteTables",
-                                "ec2:DescribeSecurityGroups",
-                                "ec2:DescribeSubnets",
-                                "ec2:DescribeVpcs",
-                                "ec2:DisassociateRouteTable",
-                                "lambda:CreateFunction",
-                                "lambda:DeleteFunction",
-                                "lambda:GetFunction",
-                                "lambda:InvokeFunction",
-                                "lambda:ListFunctionEventSources",
-                                "lambda:ListFunctions",
-                                "lambda:UpdateFunctionCode",
-                                "s3:DeleteObject",
-                                "s3:GetObject",
-                                "s3:ListBucket",
-                                "s3:PutObject",
-                                "sqs:ChangeMessageVisibility",
-                                "sqs:DeleteMessage",
-                                "sqs:GetQueueAttributes",
-                                "sqs:ListQueues",
-                                "sqs:ReceiveMessage",
-                                "sqs:SendMessage"
-                              ],
-                              "Effect": "Allow",
-                              "Resource": "*"
-                            },
-                            {
-                              "Action": [
-                                "dynamodb:BatchGetItem",
-                                "dynamodb:BatchWriteItem",
-                                "dynamodb:ConditionCheckItem",
-                                "dynamodb:DeleteItem",
-                                "dynamodb:DescribeTable",
-                                "dynamodb:GetItem",
-                                "dynamodb:GetRecords",
-                                "dynamodb:GetShardIterator",
-                                "dynamodb:PutItem",
-                                "dynamodb:Query",
-                                "dynamodb:Scan",
-                                "dynamodb:UpdateItem"
-                              ],
-                              "Effect": "Allow",
-                              "Resource": [
-                                {
-                                  "Fn::GetAtt": [
-                                    "Users0A0EEA89",
-                                    "Arn"
-                                  ]
-                                },
-                                {
-                                  "Ref": "AWS::NoValue"
-                                }
-                              ]
-                            },
-                            {
-                              "Action": [
-                                "s3:Abort*",
-                                "s3:DeleteObject*",
-                                "s3:GetBucket*",
-                                "s3:GetObject*",
-                                "s3:List*",
-                                "s3:PutObject",
-                                "s3:PutObjectLegalHold",
-                                "s3:PutObjectRetention",
-                                "s3:PutObjectTagging",
-                                "s3:PutObjectVersionTagging"
-                              ],
-                              "Effect": "Allow",
-                              "Resource": [
-                                {
-                                  "Fn::GetAtt": [
-                                    "ImageStorage82E68681",
-                                    "Arn"
-                                  ]
-                                },
-                                {
-                                  "Fn::Join": [
-                                    "",
-                                    [
-                                      {
-                                        "Fn::GetAtt": [
-                                          "ImageStorage82E68681",
-                                          "Arn"
-                                        ]
-                                      },
-                                      "/*"
-                                    ]
-                                  ]
-                                }
-                              ]
-                            }
-                          ],
-                          "Version": "2012-10-17"
-                        },
-                        "policyName": "MySocialNetworkRoleDefaultPolicy8F708CD2",
-                        "roles": [
-                          {
-                            "Ref": "MySocialNetworkRole0D2EB18D"
-                          }
-                        ]
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                      "version": "2.146.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_iam.Policy",
-                  "version": "2.146.0"
-                }
-              }
-            },
+          "MutableRoleRole": {
+            "id": "MutableRoleRole",
+            "path": "SocialNetworkCdkStack/MutableRoleRole",
             "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.146.0"
+            }
+          },
+          "Role": {
+            "id": "Role",
+            "path": "SocialNetworkCdkStack/Role",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
               "version": "2.146.0"
             }
           },
@@ -440,14 +249,6 @@
               "version": "2.146.0"
             }
           },
-          "TableName": {
-            "id": "TableName",
-            "path": "SocialNetworkCdkStack/TableName",
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.CfnOutput",
-              "version": "2.146.0"
-            }
-          },
           "ImageStorage": {
             "id": "ImageStorage",
             "path": "SocialNetworkCdkStack/ImageStorage",
@@ -535,11 +336,154 @@
               "version": "2.146.0"
             }
           },
-          "ImageBucketName": {
-            "id": "ImageBucketName",
-            "path": "SocialNetworkCdkStack/ImageBucketName",
+          "ImageStorageOutput": {
+            "id": "ImageStorageOutput",
+            "path": "SocialNetworkCdkStack/ImageStorageOutput",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.146.0"
+            }
+          },
+          "PostsStorage": {
+            "id": "PostsStorage",
+            "path": "SocialNetworkCdkStack/PostsStorage",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/PostsStorage/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {}
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.146.0"
+                }
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "SocialNetworkCdkStack/PostsStorage/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/PostsStorage/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "PostsStorage00A69DB4"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "s3:DeleteObject",
+                                "s3:Get*",
+                                "s3:List*",
+                                "s3:PutObject"
+                              ],
+                              "Effect": "Allow",
+                              "Principal": {
+                                "AWS": "arn:aws:iam::361602391862:role/LabRole"
+                              },
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "PostsStorage00A69DB4",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "PostsStorage00A69DB4",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.146.0"
+            }
+          },
+          "PostsStorageOutput": {
+            "id": "PostsStorageOutput",
+            "path": "SocialNetworkCdkStack/PostsStorageOutput",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.146.0"
+            }
+          },
+          "ImageUploadQueue": {
+            "id": "ImageUploadQueue",
+            "path": "SocialNetworkCdkStack/ImageUploadQueue",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/ImageUploadQueue/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                  "aws:cdk:cloudformation:props": {
+                    "visibilityTimeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_sqs.Queue",
+              "version": "2.146.0"
+            }
+          },
+          "TextractResultQueue": {
+            "id": "TextractResultQueue",
+            "path": "SocialNetworkCdkStack/TextractResultQueue",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/TextractResultQueue/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                  "aws:cdk:cloudformation:props": {
+                    "visibilityTimeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_sqs.Queue",
               "version": "2.146.0"
             }
           },
@@ -626,12 +570,7 @@
                       }
                     },
                     "handler": "index.handler",
-                    "role": {
-                      "Fn::GetAtt": [
-                        "MySocialNetworkRole0D2EB18D",
-                        "Arn"
-                      ]
-                    },
+                    "role": "arn:aws:iam::361602391862:role/LabRole",
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
@@ -743,12 +682,7 @@
                       }
                     },
                     "handler": "index.handler",
-                    "role": {
-                      "Fn::GetAtt": [
-                        "MySocialNetworkRole0D2EB18D",
-                        "Arn"
-                      ]
-                    },
+                    "role": "arn:aws:iam::361602391862:role/LabRole",
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
@@ -860,12 +794,7 @@
                       }
                     },
                     "handler": "index.handler",
-                    "role": {
-                      "Fn::GetAtt": [
-                        "MySocialNetworkRole0D2EB18D",
-                        "Arn"
-                      ]
-                    },
+                    "role": "arn:aws:iam::361602391862:role/LabRole",
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
@@ -977,12 +906,7 @@
                       }
                     },
                     "handler": "index.handler",
-                    "role": {
-                      "Fn::GetAtt": [
-                        "MySocialNetworkRole0D2EB18D",
-                        "Arn"
-                      ]
-                    },
+                    "role": "arn:aws:iam::361602391862:role/LabRole",
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
@@ -1002,6 +926,328 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.146.0"
+            }
+          },
+          "GetPresignUrlForUplodingPostImage": {
+            "id": "GetPresignUrlForUplodingPostImage",
+            "path": "SocialNetworkCdkStack/GetPresignUrlForUplodingPostImage",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "SocialNetworkCdkStack/GetPresignUrlForUplodingPostImage/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "SocialNetworkCdkStack/GetPresignUrlForUplodingPostImage/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.146.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "SocialNetworkCdkStack/GetPresignUrlForUplodingPostImage/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.146.0"
+                }
+              },
+              "SecurityGroup": {
+                "id": "SecurityGroup",
+                "path": "SocialNetworkCdkStack/GetPresignUrlForUplodingPostImage/SecurityGroup",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/GetPresignUrlForUplodingPostImage/SecurityGroup/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                      "aws:cdk:cloudformation:props": {
+                        "groupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackGetPresignUrlForUplodingPostImage3746C0B6",
+                        "securityGroupEgress": [
+                          {
+                            "cidrIp": "0.0.0.0/0",
+                            "description": "Allow all outbound traffic by default",
+                            "ipProtocol": "-1"
+                          }
+                        ],
+                        "vpcId": "vpc-080ea6ee750be2371"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                  "version": "2.146.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/GetPresignUrlForUplodingPostImage/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+                      "s3Key": "76e1b851d287ef36d598463179121b74a60050add78942d2f124adc05baff250.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "TABLE_NAME": {
+                          "Ref": "Users0A0EEA89"
+                        },
+                        "IMAGE_BUCKET_NAME": {
+                          "Ref": "PostsStorage00A69DB4"
+                        }
+                      }
+                    },
+                    "handler": "index.handler",
+                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "runtime": "nodejs20.x",
+                    "vpcConfig": {
+                      "subnetIds": [
+                        "subnet-02191ed6e6e1338d5",
+                        "subnet-09ce96651389ff92f"
+                      ],
+                      "securityGroupIds": [
+                        {
+                          "Fn::GetAtt": [
+                            "GetPresignUrlForUplodingPostImageSecurityGroup3B8E0C37",
+                            "GroupId"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.146.0"
+            }
+          },
+          "UpdateProfilePictureFunction": {
+            "id": "UpdateProfilePictureFunction",
+            "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.146.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.146.0"
+                }
+              },
+              "SecurityGroup": {
+                "id": "SecurityGroup",
+                "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                      "aws:cdk:cloudformation:props": {
+                        "groupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackUpdateProfilePictureFunction77137028",
+                        "securityGroupEgress": [
+                          {
+                            "cidrIp": "0.0.0.0/0",
+                            "description": "Allow all outbound traffic by default",
+                            "ipProtocol": "-1"
+                          }
+                        ],
+                        "vpcId": "vpc-080ea6ee750be2371"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                  "version": "2.146.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+                      "s3Key": "dae2820c432b0c58ef3702dab036e794ed19a2fa9ef0171daec76b55df03c84f.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "TABLE_NAME": {
+                          "Ref": "Users0A0EEA89"
+                        },
+                        "IMAGE_BUCKET_NAME": {
+                          "Ref": "ImageStorage82E68681"
+                        }
+                      }
+                    },
+                    "handler": "index.handler",
+                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "runtime": "nodejs20.x",
+                    "vpcConfig": {
+                      "subnetIds": [
+                        "subnet-02191ed6e6e1338d5",
+                        "subnet-09ce96651389ff92f"
+                      ],
+                      "securityGroupIds": [
+                        {
+                          "Fn::GetAtt": [
+                            "UpdateProfilePictureFunctionSecurityGroupE88B9621",
+                            "GroupId"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.146.0"
+            }
+          },
+          "TextractFunction": {
+            "id": "TextractFunction",
+            "path": "SocialNetworkCdkStack/TextractFunction",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "SocialNetworkCdkStack/TextractFunction/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "SocialNetworkCdkStack/TextractFunction/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.146.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "SocialNetworkCdkStack/TextractFunction/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.146.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/TextractFunction/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+                      "s3Key": "9cd724187884e224fa2ff51ace1d3c8b3d3408e5f1fe738df18f6f95a4ca35d2.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "BUCKET_NAME": {
+                          "Ref": "PostsStorage00A69DB4"
+                        },
+                        "OUTPUT_QUEUE_URL": {
+                          "Ref": "TextractResultQueue3C564822"
+                        }
+                      }
+                    },
+                    "handler": "textract.handler",
+                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "runtime": "nodejs20.x"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.146.0"
+                }
+              },
+              "SqsEventSource:SocialNetworkCdkStackImageUploadQueueD2C5024A": {
+                "id": "SqsEventSource:SocialNetworkCdkStackImageUploadQueueD2C5024A",
+                "path": "SocialNetworkCdkStack/TextractFunction/SqsEventSource:SocialNetworkCdkStackImageUploadQueueD2C5024A",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/TextractFunction/SqsEventSource:SocialNetworkCdkStackImageUploadQueueD2C5024A/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                      "aws:cdk:cloudformation:props": {
+                        "eventSourceArn": {
+                          "Fn::GetAtt": [
+                            "ImageUploadQueue828B2CCD",
+                            "Arn"
+                          ]
+                        },
+                        "functionName": {
+                          "Ref": "TextractFunction6DF7C8EE"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnEventSourceMapping",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.EventSourceMapping",
                   "version": "2.146.0"
                 }
               }
@@ -1067,7 +1313,7 @@
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
                       "aws:cdk:cloudformation:props": {
                         "deploymentId": {
-                          "Ref": "SocialNetworkApiDeploymentA74B3F22dcad7f95fdb55713f7d3cc093530944a"
+                          "Ref": "SocialNetworkApiDeploymentA74B3F222ece8e00d9fbf4060331eaebd605127f"
                         },
                         "restApiId": {
                           "Ref": "SocialNetworkApiACB67AB1"
@@ -1709,6 +1955,159 @@
                       "fqn": "aws-cdk-lib.aws_apigateway.Resource",
                       "version": "2.146.0"
                     }
+                  },
+                  "getPresignUrlForUplodingPostImage": {
+                    "id": "getPresignUrlForUplodingPostImage",
+                    "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                          "aws:cdk:cloudformation:props": {
+                            "parentId": {
+                              "Fn::GetAtt": [
+                                "SocialNetworkApiACB67AB1",
+                                "RootResourceId"
+                              ]
+                            },
+                            "pathPart": "getPresignUrlForUplodingPostImage",
+                            "restApiId": {
+                              "Ref": "SocialNetworkApiACB67AB1"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                          "version": "2.146.0"
+                        }
+                      },
+                      "GET": {
+                        "id": "GET",
+                        "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage/GET",
+                        "children": {
+                          "ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingPostImage": {
+                            "id": "ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingPostImage",
+                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingPostImage",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                              "aws:cdk:cloudformation:props": {
+                                "action": "lambda:InvokeFunction",
+                                "functionName": {
+                                  "Fn::GetAtt": [
+                                    "GetPresignUrlForUplodingPostImageC1B733B4",
+                                    "Arn"
+                                  ]
+                                },
+                                "principal": "apigateway.amazonaws.com",
+                                "sourceArn": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:aws:execute-api:us-east-1:361602391862:",
+                                      {
+                                        "Ref": "SocialNetworkApiACB67AB1"
+                                      },
+                                      "/",
+                                      {
+                                        "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
+                                      },
+                                      "/GET/getPresignUrlForUplodingPostImage"
+                                    ]
+                                  ]
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                              "version": "2.146.0"
+                            }
+                          },
+                          "ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingPostImage": {
+                            "id": "ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingPostImage",
+                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage/GET/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingPostImage",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                              "aws:cdk:cloudformation:props": {
+                                "action": "lambda:InvokeFunction",
+                                "functionName": {
+                                  "Fn::GetAtt": [
+                                    "GetPresignUrlForUplodingPostImageC1B733B4",
+                                    "Arn"
+                                  ]
+                                },
+                                "principal": "apigateway.amazonaws.com",
+                                "sourceArn": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:aws:execute-api:us-east-1:361602391862:",
+                                      {
+                                        "Ref": "SocialNetworkApiACB67AB1"
+                                      },
+                                      "/test-invoke-stage/GET/getPresignUrlForUplodingPostImage"
+                                    ]
+                                  ]
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                              "version": "2.146.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage/GET/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "authorizationType": "NONE",
+                                "httpMethod": "GET",
+                                "integration": {
+                                  "type": "AWS_PROXY",
+                                  "uri": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+                                        {
+                                          "Fn::GetAtt": [
+                                            "GetPresignUrlForUplodingPostImageC1B733B4",
+                                            "Arn"
+                                          ]
+                                        },
+                                        "/invocations"
+                                      ]
+                                    ]
+                                  },
+                                  "integrationHttpMethod": "POST"
+                                },
+                                "resourceId": {
+                                  "Ref": "SocialNetworkApigetPresignUrlForUplodingPostImageD0895DD3"
+                                },
+                                "restApiId": {
+                                  "Ref": "SocialNetworkApiACB67AB1"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.146.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.146.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                      "version": "2.146.0"
+                    }
                   }
                 },
                 "constructInfo": {
@@ -1727,123 +2126,6 @@
             "path": "SocialNetworkCdkStack/ApiUrl",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
-              "version": "2.146.0"
-            }
-          },
-          "UpdateProfilePictureFunction": {
-            "id": "UpdateProfilePictureFunction",
-            "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction",
-            "children": {
-              "Code": {
-                "id": "Code",
-                "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Code",
-                "children": {
-                  "Stage": {
-                    "id": "Stage",
-                    "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Code/Stage",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.AssetStaging",
-                      "version": "2.146.0"
-                    }
-                  },
-                  "AssetBucket": {
-                    "id": "AssetBucket",
-                    "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Code/AssetBucket",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                      "version": "2.146.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                  "version": "2.146.0"
-                }
-              },
-              "SecurityGroup": {
-                "id": "SecurityGroup",
-                "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup",
-                "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
-                      "aws:cdk:cloudformation:props": {
-                        "groupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackUpdateProfilePictureFunction77137028",
-                        "securityGroupEgress": [
-                          {
-                            "cidrIp": "0.0.0.0/0",
-                            "description": "Allow all outbound traffic by default",
-                            "ipProtocol": "-1"
-                          }
-                        ],
-                        "vpcId": "vpc-080ea6ee750be2371"
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
-                      "version": "2.146.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
-                  "version": "2.146.0"
-                }
-              },
-              "Resource": {
-                "id": "Resource",
-                "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
-                  "aws:cdk:cloudformation:props": {
-                    "code": {
-                      "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "dae2820c432b0c58ef3702dab036e794ed19a2fa9ef0171daec76b55df03c84f.zip"
-                    },
-                    "environment": {
-                      "variables": {
-                        "TABLE_NAME": {
-                          "Ref": "Users0A0EEA89"
-                        },
-                        "IMAGE_BUCKET_NAME": {
-                          "Ref": "ImageStorage82E68681"
-                        }
-                      }
-                    },
-                    "handler": "index.handler",
-                    "role": {
-                      "Fn::GetAtt": [
-                        "MySocialNetworkRole0D2EB18D",
-                        "Arn"
-                      ]
-                    },
-                    "runtime": "nodejs20.x",
-                    "vpcConfig": {
-                      "subnetIds": [
-                        "subnet-02191ed6e6e1338d5",
-                        "subnet-09ce96651389ff92f"
-                      ],
-                      "securityGroupIds": [
-                        {
-                          "Fn::GetAtt": [
-                            "UpdateProfilePictureFunctionSecurityGroupE88B9621",
-                            "GroupId"
-                          ]
-                        }
-                      ]
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                  "version": "2.146.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_lambda.Function",
               "version": "2.146.0"
             }
           },

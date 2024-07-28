@@ -7,6 +7,8 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
+import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 
 export class SocialNetworkCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -46,8 +48,15 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     // create an S3 bucket for storing user's profile picture
     const profileImageBucket = this.createBucket('ImageStorage');
+
     // create an S3 bucket for storing user's images posts for further process
     const postsBucket = this.createBucket('PostsStorage');
+
+    // create a sqs queue that stores and pass s3 PUT event - user upload image to text for posting
+    const sqsQueueImageUpload = this.createSQSQueue('ImageUploadQueue');
+
+    // create a sqs queue that stores and pass the results of extracting text from an image using Textract
+    const sqsQueueTextractResult = this.createSQSQueue('TextractResultQueue');
 
     // creating lambdas functions
     const registrationFunction = this.createLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc, profileImageBucket);
@@ -55,6 +64,12 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const deleteUserFunction = this.createLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, table, vpc, profileImageBucket);
     const getPresignUrlForUplodingProfileImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, table, vpc, profileImageBucket);
     const getPresignUrlForUplodingPostImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, table, vpc, postsBucket);
+    // Lambda function that gets called with a trigger
+    const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, table, profileImageBucket , vpc);
+    //this.setupS3Trigger(profileImageBucket, updateProfilePictureFunction);
+    
+    const textractImageToText = this.createTextractLambda('TextractFunction', labRole , postsBucket, sqsQueueImageUpload, sqsQueueTextractResult);
+    //const updateDb = this.createUpdateDBLambda('UpdateDBFunction', sqsQueue2);
 
     // create an api gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
@@ -83,9 +98,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const getPresignUrlForUplodingPostImage = api.root.addResource('getPresignUrlForUplodingPostImage');
     getPresignUrlForUplodingPostImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingPostImageFunction));
 
-    // Lambda function that gets called with a trigger
-    const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, table, profileImageBucket , vpc);
-    //this.setupS3Trigger(profileImageBucket, updateProfilePictureFunction);
+
     
   }
 
@@ -120,9 +133,9 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     });
   }
 
-  private createBucket(bucket_name: string) {
+  private createBucket(bucketname: string) {
     // Create image storage bucket
-    const bucket = new s3.Bucket(this, bucket_name, {
+    const bucket = new s3.Bucket(this, bucketname, {
       removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
@@ -138,12 +151,20 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       })
     );
 
-    // Output bucket name
-    new cdk.CfnOutput(this, 'ImageBucketName', {
+    //Output bucket name
+    new cdk.CfnOutput(this, `${bucketname}Output`, {
       value: bucket.bucketName,
     });
 
     return bucket;
+  }
+
+  private createSQSQueue(queueName: string): sqs.Queue {
+    const queue = new sqs.Queue(this, queueName, {
+      visibilityTimeout: cdk.Duration.seconds(300)
+    });
+
+    return queue;
   }
 
 
@@ -158,9 +179,9 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     });
 
     // Output table name
-    new cdk.CfnOutput(this, 'TableName', {
-      value: table.tableName,
-    });
+    // new cdk.CfnOutput(this, 'TableName', {
+    //   value: table.tableName,
+    // });
 
     return table;
   }
@@ -215,5 +236,35 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     //     new s3n.LambdaDestination(lambdaFunction)
     //   );
     // }
+
+
+    private createTextractLambda(functionName: string, labRole: iam.IRole, bucket: s3.Bucket, sqsQueueImageUpload: sqs.Queue, sqsQueueTextractResult: sqs.Queue) {
+      const textractLambda = new lambda.Function(this, functionName, {
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: 'textract.handler',
+        code: lambda.Code.fromAsset('lambdas/textractImage'),
+        role: labRole,
+        environment: {
+          BUCKET_NAME: bucket.bucketName,
+          OUTPUT_QUEUE_URL: sqsQueueTextractResult.queueUrl,
+        },
+      });
+  
+      bucket.grantRead(textractLambda);
+      sqsQueueImageUpload.grantConsumeMessages(textractLambda);
+      sqsQueueTextractResult.grantSendMessages(textractLambda);
+  
+      textractLambda.addToRolePolicy(new iam.PolicyStatement({
+        actions: ['textract:*'],
+        resources: ['*'],
+      }));
+  
+      textractLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueImageUpload));
+  
+      //bucket.addEventNotification(s3.EventType.OBJECT_CREATED_PUT, new s3n.SqsDestination(sqsQueueImageUpload));
+    }
+  
+
+
 
   }
