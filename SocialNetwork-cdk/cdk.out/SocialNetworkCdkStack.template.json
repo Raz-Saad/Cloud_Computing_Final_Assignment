@@ -1,5 +1,174 @@
 {
  "Resources": {
+  "MySocialNetworkRole0D2EB18D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/MySocialNetworkRole/Resource"
+   }
+  },
+  "MySocialNetworkRoleDefaultPolicy8F708CD2": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:DeleteItem",
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem",
+        "ec2:AssociateRouteTable",
+        "ec2:CreateNatGateway",
+        "ec2:DeleteNatGateway",
+        "ec2:DescribeInternetGateways",
+        "ec2:DescribeNatGateways",
+        "ec2:DescribeRouteTables",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeVpcs",
+        "ec2:DisassociateRouteTable",
+        "lambda:CreateFunction",
+        "lambda:DeleteFunction",
+        "lambda:GetFunction",
+        "lambda:InvokeFunction",
+        "lambda:ListFunctionEventSources",
+        "lambda:ListFunctions",
+        "lambda:UpdateFunctionCode",
+        "s3:DeleteObject",
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:PutObject",
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:ListQueues",
+        "sqs:ReceiveMessage",
+        "sqs:SendMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "Users0A0EEA89",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ImageStorage82E68681",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ImageStorage82E68681",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "MySocialNetworkRoleDefaultPolicy8F708CD2",
+    "Roles": [
+     {
+      "Ref": "MySocialNetworkRole0D2EB18D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/MySocialNetworkRole/DefaultPolicy/Resource"
+   }
+  },
   "MyCfnEIP": {
    "Type": "AWS::EC2::EIP",
    "Properties": {
@@ -215,7 +384,12 @@
      }
     },
     "Handler": "index.handler",
-    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Role": {
+     "Fn::GetAtt": [
+      "MySocialNetworkRole0D2EB18D",
+      "Arn"
+     ]
+    },
     "Runtime": "nodejs20.x",
     "VpcConfig": {
      "SecurityGroupIds": [
@@ -232,6 +406,10 @@
      ]
     }
    },
+   "DependsOn": [
+    "MySocialNetworkRoleDefaultPolicy8F708CD2",
+    "MySocialNetworkRole0D2EB18D"
+   ],
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/RegistrationFunction/Resource",
     "aws:asset:path": "asset.2236996cddb405468735dcc5af8d18555118cff4c25bedbf986038c6b4309890",
@@ -274,7 +452,12 @@
      }
     },
     "Handler": "index.handler",
-    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Role": {
+     "Fn::GetAtt": [
+      "MySocialNetworkRole0D2EB18D",
+      "Arn"
+     ]
+    },
     "Runtime": "nodejs20.x",
     "VpcConfig": {
      "SecurityGroupIds": [
@@ -291,6 +474,10 @@
      ]
     }
    },
+   "DependsOn": [
+    "MySocialNetworkRoleDefaultPolicy8F708CD2",
+    "MySocialNetworkRole0D2EB18D"
+   ],
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetUserFunction/Resource",
     "aws:asset:path": "asset.3800c0ab7cd8a2c911e586329cea3ce2426e51f5872d627a609b2d2bc1933a2e",
@@ -333,7 +520,12 @@
      }
     },
     "Handler": "index.handler",
-    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Role": {
+     "Fn::GetAtt": [
+      "MySocialNetworkRole0D2EB18D",
+      "Arn"
+     ]
+    },
     "Runtime": "nodejs20.x",
     "VpcConfig": {
      "SecurityGroupIds": [
@@ -350,6 +542,10 @@
      ]
     }
    },
+   "DependsOn": [
+    "MySocialNetworkRoleDefaultPolicy8F708CD2",
+    "MySocialNetworkRole0D2EB18D"
+   ],
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/DeleteUserFunction/Resource",
     "aws:asset:path": "asset.12d7f1eb394d52de77e1961940b6245616321a7223432b8195a74dde9d159008",
@@ -392,7 +588,12 @@
      }
     },
     "Handler": "index.handler",
-    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Role": {
+     "Fn::GetAtt": [
+      "MySocialNetworkRole0D2EB18D",
+      "Arn"
+     ]
+    },
     "Runtime": "nodejs20.x",
     "VpcConfig": {
      "SecurityGroupIds": [
@@ -409,6 +610,10 @@
      ]
     }
    },
+   "DependsOn": [
+    "MySocialNetworkRoleDefaultPolicy8F708CD2",
+    "MySocialNetworkRole0D2EB18D"
+   ],
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/GetPresignUrlForUplodingProfileImage/Resource",
     "aws:asset:path": "asset.bf92ac1b08790a0ef378740bd8c17fded76fd7b796141ce5b3cd3b51c43e0662",
@@ -949,7 +1154,12 @@
      }
     },
     "Handler": "index.handler",
-    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Role": {
+     "Fn::GetAtt": [
+      "MySocialNetworkRole0D2EB18D",
+      "Arn"
+     ]
+    },
     "Runtime": "nodejs20.x",
     "VpcConfig": {
      "SecurityGroupIds": [
@@ -966,6 +1176,10 @@
      ]
     }
    },
+   "DependsOn": [
+    "MySocialNetworkRoleDefaultPolicy8F708CD2",
+    "MySocialNetworkRole0D2EB18D"
+   ],
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Resource",
     "aws:asset:path": "asset.dae2820c432b0c58ef3702dab036e794ed19a2fa9ef0171daec76b55df03c84f",
@@ -976,7 +1190,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02Qy3LCMAxFv4W9cYE+9jxapou2maR7RnEENSR2JpLLZDz5947tFLLSude2fKWVXD69yMUMrjRX1WVe61L6gkFdRI5kXadQwJUOHtVK+u3RvL5nYns0n8B7YLxCH1RuHeM3lDXeVIDClQb5frgmskoDa2tEgcp1mvt9Z10bL0+NQVS9gcZWpfS3vhEGQY/Sb5y6IAdzpFQyW2vV3+1RJ7EBwkHU0JQVSP/mjIpBtkcz5Qy7RhNpa8JPByBCJrkORUCrT2lo6XMkXrc6zjviDtva9g2aGGyiCoZTWkiE/8WGQPctp0aJP5B/bBWsRMMQ+Mtx61jELKGTNqfpq0EYW6E808PvaiGXz3I5O5PW884Z1g3KPNU/4HidnfIBAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQT2/CMAzFPwv3kAH7cwe2oR22oXZ35KaGBdqkqp2hKsp3n5Iw6E7+Pcd5ec5Czh+e5GwCZ5qq+jRtdCV9yaBOAs608xpa6QvboFjvTapb22g1RJkpCFQL6dd78/K2je0P4A0wnmHIdxzjF1R/Do4TlK4yyLfDJZFVGlhbI0pUrtc8bHrrujQ8bgRRDwZaW1fSX30TBEH30q+cOiHH5oVyucX+p7NYAWEQDbRVDdK/OqNSkPXejHmLfauJtDXxpR0QIZNcxiKg04e8tPQFEi87nfa94DN2jR1aNCnYSJUMh/whCQok63qFMdBVXIwyvyN/2zq2MoXwb+7TcedYpFDRUpvD+HoQxtYoj3T3s5jJ+aOcT46k9bR3hnWLssj1F+4TNfwWAgAA"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/CDKMetadata/Default"

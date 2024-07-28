@@ -44,14 +44,17 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     //creating a Dynamo DB Table for storing user's data
     const table = this.createDynamoDBTable();
 
-    // create an S3 bucket
-    const imageBucket = this.createImageStorageBucket();
+    // create an S3 bucket for storing user's profile picture
+    const profileImageBucket = this.createBucket('ImageStorage');
+    // create an S3 bucket for storing user's images posts for further process
+    const postsBucket = this.createBucket('PostsStorage');
 
     // creating lambdas functions
-    const registrationFunction = this.createLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc, imageBucket);
-    const getUserFunction = this.createLambdaFunction('GetUserFunction', 'lambdas/getUserById', labRole, table, vpc, imageBucket);
-    const deleteUserFunction = this.createLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, table, vpc, imageBucket);
-    const getPresignUrlForUplodingProfileImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, table, vpc, imageBucket);
+    const registrationFunction = this.createLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc, profileImageBucket);
+    const getUserFunction = this.createLambdaFunction('GetUserFunction', 'lambdas/getUserById', labRole, table, vpc, profileImageBucket);
+    const deleteUserFunction = this.createLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, table, vpc, profileImageBucket);
+    const getPresignUrlForUplodingProfileImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, table, vpc, profileImageBucket);
+    const getPresignUrlForUplodingPostImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, table, vpc, postsBucket);
 
     // create an api gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
@@ -77,9 +80,12 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const getPresignUrlForUplodingProfileImage = api.root.addResource('getPresignUrlForUplodingProfileImage');
     getPresignUrlForUplodingProfileImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingProfileImageFunction));
 
+    const getPresignUrlForUplodingPostImage = api.root.addResource('getPresignUrlForUplodingPostImage');
+    getPresignUrlForUplodingPostImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingPostImageFunction));
+
     // Lambda function that gets called with a trigger
-    const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, table, imageBucket , vpc);
-    //this.setupS3Trigger(imageBucket, updateProfilePictureFunction);
+    const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, table, profileImageBucket , vpc);
+    //this.setupS3Trigger(profileImageBucket, updateProfilePictureFunction);
     
   }
 
@@ -114,9 +120,9 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     });
   }
 
-  private createImageStorageBucket() {
+  private createBucket(bucket_name: string) {
     // Create image storage bucket
-    const bucket = new s3.Bucket(this, 'ImageStorage', {
+    const bucket = new s3.Bucket(this, bucket_name, {
       removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
@@ -159,10 +165,10 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     return table;
   }
 
-  private createLambdaFunction(id: string, path: string, labRole: iam.IRole, table: dynamodb.Table , vpc: cdk.aws_ec2.IVpc , imageBucket: s3.Bucket) {
+  private createLambdaFunction(id: string, path: string, labRole: iam.IRole, table: dynamodb.Table , vpc: cdk.aws_ec2.IVpc , Bucket: s3.Bucket) {
     // Grant permissions to Lambda function
     table.grantReadWriteData(labRole);
-    imageBucket.grantReadWrite(labRole); // Grant permissions to the bucket
+    Bucket.grantReadWrite(labRole); // Grant permissions to the bucket
     
     // Create Lambda function
       return new lambda.Function(this, id, {
@@ -172,7 +178,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       role: labRole,
       environment: {
         TABLE_NAME: table.tableName,
-        IMAGE_BUCKET_NAME: imageBucket.bucketName,
+        IMAGE_BUCKET_NAME: Bucket.bucketName,
       },
       vpc: vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS},
@@ -181,10 +187,10 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     }
 
     // lambda for updating DB with user's profile picture
-    private createUpdateProfilePictureFunction(labRole: iam.IRole, table: dynamodb.Table, imageBucket: s3.Bucket , vpc: cdk.aws_ec2.IVpc) {
+    private createUpdateProfilePictureFunction(labRole: iam.IRole, table: dynamodb.Table, Bucket: s3.Bucket , vpc: cdk.aws_ec2.IVpc) {
       // Grant permissions to Lambda function
       table.grantReadWriteData(labRole);
-      imageBucket.grantRead(labRole); // Grant read permissions to the bucket
+      Bucket.grantRead(labRole); // Grant read permissions to the bucket
   
       // Create Lambda function
       return new lambda.Function(this, 'UpdateProfilePictureFunction', {
@@ -194,7 +200,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
         role: labRole,
         environment: {
           TABLE_NAME: table.tableName,
-          IMAGE_BUCKET_NAME: imageBucket.bucketName,
+          IMAGE_BUCKET_NAME: Bucket.bucketName,
         },
         vpc: vpc,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS},

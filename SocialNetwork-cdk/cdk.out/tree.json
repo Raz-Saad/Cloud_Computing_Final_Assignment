@@ -8,19 +8,210 @@
         "id": "SocialNetworkCdkStack",
         "path": "SocialNetworkCdkStack",
         "children": {
-          "MutableRoleRole": {
-            "id": "MutableRoleRole",
-            "path": "SocialNetworkCdkStack/MutableRoleRole",
+          "MySocialNetworkRole": {
+            "id": "MySocialNetworkRole",
+            "path": "SocialNetworkCdkStack/MySocialNetworkRole",
+            "children": {
+              "ImportMySocialNetworkRole": {
+                "id": "ImportMySocialNetworkRole",
+                "path": "SocialNetworkCdkStack/MySocialNetworkRole/ImportMySocialNetworkRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.146.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/MySocialNetworkRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.146.0"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "SocialNetworkCdkStack/MySocialNetworkRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/MySocialNetworkRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "dynamodb:DeleteItem",
+                                "dynamodb:GetItem",
+                                "dynamodb:PutItem",
+                                "dynamodb:Query",
+                                "dynamodb:Scan",
+                                "dynamodb:UpdateItem",
+                                "ec2:AssociateRouteTable",
+                                "ec2:CreateNatGateway",
+                                "ec2:DeleteNatGateway",
+                                "ec2:DescribeInternetGateways",
+                                "ec2:DescribeNatGateways",
+                                "ec2:DescribeRouteTables",
+                                "ec2:DescribeSecurityGroups",
+                                "ec2:DescribeSubnets",
+                                "ec2:DescribeVpcs",
+                                "ec2:DisassociateRouteTable",
+                                "lambda:CreateFunction",
+                                "lambda:DeleteFunction",
+                                "lambda:GetFunction",
+                                "lambda:InvokeFunction",
+                                "lambda:ListFunctionEventSources",
+                                "lambda:ListFunctions",
+                                "lambda:UpdateFunctionCode",
+                                "s3:DeleteObject",
+                                "s3:GetObject",
+                                "s3:ListBucket",
+                                "s3:PutObject",
+                                "sqs:ChangeMessageVisibility",
+                                "sqs:DeleteMessage",
+                                "sqs:GetQueueAttributes",
+                                "sqs:ListQueues",
+                                "sqs:ReceiveMessage",
+                                "sqs:SendMessage"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "dynamodb:BatchGetItem",
+                                "dynamodb:BatchWriteItem",
+                                "dynamodb:ConditionCheckItem",
+                                "dynamodb:DeleteItem",
+                                "dynamodb:DescribeTable",
+                                "dynamodb:GetItem",
+                                "dynamodb:GetRecords",
+                                "dynamodb:GetShardIterator",
+                                "dynamodb:PutItem",
+                                "dynamodb:Query",
+                                "dynamodb:Scan",
+                                "dynamodb:UpdateItem"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "Users0A0EEA89",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Ref": "AWS::NoValue"
+                                }
+                              ]
+                            },
+                            {
+                              "Action": [
+                                "s3:Abort*",
+                                "s3:DeleteObject*",
+                                "s3:GetBucket*",
+                                "s3:GetObject*",
+                                "s3:List*",
+                                "s3:PutObject",
+                                "s3:PutObjectLegalHold",
+                                "s3:PutObjectRetention",
+                                "s3:PutObjectTagging",
+                                "s3:PutObjectVersionTagging"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "ImageStorage82E68681",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "ImageStorage82E68681",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "MySocialNetworkRoleDefaultPolicy8F708CD2",
+                        "roles": [
+                          {
+                            "Ref": "MySocialNetworkRole0D2EB18D"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.146.0"
+                }
+              }
+            },
             "constructInfo": {
-              "fqn": "aws-cdk-lib.Resource",
-              "version": "2.146.0"
-            }
-          },
-          "Role": {
-            "id": "Role",
-            "path": "SocialNetworkCdkStack/Role",
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.Resource",
+              "fqn": "aws-cdk-lib.aws_iam.Role",
               "version": "2.146.0"
             }
           },
@@ -435,7 +626,12 @@
                       }
                     },
                     "handler": "index.handler",
-                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "MySocialNetworkRole0D2EB18D",
+                        "Arn"
+                      ]
+                    },
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
@@ -547,7 +743,12 @@
                       }
                     },
                     "handler": "index.handler",
-                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "MySocialNetworkRole0D2EB18D",
+                        "Arn"
+                      ]
+                    },
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
@@ -659,7 +860,12 @@
                       }
                     },
                     "handler": "index.handler",
-                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "MySocialNetworkRole0D2EB18D",
+                        "Arn"
+                      ]
+                    },
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
@@ -771,7 +977,12 @@
                       }
                     },
                     "handler": "index.handler",
-                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "MySocialNetworkRole0D2EB18D",
+                        "Arn"
+                      ]
+                    },
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
@@ -1602,7 +1813,12 @@
                       }
                     },
                     "handler": "index.handler",
-                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "MySocialNetworkRole0D2EB18D",
+                        "Arn"
+                      ]
+                    },
                     "runtime": "nodejs20.x",
                     "vpcConfig": {
                       "subnetIds": [
