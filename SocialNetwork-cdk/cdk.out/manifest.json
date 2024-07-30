@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/5e88f9c1f2ed6114c60647f153bc88aafcf43e98b532c44565c08de9b7892ca0.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/d63c905c6fc20816238e7db9c404294d78abdfe3d31daa836df1be574713cc07.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -102,6 +102,18 @@
             "data": "ImageStoragePolicy8AD6DC86"
           }
         ],
+        "/SocialNetworkCdkStack/ImageStorage/Notifications/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImageStorageNotifications61C33B66"
+          }
+        ],
+        "/SocialNetworkCdkStack/ImageStorage/AllowBucketNotificationsToSocialNetworkCdkStackUpdateProfilePictureFunction77137028": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImageStorageAllowBucketNotificationsToSocialNetworkCdkStackUpdateProfilePictureFunction77137028B355E236"
+          }
+        ],
         "/SocialNetworkCdkStack/ImageStorageOutput": [
           {
             "type": "aws:cdk:logicalId",
@@ -120,6 +132,12 @@
             "data": "PostsStoragePolicyD26864C8"
           }
         ],
+        "/SocialNetworkCdkStack/PostsStorage/Notifications/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostsStorageNotificationsACCA9B1E"
+          }
+        ],
         "/SocialNetworkCdkStack/PostsStorageOutput": [
           {
             "type": "aws:cdk:logicalId",
@@ -130,6 +148,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ImageUploadQueue828B2CCD"
+          }
+        ],
+        "/SocialNetworkCdkStack/ImageUploadQueue/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImageUploadQueuePolicy68CD3164"
           }
         ],
         "/SocialNetworkCdkStack/TextractResultQueue/Resource": [
@@ -208,6 +232,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "UpdateProfilePictureFunction78295F9B"
+          }
+        ],
+        "/SocialNetworkCdkStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691"
           }
         ],
         "/SocialNetworkCdkStack/TextractFunction/Resource": [

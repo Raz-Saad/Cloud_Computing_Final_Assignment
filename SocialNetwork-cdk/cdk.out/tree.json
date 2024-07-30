@@ -329,6 +329,52 @@
                   "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
                   "version": "2.146.0"
                 }
+              },
+              "Notifications": {
+                "id": "Notifications",
+                "path": "SocialNetworkCdkStack/ImageStorage/Notifications",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/ImageStorage/Notifications/Resource",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.3.0"
+                }
+              },
+              "AllowBucketNotificationsToSocialNetworkCdkStackUpdateProfilePictureFunction77137028": {
+                "id": "AllowBucketNotificationsToSocialNetworkCdkStackUpdateProfilePictureFunction77137028",
+                "path": "SocialNetworkCdkStack/ImageStorage/AllowBucketNotificationsToSocialNetworkCdkStackUpdateProfilePictureFunction77137028",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "UpdateProfilePictureFunction78295F9B",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "s3.amazonaws.com",
+                    "sourceAccount": "361602391862",
+                    "sourceArn": {
+                      "Fn::GetAtt": [
+                        "ImageStorage82E68681",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.146.0"
+                }
               }
             },
             "constructInfo": {
@@ -424,6 +470,24 @@
                   "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
                   "version": "2.146.0"
                 }
+              },
+              "Notifications": {
+                "id": "Notifications",
+                "path": "SocialNetworkCdkStack/PostsStorage/Notifications",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/PostsStorage/Notifications/Resource",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.3.0"
+                }
               }
             },
             "constructInfo": {
@@ -454,6 +518,66 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                  "version": "2.146.0"
+                }
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "SocialNetworkCdkStack/ImageUploadQueue/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/ImageUploadQueue/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SQS::QueuePolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "sqs:GetQueueAttributes",
+                                "sqs:GetQueueUrl",
+                                "sqs:SendMessage"
+                              ],
+                              "Condition": {
+                                "ArnLike": {
+                                  "aws:SourceArn": {
+                                    "Fn::GetAtt": [
+                                      "PostsStorage00A69DB4",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "s3.amazonaws.com"
+                              },
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "ImageUploadQueue828B2CCD",
+                                  "Arn"
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "queues": [
+                          {
+                            "Ref": "ImageUploadQueue828B2CCD"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_sqs.CfnQueuePolicy",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.QueuePolicy",
                   "version": "2.146.0"
                 }
               }
@@ -1157,6 +1281,24 @@
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda.Function",
               "version": "2.146.0"
+            }
+          },
+          "BucketNotificationsHandler050a0587b7544547bf325f094a3db834": {
+            "id": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834",
+            "path": "SocialNetworkCdkStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
             }
           },
           "TextractFunction": {

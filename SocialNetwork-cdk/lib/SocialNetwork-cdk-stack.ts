@@ -47,10 +47,10 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const table = this.createDynamoDBTable();
 
     // create an S3 bucket for storing user's profile picture
-    const profileImageBucket = this.createBucket('ImageStorage');
+    const profileImageBucket = this.createBucket('ImageStorage',labRole);
 
     // create an S3 bucket for storing user's images posts for further process
-    const postsBucket = this.createBucket('PostsStorage');
+    const postsBucket = this.createBucket('PostsStorage',labRole);
 
     // create a sqs queue that stores and pass s3 PUT event - user upload image to text for posting
     const sqsQueueImageUpload = this.createSQSQueue('ImageUploadQueue');
@@ -66,7 +66,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const getPresignUrlForUplodingPostImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, table, vpc, postsBucket);
     // Lambda function that gets called with a trigger
     const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, table, profileImageBucket , vpc);
-    //this.setupS3Trigger(profileImageBucket, updateProfilePictureFunction);
+    this.setupS3Trigger(profileImageBucket, updateProfilePictureFunction);
     
     const textractImageToText = this.createTextractLambda('TextractFunction', labRole , postsBucket, sqsQueueImageUpload, sqsQueueTextractResult);
     //const updateDb = this.createUpdateDBLambda('UpdateDBFunction', sqsQueue2);
@@ -137,10 +137,11 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     });
   }
 
-  private createBucket(bucketname: string) {
+  private createBucket(bucketname: string,labRole: iam.IRole) {
     // Create image storage bucket
     const bucket = new s3.Bucket(this, bucketname, {
       removalPolicy: cdk.RemovalPolicy.RETAIN,
+      notificationsHandlerRole: labRole
     });
 
     // Add policy to the bucket
@@ -233,13 +234,13 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     }
     
     // trigger for s3 that triggers lambda function
-    // private setupS3Trigger(bucket: s3.Bucket, lambdaFunction: lambda.IFunction) {
-    //   // Add S3 event notification to trigger the Lambda function
-    //   bucket.addEventNotification(
-    //     s3.EventType.OBJECT_CREATED,
-    //     new s3n.LambdaDestination(lambdaFunction)
-    //   );
-    // }
+    private setupS3Trigger(bucket: s3.Bucket, lambdaFunction: lambda.IFunction) {
+      // Add S3 event notification to trigger the Lambda function
+      bucket.addEventNotification(
+        s3.EventType.OBJECT_CREATED,
+        new s3n.LambdaDestination(lambdaFunction)
+      );
+    }
 
 
     private createTextractLambda(functionName: string, labRole: iam.IRole, bucket: s3.Bucket, sqsQueueImageUpload: sqs.Queue, sqsQueueTextractResult: sqs.Queue) {
@@ -267,7 +268,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
   
       textractLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueImageUpload));
   
-      //bucket.addEventNotification(s3.EventType.OBJECT_CREATED_PUT, new s3n.SqsDestination(sqsQueueImageUpload));
+      bucket.addEventNotification(s3.EventType.OBJECT_CREATED_PUT, new s3n.SqsDestination(sqsQueueImageUpload));
     }
   
 
