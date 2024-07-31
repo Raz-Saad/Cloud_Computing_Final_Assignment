@@ -503,6 +503,255 @@
               "version": "2.146.0"
             }
           },
+          "EmptyBucketFunction": {
+            "id": "EmptyBucketFunction",
+            "path": "SocialNetworkCdkStack/EmptyBucketFunction",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "SocialNetworkCdkStack/EmptyBucketFunction/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "SocialNetworkCdkStack/EmptyBucketFunction/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.146.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "SocialNetworkCdkStack/EmptyBucketFunction/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.146.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/EmptyBucketFunction/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+                      "s3Key": "cd822148d102e3843a0a097b7a066cc7d1e86b77cd3b644fc2b21162981c9f41.zip"
+                    },
+                    "handler": "empty-bucket-lambda.handler",
+                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "runtime": "nodejs20.x",
+                    "timeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.146.0"
+            }
+          },
+          "EmptyBucketResourceProvider-ImageStorage": {
+            "id": "EmptyBucketResourceProvider-ImageStorage",
+            "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-ImageStorage",
+            "children": {
+              "framework-onEvent": {
+                "id": "framework-onEvent",
+                "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-ImageStorage/framework-onEvent",
+                "children": {
+                  "Code": {
+                    "id": "Code",
+                    "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-ImageStorage/framework-onEvent/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-ImageStorage/framework-onEvent/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.146.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-ImageStorage/framework-onEvent/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.146.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.146.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-ImageStorage/framework-onEvent/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+                          "s3Key": "3542be390685e0c8353d92ccb5796d343cd93ca946b6b0de798004206a199adc.zip"
+                        },
+                        "description": "AWS CDK resource provider framework - onEvent (SocialNetworkCdkStack/EmptyBucketResourceProvider-ImageStorage)",
+                        "environment": {
+                          "variables": {
+                            "USER_ON_EVENT_FUNCTION_ARN": {
+                              "Fn::GetAtt": [
+                                "EmptyBucketFunctionE15B44A2",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        },
+                        "handler": "framework.onEvent",
+                        "role": "arn:aws:iam::361602391862:role/LabRole",
+                        "runtime": "nodejs20.x",
+                        "timeout": 900
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.custom_resources.Provider",
+              "version": "2.146.0"
+            }
+          },
+          "EmptyBucketResource-ImageStorage": {
+            "id": "EmptyBucketResource-ImageStorage",
+            "path": "SocialNetworkCdkStack/EmptyBucketResource-ImageStorage",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "SocialNetworkCdkStack/EmptyBucketResource-ImageStorage/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CustomResource",
+              "version": "2.146.0"
+            }
+          },
+          "EmptyBucketResourceProvider-PostsStorage": {
+            "id": "EmptyBucketResourceProvider-PostsStorage",
+            "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-PostsStorage",
+            "children": {
+              "framework-onEvent": {
+                "id": "framework-onEvent",
+                "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-PostsStorage/framework-onEvent",
+                "children": {
+                  "Code": {
+                    "id": "Code",
+                    "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-PostsStorage/framework-onEvent/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-PostsStorage/framework-onEvent/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.146.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-PostsStorage/framework-onEvent/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.146.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.146.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/EmptyBucketResourceProvider-PostsStorage/framework-onEvent/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+                          "s3Key": "3542be390685e0c8353d92ccb5796d343cd93ca946b6b0de798004206a199adc.zip"
+                        },
+                        "description": "AWS CDK resource provider framework - onEvent (SocialNetworkCdkStack/EmptyBucketResourceProvider-PostsStorage)",
+                        "environment": {
+                          "variables": {
+                            "USER_ON_EVENT_FUNCTION_ARN": {
+                              "Fn::GetAtt": [
+                                "EmptyBucketFunctionE15B44A2",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        },
+                        "handler": "framework.onEvent",
+                        "role": "arn:aws:iam::361602391862:role/LabRole",
+                        "runtime": "nodejs20.x",
+                        "timeout": 900
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.custom_resources.Provider",
+              "version": "2.146.0"
+            }
+          },
+          "EmptyBucketResource-PostsStorage": {
+            "id": "EmptyBucketResource-PostsStorage",
+            "path": "SocialNetworkCdkStack/EmptyBucketResource-PostsStorage",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "SocialNetworkCdkStack/EmptyBucketResource-PostsStorage/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CustomResource",
+              "version": "2.146.0"
+            }
+          },
           "ImageUploadQueue": {
             "id": "ImageUploadQueue",
             "path": "SocialNetworkCdkStack/ImageUploadQueue",
@@ -2211,7 +2460,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "2bc78a1022fbe15d9283a1e4bf1e9f60486794d49d1797c046ff76049a95d64e.zip"
+                      "s3Key": "41dd7f63e006bcf61de08f6c177623f19abb029e29d58cc119113831c7d4ab0d.zip"
                     },
                     "environment": {
                       "variables": {
@@ -2268,67 +2517,6 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda.Function",
-              "version": "2.146.0"
-            }
-          },
-          "S3SendMessagePolicy": {
-            "id": "S3SendMessagePolicy",
-            "path": "SocialNetworkCdkStack/S3SendMessagePolicy",
-            "attributes": {
-              "aws:cdk:cloudformation:type": "AWS::SQS::QueuePolicy",
-              "aws:cdk:cloudformation:props": {
-                "policyDocument": {
-                  "Version": "2012-10-17",
-                  "Id": {
-                    "Fn::Join": [
-                      "",
-                      [
-                        {
-                          "Fn::GetAtt": [
-                            "ImageUploadQueue828B2CCD",
-                            "Arn"
-                          ]
-                        },
-                        "/SQSDefaultPolicy"
-                      ]
-                    ]
-                  },
-                  "Statement": [
-                    {
-                      "Sid": "example-statement-ID",
-                      "Effect": "Allow",
-                      "Principal": {
-                        "AWS": "*"
-                      },
-                      "Action": "SQS:SendMessage",
-                      "Resource": {
-                        "Fn::GetAtt": [
-                          "ImageUploadQueue828B2CCD",
-                          "Arn"
-                        ]
-                      },
-                      "Condition": {
-                        "ArnLike": {
-                          "aws:SourceArn": {
-                            "Fn::GetAtt": [
-                              "PostsStorage00A69DB4",
-                              "Arn"
-                            ]
-                          }
-                        }
-                      }
-                    }
-                  ]
-                },
-                "queues": [
-                  {
-                    "Ref": "ImageUploadQueue828B2CCD"
-                  }
-                ]
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_sqs.CfnQueuePolicy",
               "version": "2.146.0"
             }
           },

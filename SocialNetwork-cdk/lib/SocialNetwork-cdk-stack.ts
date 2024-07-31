@@ -9,6 +9,7 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
+import * as cr from 'aws-cdk-lib/custom-resources';
 
 export class SocialNetworkCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -52,6 +53,12 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     // create an S3 bucket for storing user's images posts for further process
     const postsBucket = this.createBucket('PostsStorage',labRole);
 
+    // creates a Lambda function that empties an S3 bucket by deleting all objects within it
+    const emptyBucketFunction = this.createEmptyBucketLambda(labRole);
+    //assign emptyBucketFunction to the buckets
+    this.createCustomResource(emptyBucketFunction, profileImageBucket, labRole);
+    this.createCustomResource(emptyBucketFunction, postsBucket, labRole);
+
     // create a sqs queue that stores and pass s3 PUT event - user upload image to text for posting
     const sqsQueueImageUpload = this.createSQSQueue('ImageUploadQueue');
 
@@ -59,11 +66,11 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const sqsQueueTextractResult = this.createSQSQueue('TextractResultQueue');
 
     // creating lambdas functions
-    const registrationFunction = this.createLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc, profileImageBucket);
-    const getUserFunction = this.createLambdaFunction('GetUserFunction', 'lambdas/getUserById', labRole, table, vpc, profileImageBucket);
-    const deleteUserFunction = this.createLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, table, vpc, profileImageBucket);
-    const getPresignUrlForUplodingProfileImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, table, vpc, profileImageBucket);
-    const getPresignUrlForUplodingPostImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, table, vpc, postsBucket);
+    const registrationFunction = this.createApiLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc, profileImageBucket);
+    const getUserFunction = this.createApiLambdaFunction('GetUserFunction', 'lambdas/getUserById', labRole, table, vpc, profileImageBucket);
+    const deleteUserFunction = this.createApiLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, table, vpc, profileImageBucket);
+    const getPresignUrlForUplodingProfileImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, table, vpc, profileImageBucket);
+    const getPresignUrlForUplodingPostImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, table, vpc, postsBucket);
 
     // create an api gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
@@ -101,13 +108,8 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     // Add bucket notification to trigger SQS queue
     this.setupS3TriggerToSQS(postsBucket, sqsQueueImageUpload);
 
-    
-    // Add the policy to the SQS queue
-    this.addS3SendMessagePolicyToQueue(sqsQueueImageUpload, postsBucket.bucketArn);
     //const updateDb = this.createUpdateDBLambda('UpdateDBFunction', sqsQueue2);
 
-
-    
   }
 
   private createNatGatewayForPrivateSubnet(vpc: ec2.IVpc) {
@@ -195,7 +197,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     return table;
   }
 
-  private createLambdaFunction(id: string, path: string, labRole: iam.IRole, table: dynamodb.Table , vpc: cdk.aws_ec2.IVpc , Bucket: s3.Bucket) {
+  private createApiLambdaFunction(id: string, path: string, labRole: iam.IRole, table: dynamodb.Table , vpc: cdk.aws_ec2.IVpc , Bucket: s3.Bucket) {
     // Grant permissions to Lambda function
     table.grantReadWriteData(labRole);
     Bucket.grantReadWrite(labRole); // Grant permissions to the bucket
@@ -246,6 +248,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       );
     }
 
+    // trigger for s3 that triggers SQS
     private setupS3TriggerToSQS(bucket: s3.Bucket, queue: sqs.Queue) {
       bucket.addEventNotification(
         s3.EventType.OBJECT_CREATED,
@@ -279,35 +282,41 @@ export class SocialNetworkCdkStack extends cdk.Stack {
   
       textractLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueImageUpload));
       }
+
+      //Creates a Lambda function that empties an S3 bucket by deleting all objects within it
+      private createEmptyBucketLambda(labRole: iam.IRole)
+      {
+        // Create Lambda function
+        return new lambda.Function(this, 'EmptyBucketFunction', {
+          runtime: lambda.Runtime.NODEJS_20_X,
+          handler: 'empty-bucket-lambda.handler',
+          code: lambda.Code.fromAsset('lambdas/emptyBucket'),
+          role: labRole,
+          timeout: cdk.Duration.minutes(5),
+        });
+      }
+      
+      //Creates a custom resource that invokes the empty bucket Lambda function
+      private createCustomResource(emptyBucketFunction: lambda.Function, bucket: s3.Bucket, labRole: iam.IRole): void {
+        // Use a unique and static ID for the Provider
+        const providerId = `EmptyBucketResourceProvider-${bucket.node.id}`;
+        const resourceId = `EmptyBucketResource-${bucket.node.id}`;
+
+        const provider = new cr.Provider(this, providerId  , {
+          onEventHandler: emptyBucketFunction,
+          role: labRole,
+        });
+        
+        // Create Custom Resource with a static ID
+        new cdk.CustomResource(this, resourceId , {
+          serviceToken: provider.serviceToken,
+          properties: {
+            BucketName: bucket.bucketName,
+          },
+        });
+    
+        bucket.grantReadWrite(emptyBucketFunction);
+      }
   
-
-    private addS3SendMessagePolicyToQueue(queue: sqs.Queue, bucketArn: string) {
-      // Add policy to SQS queue to allow S3 to send messages
-      const policy = new sqs.CfnQueuePolicy(this, 'S3SendMessagePolicy', {
-        queues: [queue.queueUrl],
-        policyDocument: {
-          Version: "2012-10-17",
-          Id: `${queue.queueArn}/SQSDefaultPolicy`,
-          Statement: [
-            {
-              Sid: "example-statement-ID",
-              Effect: "Allow",
-              Principal: {
-                AWS: "*"
-              },
-              Action: "SQS:SendMessage",
-              Resource: queue.queueArn,
-              Condition: {
-                ArnLike: {
-                  "aws:SourceArn": bucketArn
-                }
-              }
-            }
-          ]
-        }
-      });
-    }
-
-
 
   }
