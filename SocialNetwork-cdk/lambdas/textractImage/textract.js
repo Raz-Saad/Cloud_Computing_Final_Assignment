@@ -11,14 +11,24 @@ exports.handler = async (event) => {
   const promises = event.Records.map(async (record) => {
     console.log('Processing record:', JSON.stringify(record, null, 2));
     
-    if (!record.s3) {
+    if (!record.body) {
       console.error('No s3 object in record:', record);
       return;
     }
+    
+    
+    // Parse the body to extract the bucket name and key
+    const body = JSON.parse(record.body);
+    const s3Record = body.Records[0].s3;
 
-    const bucket = record.s3.bucket.name;
-    const key = decodeURIComponent(record.s3.object.key.replace(/\+/g, ' '));
-
+    if (!s3Record) {
+      console.error('No s3 object in body:', record);
+      return;
+    }
+    
+    const bucket = s3Record.bucket.name;
+    const key = decodeURIComponent(s3Record.object.key.replace(/\+/g, ' '));
+    console.log(`bucket: ${bucket} and key ${key}`);
     // Only process images
     if (!key.endsWith('.jpg') && !key.endsWith('.png')) {
       console.log("Not an image. Skipping...");

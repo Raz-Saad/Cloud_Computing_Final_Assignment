@@ -64,12 +64,6 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const deleteUserFunction = this.createLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, table, vpc, profileImageBucket);
     const getPresignUrlForUplodingProfileImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, table, vpc, profileImageBucket);
     const getPresignUrlForUplodingPostImageFunction = this.createLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, table, vpc, postsBucket);
-    // Lambda function that gets called with a trigger
-    const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, table, profileImageBucket , vpc);
-    this.setupS3Trigger(profileImageBucket, updateProfilePictureFunction);
-    
-    const textractImageToText = this.createTextractLambda('TextractFunction', labRole , postsBucket, sqsQueueImageUpload, sqsQueueTextractResult);
-    //const updateDb = this.createUpdateDBLambda('UpdateDBFunction', sqsQueue2);
 
     // create an api gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
@@ -98,11 +92,21 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const getPresignUrlForUplodingPostImage = api.root.addResource('getPresignUrlForUplodingPostImage');
     getPresignUrlForUplodingPostImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingPostImageFunction));
 
-      // Add the policy to the SQS queue
-      this.addS3SendMessagePolicyToQueue(sqsQueueImageUpload, postsBucket.bucketArn);
+    // Lambda function that gets called with a trigger
+    const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, table, profileImageBucket , vpc);
+    this.setupS3TriggerToLambda(profileImageBucket, updateProfilePictureFunction);
+    
+    // create lambda for extract text from an image and pass the result to sqs called: sqsQueueTextractResult
+    this.createTextractLambda('TextractFunction', labRole , postsBucket, sqsQueueImageUpload, sqsQueueTextractResult);
+    // Add bucket notification to trigger SQS queue
+    this.setupS3TriggerToSQS(postsBucket, sqsQueueImageUpload);
 
-      // Add bucket notification to trigger SQS queue
-      //this.addBucketNotification(postsBucket, sqsQueueTextractResult);
+    
+    // Add the policy to the SQS queue
+    this.addS3SendMessagePolicyToQueue(sqsQueueImageUpload, postsBucket.bucketArn);
+    //const updateDb = this.createUpdateDBLambda('UpdateDBFunction', sqsQueue2);
+
+
     
   }
 
@@ -140,7 +144,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
   private createBucket(bucketname: string,labRole: iam.IRole) {
     // Create image storage bucket
     const bucket = new s3.Bucket(this, bucketname, {
-      removalPolicy: cdk.RemovalPolicy.RETAIN,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
       notificationsHandlerRole: labRole
     });
 
@@ -234,11 +238,18 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     }
     
     // trigger for s3 that triggers lambda function
-    private setupS3Trigger(bucket: s3.Bucket, lambdaFunction: lambda.IFunction) {
+    private setupS3TriggerToLambda(bucket: s3.Bucket, lambdaFunction: lambda.IFunction) {
       // Add S3 event notification to trigger the Lambda function
       bucket.addEventNotification(
         s3.EventType.OBJECT_CREATED,
         new s3n.LambdaDestination(lambdaFunction)
+      );
+    }
+
+    private setupS3TriggerToSQS(bucket: s3.Bucket, queue: sqs.Queue) {
+      bucket.addEventNotification(
+        s3.EventType.OBJECT_CREATED,
+        new s3n.SqsDestination(queue)
       );
     }
 
@@ -268,7 +279,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
   
       textractLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueImageUpload));
   
-      bucket.addEventNotification(s3.EventType.OBJECT_CREATED_PUT, new s3n.SqsDestination(sqsQueueImageUpload));
+      //bucket.addEventNotification(s3.EventType.OBJECT_CREATED_PUT, new s3n.SqsDestination(sqsQueueImageUpload));
     }
   
 
@@ -299,11 +310,6 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       });
     }
 
-    // private addBucketNotification(bucket: s3.Bucket, queue: sqs.Queue) {
-    //   bucket.addEventNotification(
-    //     s3.EventType.OBJECT_CREATED,
-    //     new s3n.SqsDestination(queue)
-    //   );
-    // }
+
 
   }
