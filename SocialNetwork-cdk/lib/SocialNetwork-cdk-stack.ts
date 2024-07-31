@@ -278,9 +278,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       }));
   
       textractLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueImageUpload));
-  
-      //bucket.addEventNotification(s3.EventType.OBJECT_CREATED_PUT, new s3n.SqsDestination(sqsQueueImageUpload));
-    }
+      }
   
 
     private addS3SendMessagePolicyToQueue(queue: sqs.Queue, bucketArn: string) {
