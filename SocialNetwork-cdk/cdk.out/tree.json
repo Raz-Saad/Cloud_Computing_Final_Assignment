@@ -249,6 +249,115 @@
               "version": "2.146.0"
             }
           },
+          "Posts": {
+            "id": "Posts",
+            "path": "SocialNetworkCdkStack/Posts",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/Posts/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "PostID",
+                        "attributeType": "S"
+                      },
+                      {
+                        "attributeName": "Username",
+                        "attributeType": "S"
+                      },
+                      {
+                        "attributeName": "Staging",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "globalSecondaryIndexes": [
+                      {
+                        "indexName": "UsernameIndex",
+                        "keySchema": [
+                          {
+                            "attributeName": "Username",
+                            "keyType": "HASH"
+                          }
+                        ],
+                        "projection": {
+                          "projectionType": "ALL"
+                        },
+                        "provisionedThroughput": {
+                          "readCapacityUnits": 1,
+                          "writeCapacityUnits": 1
+                        }
+                      },
+                      {
+                        "indexName": "StagingIndex",
+                        "keySchema": [
+                          {
+                            "attributeName": "Staging",
+                            "keyType": "HASH"
+                          }
+                        ],
+                        "projection": {
+                          "projectionType": "ALL"
+                        },
+                        "provisionedThroughput": {
+                          "readCapacityUnits": 1,
+                          "writeCapacityUnits": 1
+                        }
+                      },
+                      {
+                        "indexName": "UsernameStagingIndex",
+                        "keySchema": [
+                          {
+                            "attributeName": "Username",
+                            "keyType": "HASH"
+                          },
+                          {
+                            "attributeName": "Staging",
+                            "keyType": "RANGE"
+                          }
+                        ],
+                        "projection": {
+                          "projectionType": "ALL"
+                        },
+                        "provisionedThroughput": {
+                          "readCapacityUnits": 1,
+                          "writeCapacityUnits": 1
+                        }
+                      }
+                    ],
+                    "keySchema": [
+                      {
+                        "attributeName": "PostID",
+                        "keyType": "HASH"
+                      }
+                    ],
+                    "provisionedThroughput": {
+                      "readCapacityUnits": 1,
+                      "writeCapacityUnits": 1
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                  "version": "2.146.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "SocialNetworkCdkStack/Posts/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+              "version": "2.146.0"
+            }
+          },
           "ImageStorage": {
             "id": "ImageStorage",
             "path": "SocialNetworkCdkStack/ImageStorage",
@@ -541,9 +650,9 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "cd822148d102e3843a0a097b7a066cc7d1e86b77cd3b644fc2b21162981c9f41.zip"
+                      "s3Key": "4bf8aa3bdad367195f1976734a1e13165ff8626d287d80fe4efe4575d6e540d4.zip"
                     },
-                    "handler": "empty-bucket-lambda.handler",
+                    "handler": "index.handler",
                     "role": "arn:aws:iam::361602391862:role/LabRole",
                     "runtime": "nodejs20.x",
                     "timeout": 300
@@ -2460,7 +2569,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "41dd7f63e006bcf61de08f6c177623f19abb029e29d58cc119113831c7d4ab0d.zip"
+                      "s3Key": "a429b4f23554516a7b0dfbf409663789455417e976c871c0655d5183c062333e.zip"
                     },
                     "environment": {
                       "variables": {
@@ -2472,7 +2581,7 @@
                         }
                       }
                     },
-                    "handler": "textract.handler",
+                    "handler": "index.handler",
                     "role": "arn:aws:iam::361602391862:role/LabRole",
                     "runtime": "nodejs20.x"
                   }
@@ -2500,6 +2609,101 @@
                         },
                         "functionName": {
                           "Ref": "TextractFunction6DF7C8EE"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnEventSourceMapping",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.EventSourceMapping",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.146.0"
+            }
+          },
+          "StorePostFromSQStoDb": {
+            "id": "StorePostFromSQStoDb",
+            "path": "SocialNetworkCdkStack/StorePostFromSQStoDb",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "SocialNetworkCdkStack/StorePostFromSQStoDb/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "SocialNetworkCdkStack/StorePostFromSQStoDb/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.146.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "SocialNetworkCdkStack/StorePostFromSQStoDb/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.146.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/StorePostFromSQStoDb/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+                      "s3Key": "9a54a5793ac8078b8c690c5e9f23cd87c6fff5ba81a217cdcaca2bf44dbeddee.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "POSTS_TABLE_NAME": {
+                          "Ref": "Posts868B3EAD"
+                        }
+                      }
+                    },
+                    "handler": "index.handler",
+                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "runtime": "nodejs20.x"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.146.0"
+                }
+              },
+              "SqsEventSource:SocialNetworkCdkStackTextractResultQueue24FEC1B7": {
+                "id": "SqsEventSource:SocialNetworkCdkStackTextractResultQueue24FEC1B7",
+                "path": "SocialNetworkCdkStack/StorePostFromSQStoDb/SqsEventSource:SocialNetworkCdkStackTextractResultQueue24FEC1B7",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/StorePostFromSQStoDb/SqsEventSource:SocialNetworkCdkStackTextractResultQueue24FEC1B7/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                      "aws:cdk:cloudformation:props": {
+                        "eventSourceArn": {
+                          "Fn::GetAtt": [
+                            "TextractResultQueue3C564822",
+                            "Arn"
+                          ]
+                        },
+                        "functionName": {
+                          "Ref": "StorePostFromSQStoDb72F4D63C"
                         }
                       }
                     },

@@ -45,13 +45,15 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     this.createNatGatewayForPrivateSubnet(vpc);
 
     //creating a Dynamo DB Table for storing user's data
-    const table = this.createDynamoDBTable();
+    const usersTable = this.createDynamoDBTable();
+    //creating a Dynamo DB Table for storing Posts data
+    const postsTable = this.createPostsTable();
 
     // create an S3 bucket for storing user's profile picture
-    const profileImageBucket = this.createBucket('ImageStorage',labRole);
+    const profileImageBucket = this.createBucket('ImageStorage', labRole);
 
     // create an S3 bucket for storing user's images posts for further process
-    const postsBucket = this.createBucket('PostsStorage',labRole);
+    const postsBucket = this.createBucket('PostsStorage', labRole);
 
     // creates a Lambda function that empties an S3 bucket by deleting all objects within it
     const emptyBucketFunction = this.createEmptyBucketLambda(labRole);
@@ -66,11 +68,11 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const sqsQueueTextractResult = this.createSQSQueue('TextractResultQueue');
 
     // creating lambdas functions
-    const registrationFunction = this.createApiLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, table, vpc, profileImageBucket);
-    const getUserFunction = this.createApiLambdaFunction('GetUserFunction', 'lambdas/getUserById', labRole, table, vpc, profileImageBucket);
-    const deleteUserFunction = this.createApiLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, table, vpc, profileImageBucket);
-    const getPresignUrlForUplodingProfileImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, table, vpc, profileImageBucket);
-    const getPresignUrlForUplodingPostImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, table, vpc, postsBucket);
+    const registrationFunction = this.createApiLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, usersTable, vpc, profileImageBucket);
+    const getUserFunction = this.createApiLambdaFunction('GetUserFunction', 'lambdas/getUserById', labRole, usersTable, vpc, profileImageBucket);
+    const deleteUserFunction = this.createApiLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, usersTable, vpc, profileImageBucket);
+    const getPresignUrlForUplodingProfileImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, usersTable, vpc, profileImageBucket);
+    const getPresignUrlForUplodingPostImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, usersTable, vpc, postsBucket);
 
     // create an api gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
@@ -100,15 +102,17 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     getPresignUrlForUplodingPostImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingPostImageFunction));
 
     // Lambda function that gets called with a trigger
-    const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, table, profileImageBucket , vpc);
+    const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, usersTable, profileImageBucket, vpc);
     this.setupS3TriggerToLambda(profileImageBucket, updateProfilePictureFunction);
-    
+
     // create lambda for extract text from an image and pass the result to sqs called: sqsQueueTextractResult
-    this.createTextractLambda('TextractFunction', labRole , postsBucket, sqsQueueImageUpload, sqsQueueTextractResult);
+    this.createTextractLambda('TextractFunction', labRole, postsBucket, sqsQueueImageUpload, sqsQueueTextractResult);
+
+    // create lambda for inserting data coming from SQS (TextractLambda) to postsTable DB
+    this.createTextractResultLambda('StorePostFromSQStoDb', labRole, sqsQueueTextractResult, postsTable);
+
     // Add bucket notification to trigger SQS queue
     this.setupS3TriggerToSQS(postsBucket, sqsQueueImageUpload);
-
-    //const updateDb = this.createUpdateDBLambda('UpdateDBFunction', sqsQueue2);
 
   }
 
@@ -143,7 +147,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     });
   }
 
-  private createBucket(bucketname: string,labRole: iam.IRole) {
+  private createBucket(bucketname: string, labRole: iam.IRole) {
     // Create image storage bucket
     const bucket = new s3.Bucket(this, bucketname, {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
@@ -154,7 +158,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     bucket.addToResourcePolicy(
       new iam.PolicyStatement({
         resources: [
-          bucket.arnForObjects("*"), 
+          bucket.arnForObjects("*"),
           bucket.bucketArn,
         ],
         actions: ["s3:List*", "s3:Get*", "s3:PutObject", "s3:DeleteObject"],
@@ -185,7 +189,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       partitionKey: { name: 'UserName', type: dynamodb.AttributeType.STRING },
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PROVISIONED,
-      readCapacity: 1, 
+      readCapacity: 1,
       writeCapacity: 1,
     });
 
@@ -197,13 +201,50 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     return table;
   }
 
-  private createApiLambdaFunction(id: string, path: string, labRole: iam.IRole, table: dynamodb.Table , vpc: cdk.aws_ec2.IVpc , Bucket: s3.Bucket) {
+  private createPostsTable() {
+    const postsTable = new dynamodb.Table(this, 'Posts', {
+      partitionKey: { name: 'PostID', type: dynamodb.AttributeType.STRING },
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      billingMode: dynamodb.BillingMode.PROVISIONED,
+      readCapacity: 1,
+      writeCapacity: 1,
+    });
+
+    postsTable.addGlobalSecondaryIndex({
+      indexName: 'UsernameIndex',
+      partitionKey: { name: 'Username', type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.ALL,
+      readCapacity: 1,
+      writeCapacity: 1,
+    });
+
+    postsTable.addGlobalSecondaryIndex({
+      indexName: 'StagingIndex',
+      partitionKey: { name: 'Staging', type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.ALL,
+      readCapacity: 1,
+      writeCapacity: 1,
+    });
+
+    postsTable.addGlobalSecondaryIndex({
+      indexName: 'UsernameStagingIndex',
+      partitionKey: { name: 'Username', type: dynamodb.AttributeType.STRING },
+      sortKey: { name: 'Staging', type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.ALL,
+      readCapacity: 1,
+      writeCapacity: 1,
+    });
+
+    return postsTable;
+  }
+
+  private createApiLambdaFunction(id: string, path: string, labRole: iam.IRole, table: dynamodb.Table, vpc: cdk.aws_ec2.IVpc, Bucket: s3.Bucket) {
     // Grant permissions to Lambda function
     table.grantReadWriteData(labRole);
     Bucket.grantReadWrite(labRole); // Grant permissions to the bucket
-    
+
     // Create Lambda function
-      return new lambda.Function(this, id, {
+    return new lambda.Function(this, id, {
       runtime: lambda.Runtime.NODEJS_20_X,
       handler: 'index.handler',
       code: lambda.Code.fromAsset(path),
@@ -213,110 +254,127 @@ export class SocialNetworkCdkStack extends cdk.Stack {
         IMAGE_BUCKET_NAME: Bucket.bucketName,
       },
       vpc: vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS},
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
     });
 
-    }
-
-    // lambda for updating DB with user's profile picture
-    private createUpdateProfilePictureFunction(labRole: iam.IRole, table: dynamodb.Table, Bucket: s3.Bucket , vpc: cdk.aws_ec2.IVpc) {
-      // Grant permissions to Lambda function
-      table.grantReadWriteData(labRole);
-      Bucket.grantRead(labRole); // Grant read permissions to the bucket
-  
-      // Create Lambda function
-      return new lambda.Function(this, 'UpdateProfilePictureFunction', {
-        runtime: lambda.Runtime.NODEJS_20_X,
-        handler: 'index.handler',
-        code: lambda.Code.fromAsset('lambdas/updateProfilePicture'),
-        role: labRole,
-        environment: {
-          TABLE_NAME: table.tableName,
-          IMAGE_BUCKET_NAME: Bucket.bucketName,
-        },
-        vpc: vpc,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS},
-      });
-    }
-    
-    // trigger for s3 that triggers lambda function
-    private setupS3TriggerToLambda(bucket: s3.Bucket, lambdaFunction: lambda.IFunction) {
-      // Add S3 event notification to trigger the Lambda function
-      bucket.addEventNotification(
-        s3.EventType.OBJECT_CREATED,
-        new s3n.LambdaDestination(lambdaFunction)
-      );
-    }
-
-    // trigger for s3 that triggers SQS
-    private setupS3TriggerToSQS(bucket: s3.Bucket, queue: sqs.Queue) {
-      bucket.addEventNotification(
-        s3.EventType.OBJECT_CREATED,
-        new s3n.SqsDestination(queue)
-      );
-    }
-
-
-    private createTextractLambda(functionName: string, labRole: iam.IRole, bucket: s3.Bucket, sqsQueueImageUpload: sqs.Queue, sqsQueueTextractResult: sqs.Queue) {
-      bucket.grantRead(labRole); // Grant read permissions to the bucket
-      
-      const textractLambda = new lambda.Function(this, functionName, {
-        runtime: lambda.Runtime.NODEJS_20_X,
-        handler: 'textract.handler',
-        code: lambda.Code.fromAsset('lambdas/textractImage'),
-        role: labRole,
-        environment: {
-          BUCKET_NAME: bucket.bucketName,
-          OUTPUT_QUEUE_URL: sqsQueueTextractResult.queueUrl,
-        },
-      });
-  
-      bucket.grantRead(textractLambda);
-      sqsQueueImageUpload.grantConsumeMessages(textractLambda);
-      sqsQueueTextractResult.grantSendMessages(textractLambda);
-  
-      textractLambda.addToRolePolicy(new iam.PolicyStatement({
-        actions: ['textract:*'],
-        resources: ['*'],
-      }));
-  
-      textractLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueImageUpload));
-      }
-
-      //Creates a Lambda function that empties an S3 bucket by deleting all objects within it
-      private createEmptyBucketLambda(labRole: iam.IRole)
-      {
-        // Create Lambda function
-        return new lambda.Function(this, 'EmptyBucketFunction', {
-          runtime: lambda.Runtime.NODEJS_20_X,
-          handler: 'empty-bucket-lambda.handler',
-          code: lambda.Code.fromAsset('lambdas/emptyBucket'),
-          role: labRole,
-          timeout: cdk.Duration.minutes(5),
-        });
-      }
-      
-      //Creates a custom resource that invokes the empty bucket Lambda function
-      private createCustomResource(emptyBucketFunction: lambda.Function, bucket: s3.Bucket, labRole: iam.IRole): void {
-        // Use a unique and static ID for the Provider
-        const providerId = `EmptyBucketResourceProvider-${bucket.node.id}`;
-        const resourceId = `EmptyBucketResource-${bucket.node.id}`;
-
-        const provider = new cr.Provider(this, providerId  , {
-          onEventHandler: emptyBucketFunction,
-          role: labRole,
-        });
-        
-        // Create Custom Resource with a static ID
-        new cdk.CustomResource(this, resourceId , {
-          serviceToken: provider.serviceToken,
-          properties: {
-            BucketName: bucket.bucketName,
-          },
-        });
-    
-        bucket.grantReadWrite(emptyBucketFunction);
-      }
-  
-
   }
+
+  // lambda for updating DB with user's profile picture
+  private createUpdateProfilePictureFunction(labRole: iam.IRole, table: dynamodb.Table, Bucket: s3.Bucket, vpc: cdk.aws_ec2.IVpc) {
+    // Grant permissions to Lambda function
+    table.grantReadWriteData(labRole);
+    Bucket.grantRead(labRole); // Grant read permissions to the bucket
+
+    // Create Lambda function
+    return new lambda.Function(this, 'UpdateProfilePictureFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'index.handler',
+      code: lambda.Code.fromAsset('lambdas/updateProfilePicture'),
+      role: labRole,
+      environment: {
+        TABLE_NAME: table.tableName,
+        IMAGE_BUCKET_NAME: Bucket.bucketName,
+      },
+      vpc: vpc,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+    });
+  }
+
+  // trigger for s3 that triggers lambda function
+  private setupS3TriggerToLambda(bucket: s3.Bucket, lambdaFunction: lambda.IFunction) {
+    // Add S3 event notification to trigger the Lambda function
+    bucket.addEventNotification(
+      s3.EventType.OBJECT_CREATED,
+      new s3n.LambdaDestination(lambdaFunction)
+    );
+  }
+
+  // trigger for s3 that triggers SQS
+  private setupS3TriggerToSQS(bucket: s3.Bucket, queue: sqs.Queue) {
+    bucket.addEventNotification(
+      s3.EventType.OBJECT_CREATED,
+      new s3n.SqsDestination(queue)
+    );
+  }
+
+
+  private createTextractLambda(functionName: string, labRole: iam.IRole, bucket: s3.Bucket, sqsQueueImageUpload: sqs.Queue, sqsQueueTextractResult: sqs.Queue) {
+    bucket.grantRead(labRole); // Grant read permissions to the bucket
+
+    const textractLambda = new lambda.Function(this, functionName, {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'index.handler',
+      code: lambda.Code.fromAsset('lambdas/textractImage'),
+      role: labRole,
+      environment: {
+        BUCKET_NAME: bucket.bucketName,
+        OUTPUT_QUEUE_URL: sqsQueueTextractResult.queueUrl,
+      },
+    });
+
+    bucket.grantRead(textractLambda);
+    sqsQueueImageUpload.grantConsumeMessages(textractLambda);
+    sqsQueueTextractResult.grantSendMessages(textractLambda);
+
+    textractLambda.addToRolePolicy(new iam.PolicyStatement({
+      actions: ['textract:*'],
+      resources: ['*'],
+    }));
+
+    textractLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueImageUpload));
+  }
+
+
+  private createTextractResultLambda(functionName: string, labRole: iam.IRole, sqsQueueTextractResult: sqs.IQueue, postsTable: dynamodb.Table) {
+
+    const textractResultLambda = new lambda.Function(this, functionName, {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'index.handler',
+      code: lambda.Code.fromAsset('lambdas/storePostFromSQStoDb'),
+      role: labRole,
+      environment: {
+        POSTS_TABLE_NAME: postsTable.tableName,
+      },
+    });
+
+    sqsQueueTextractResult.grantConsumeMessages(textractResultLambda);
+    postsTable.grantWriteData(textractResultLambda);
+    textractResultLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueTextractResult));
+  }
+
+  //Creates a Lambda function that empties an S3 bucket by deleting all objects within it
+  private createEmptyBucketLambda(labRole: iam.IRole) {
+    // Create Lambda function
+    return new lambda.Function(this, 'EmptyBucketFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'index.handler',
+      code: lambda.Code.fromAsset('lambdas/emptyBucket'),
+      role: labRole,
+      timeout: cdk.Duration.minutes(5),
+    });
+  }
+
+  //Creates a custom resource that invokes the empty bucket Lambda function
+  private createCustomResource(emptyBucketFunction: lambda.Function, bucket: s3.Bucket, labRole: iam.IRole): void {
+    // Use a unique and static ID for the Provider
+    const providerId = `EmptyBucketResourceProvider-${bucket.node.id}`;
+    const resourceId = `EmptyBucketResource-${bucket.node.id}`;
+
+    const provider = new cr.Provider(this, providerId, {
+      onEventHandler: emptyBucketFunction,
+      role: labRole,
+    });
+
+    // Create Custom Resource with a static ID
+    new cdk.CustomResource(this, resourceId, {
+      serviceToken: provider.serviceToken,
+      properties: {
+        BucketName: bucket.bucketName,
+      },
+    });
+
+    bucket.grantReadWrite(emptyBucketFunction);
+  }
+
+
+}

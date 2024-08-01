@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/f666f502416e131921667957b48bb506e8612dab153a366a62d4835dcc26967f.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/d7c2981f2566d1eddce5d5ba2d7b700d6ccd9bb5d89369ebe587bb746f296e67.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -88,6 +88,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "Users0A0EEA89"
+          }
+        ],
+        "/SocialNetworkCdkStack/Posts/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Posts868B3EAD"
           }
         ],
         "/SocialNetworkCdkStack/ImageStorage/Resource": [
@@ -430,6 +436,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "TextractFunctionSqsEventSourceSocialNetworkCdkStackImageUploadQueueD2C5024A58297646"
+          }
+        ],
+        "/SocialNetworkCdkStack/StorePostFromSQStoDb/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StorePostFromSQStoDb72F4D63C"
+          }
+        ],
+        "/SocialNetworkCdkStack/StorePostFromSQStoDb/SqsEventSource:SocialNetworkCdkStackTextractResultQueue24FEC1B7/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StorePostFromSQStoDbSqsEventSourceSocialNetworkCdkStackTextractResultQueue24FEC1B7042376E2"
           }
         ],
         "/SocialNetworkCdkStack/CDKMetadata/Default": [
