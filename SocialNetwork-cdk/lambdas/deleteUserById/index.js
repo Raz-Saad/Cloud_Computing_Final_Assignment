@@ -3,7 +3,7 @@
 const { DynamoDBClient, DeleteItemCommand, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const { S3Client, ListObjectsV2Command, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
 
-// environment variable 
+// Environment variables
 const TABLE_NAME = process.env.TABLE_NAME;
 const AWS_REGION = process.env.AWS_REGION;
 const BUCKET_NAME = process.env.IMAGE_BUCKET_NAME;
@@ -21,7 +21,12 @@ exports.handler = async function(event) {
   if (username == null) {
     return {
       statusCode: 400,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",  // Allow from all origins
+        "Access-Control-Allow-Methods": "DELETE, OPTIONS", // Updated to allow DELETE method
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: "Missing username parameter" }),
     };
   }
@@ -32,7 +37,12 @@ exports.handler = async function(event) {
     if (!existingUser) {
       return {
         statusCode: 404,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",  // Allow from all origins
+          "Access-Control-Allow-Methods": "DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        },
         body: JSON.stringify({ message: `User '${username}' not found` }),
       };
     }
@@ -56,14 +66,24 @@ exports.handler = async function(event) {
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",  // Allow from all origins
+        "Access-Control-Allow-Methods": "DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: `User '${username}' deleted successfully` }),
     };
   } catch (error) {
     console.error("Error processing request:", error);
     return {
       statusCode: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",  // Allow from all origins
+        "Access-Control-Allow-Methods": "DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: "Internal server error" }),
     };
   }
@@ -116,4 +136,5 @@ async function deleteObjectsInFolder(folderPath, objects) {
     throw new Error("Error deleting objects in folder");
   }
 }
+
 

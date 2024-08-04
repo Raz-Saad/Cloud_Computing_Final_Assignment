@@ -69,8 +69,8 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     // creating lambdas functions
     const registrationFunction = this.createApiLambdaFunction('RegistrationFunction', 'lambdas/registration', labRole, usersTable, vpc, profileImageBucket);
-    const getUserFunction = this.createApiLambdaFunction('GetUserFunction', 'lambdas/getUserById', labRole, usersTable, vpc, profileImageBucket);
-    const deleteUserFunction = this.createApiLambdaFunction('DeleteUserFunction', 'lambdas/deleteUserById', labRole, usersTable, vpc, profileImageBucket);
+    const getUserFunction = this.createApiLambdaFunction('GetUserByIdFunction', 'lambdas/getUserById', labRole, usersTable, vpc, profileImageBucket);
+    const deleteUserFunction = this.createApiLambdaFunction('DeleteUserByIdFunction', 'lambdas/deleteUserById', labRole, usersTable, vpc, profileImageBucket);
     const getPresignUrlForUplodingProfileImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, usersTable, vpc, profileImageBucket);
     const getPresignUrlForUplodingPostImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, usersTable, vpc, postsBucket);
 

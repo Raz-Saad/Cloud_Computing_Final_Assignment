@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/23378873110cf088e92e74c76d23e07f21c8f7743c80953503ff306f83fc2ff0.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/0a0473843bdcfdf4cd4fa4b86b4481537a38327d32f9cace2686847b9c8dbf1d.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -267,7 +267,7 @@
         "/SocialNetworkCdkStack/SocialNetworkApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SocialNetworkApiDeploymentA74B3F222ece8e00d9fbf4060331eaebd605127f"
+            "data": "SocialNetworkApiDeploymentA74B3F225f252062d96ee17fbfd65cf5e090a427"
           }
         ],
         "/SocialNetworkCdkStack/SocialNetworkApi/DeploymentStage.prod/Resource": [
@@ -282,10 +282,22 @@
             "data": "SocialNetworkApiEndpointE7682DC6"
           }
         ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiOPTIONS21B14C08"
+          }
+        ],
         "/SocialNetworkCdkStack/SocialNetworkApi/Default/registration/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "SocialNetworkApiregistration36768A6D"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/registration/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiregistrationOPTIONS680D2FB4"
           }
         ],
         "/SocialNetworkCdkStack/SocialNetworkApi/Default/registration/POST/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..registration": [
@@ -312,6 +324,12 @@
             "data": "SocialNetworkApigetUser1CD8563F"
           }
         ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetUserOPTIONS78535673"
+          }
+        ],
         "/SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getUser": [
           {
             "type": "aws:cdk:logicalId",
@@ -334,6 +352,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "SocialNetworkApideleteUserCFD79263"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApideleteUserOPTIONS22904A0C"
           }
         ],
         "/SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/DELETE/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.DELETE..deleteUser": [
@@ -360,6 +384,12 @@
             "data": "SocialNetworkApigetPresignUrlForUplodingProfileImageECBD9743"
           }
         ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetPresignUrlForUplodingProfileImageOPTIONS7F147F2F"
+          }
+        ],
         "/SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingProfileImage": [
           {
             "type": "aws:cdk:logicalId",
@@ -382,6 +412,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "SocialNetworkApigetPresignUrlForUplodingPostImageD0895DD3"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetPresignUrlForUplodingPostImageOPTIONSC92E7565"
           }
         ],
         "/SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForUplodingPostImage": [

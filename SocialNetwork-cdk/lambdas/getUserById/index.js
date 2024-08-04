@@ -3,7 +3,7 @@
 const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const { unmarshall } = require("@aws-sdk/util-dynamodb");
 
-// environment variable 
+// Environment variables
 const TABLE_NAME = process.env.TABLE_NAME;
 const AWS_REGION = process.env.AWS_REGION;
 
@@ -19,7 +19,12 @@ exports.handler = async function(event) {
   if (username == null) {
     return {
       statusCode: 400,
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",  // Allow from all origins
+        "Access-Control-Allow-Methods": "GET, OPTIONS", // Updated to allow GET method
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: "Missing username parameter" }),
     };
   }
@@ -40,7 +45,12 @@ exports.handler = async function(event) {
     if (!data.Item) {
       return {
         statusCode: 404,
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",  // Allow from all origins
+          "Access-Control-Allow-Methods": "GET, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        },
         body: JSON.stringify({ message: "User not found" }),
       };
     }
@@ -54,14 +64,24 @@ exports.handler = async function(event) {
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",  // Allow from all origins
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ username: UserName, email: Email, fullname: FullName }),
     };
   } catch (error) {
     console.error("Error retrieving user:", error);
     return {
       statusCode: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",  // Allow from all origins
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: "Internal server error" }),
     };
   }

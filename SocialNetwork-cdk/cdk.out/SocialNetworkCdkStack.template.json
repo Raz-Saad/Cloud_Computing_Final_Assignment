@@ -952,7 +952,7 @@
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Resource"
    }
   },
-  "SocialNetworkApiDeploymentA74B3F222ece8e00d9fbf4060331eaebd605127f": {
+  "SocialNetworkApiDeploymentA74B3F225f252062d96ee17fbfd65cf5e090a427": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -962,13 +962,19 @@
    },
    "DependsOn": [
     "SocialNetworkApideleteUserDELETE3193D5E6",
+    "SocialNetworkApideleteUserOPTIONS22904A0C",
     "SocialNetworkApideleteUserCFD79263",
     "SocialNetworkApigetPresignUrlForUplodingPostImageGET97DC1964",
+    "SocialNetworkApigetPresignUrlForUplodingPostImageOPTIONSC92E7565",
     "SocialNetworkApigetPresignUrlForUplodingPostImageD0895DD3",
     "SocialNetworkApigetPresignUrlForUplodingProfileImageGET263376DB",
+    "SocialNetworkApigetPresignUrlForUplodingProfileImageOPTIONS7F147F2F",
     "SocialNetworkApigetPresignUrlForUplodingProfileImageECBD9743",
     "SocialNetworkApigetUserGETEF6541CD",
+    "SocialNetworkApigetUserOPTIONS78535673",
     "SocialNetworkApigetUser1CD8563F",
+    "SocialNetworkApiOPTIONS21B14C08",
+    "SocialNetworkApiregistrationOPTIONS680D2FB4",
     "SocialNetworkApiregistrationPOST127123FF",
     "SocialNetworkApiregistration36768A6D"
    ],
@@ -980,7 +986,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "SocialNetworkApiDeploymentA74B3F222ece8e00d9fbf4060331eaebd605127f"
+     "Ref": "SocialNetworkApiDeploymentA74B3F225f252062d96ee17fbfd65cf5e090a427"
     },
     "RestApiId": {
      "Ref": "SocialNetworkApiACB67AB1"
@@ -989,6 +995,52 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "SocialNetworkApiOPTIONS21B14C08": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "SocialNetworkApiACB67AB1",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/OPTIONS/Resource"
    }
   },
   "SocialNetworkApiregistration36768A6D": {
@@ -1007,6 +1059,49 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/registration/Resource"
+   }
+  },
+  "SocialNetworkApiregistrationOPTIONS680D2FB4": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SocialNetworkApiregistration36768A6D"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/registration/OPTIONS/Resource"
    }
   },
   "SocialNetworkApiregistrationPOSTApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9POSTregistration1B009A35": {
@@ -1093,6 +1188,14 @@
       ]
      }
     },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Origin": true
+      },
+      "StatusCode": "200"
+     }
+    ],
     "ResourceId": {
      "Ref": "SocialNetworkApiregistration36768A6D"
     },
@@ -1120,6 +1223,49 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/Resource"
+   }
+  },
+  "SocialNetworkApigetUserOPTIONS78535673": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SocialNetworkApigetUser1CD8563F"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getUser/OPTIONS/Resource"
    }
   },
   "SocialNetworkApigetUserGETApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetUser0B73CDFA": {
@@ -1206,6 +1352,14 @@
       ]
      }
     },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Origin": true
+      },
+      "StatusCode": "200"
+     }
+    ],
     "ResourceId": {
      "Ref": "SocialNetworkApigetUser1CD8563F"
     },
@@ -1233,6 +1387,49 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/Resource"
+   }
+  },
+  "SocialNetworkApideleteUserOPTIONS22904A0C": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SocialNetworkApideleteUserCFD79263"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/deleteUser/OPTIONS/Resource"
    }
   },
   "SocialNetworkApideleteUserDELETEApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9DELETEdeleteUser4FEA608B": {
@@ -1319,6 +1516,14 @@
       ]
      }
     },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Origin": true
+      },
+      "StatusCode": "200"
+     }
+    ],
     "ResourceId": {
      "Ref": "SocialNetworkApideleteUserCFD79263"
     },
@@ -1346,6 +1551,49 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/Resource"
+   }
+  },
+  "SocialNetworkApigetPresignUrlForUplodingProfileImageOPTIONS7F147F2F": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SocialNetworkApigetPresignUrlForUplodingProfileImageECBD9743"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingProfileImage/OPTIONS/Resource"
    }
   },
   "SocialNetworkApigetPresignUrlForUplodingProfileImageGETApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetPresignUrlForUplodingProfileImage62CB0C98": {
@@ -1432,6 +1680,14 @@
       ]
      }
     },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Origin": true
+      },
+      "StatusCode": "200"
+     }
+    ],
     "ResourceId": {
      "Ref": "SocialNetworkApigetPresignUrlForUplodingProfileImageECBD9743"
     },
@@ -1459,6 +1715,49 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage/Resource"
+   }
+  },
+  "SocialNetworkApigetPresignUrlForUplodingPostImageOPTIONSC92E7565": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SocialNetworkApigetPresignUrlForUplodingPostImageD0895DD3"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForUplodingPostImage/OPTIONS/Resource"
    }
   },
   "SocialNetworkApigetPresignUrlForUplodingPostImageGETApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetPresignUrlForUplodingPostImage793BC119": {
@@ -1545,6 +1844,14 @@
       ]
      }
     },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Origin": true
+      },
+      "StatusCode": "200"
+     }
+    ],
     "ResourceId": {
      "Ref": "SocialNetworkApigetPresignUrlForUplodingPostImageD0895DD3"
     },
@@ -1721,7 +2028,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VRy27DIBD8lt4JTdLHPXHTqIe0rt17hPE6JbHBZZdEluV/rwDnUfXCzszCamaZ89njM5/eiRNOZHmY1KrgfU5CHlgGaJyVwMQJtz3IOe+TSq/eUpZU+l3QWhCcROdZZhzBlyhquDAPcldooGtzgWikEqSMZjlIZxV1a2tcGy7fCgMrOy0aUxa8v8wNYGD4wPulkwcgL44oltTUSnZXeeSRLAXCwGrRFKUIUVKwjUL0bl6dlsFWUukLXh1BUx52sBFtq/TOt/+r3tJWIAIhX/jC8Ad5/+nABd8RhPNq8IYOTLRqF7fJ+wyQFq0KixzhC7S16RrQIfENy0ns4qYDOP+YT3r9vjgo4g3Qtym9FNEw/Gknlf5w1DpiIYef6lNLh2SarR2vIU+tOaoSLEtC5/x+YNqUwPd4f5xP+eyJz+72qNTEOk2qAZ7F+gsM2Xz7dAIAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2WRTW+DMAyGf8vuadZ2H/eWddUO3RjsXpngdmkhYdhphRD/fUpgFGmX+HntyHptL+Xi8VnO7+BKM5WfZ4XOZJsyqLNIkKyrFQq40r5FtZRtdDCbt1hEB/MOvAXGKzReJdYxfkFW4Kg8pC4zyLfiisgqDaytESkqV2tutrV1Vfg8TXQibwyUNs9kO/YN0Al6kO3aqTOyTw7Uh9gWWjW39KB7sQbCThRQZjmEUWKsS03k3bw6o4Kt6GBG3lzQcBp2sIOq0uboy/+z3tIeiJBJrnwQ9EOy/XTogu8ewnszOJGdgEof+23KNkHiVaXDIgd8waqwTYkmTDxRKcOx33SAv4v5ScUO+dvmvjjQeM++c+CumyrPH44rxyLM4bv6qZUjtuW+Hr6RjGt70TnWIgqVsZswNkd5ovvLci4XT3JxdyKtZ7UzrEuUSR9/AaKBxfl0AgAA"
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/CDKMetadata/Default"
