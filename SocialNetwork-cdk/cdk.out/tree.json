@@ -367,7 +367,26 @@
                 "path": "SocialNetworkCdkStack/ImageStorage/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
-                  "aws:cdk:cloudformation:props": {}
+                  "aws:cdk:cloudformation:props": {
+                    "corsConfiguration": {
+                      "corsRules": [
+                        {
+                          "allowedHeaders": [
+                            "*"
+                          ],
+                          "allowedMethods": [
+                            "GET",
+                            "PUT",
+                            "POST"
+                          ],
+                          "allowedOrigins": [
+                            "*"
+                          ],
+                          "exposedHeaders": []
+                        }
+                      ]
+                    }
+                  }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
@@ -457,16 +476,16 @@
                   "version": "10.3.0"
                 }
               },
-              "AllowBucketNotificationsToSocialNetworkCdkStackUpdateProfilePictureFunction77137028": {
-                "id": "AllowBucketNotificationsToSocialNetworkCdkStackUpdateProfilePictureFunction77137028",
-                "path": "SocialNetworkCdkStack/ImageStorage/AllowBucketNotificationsToSocialNetworkCdkStackUpdateProfilePictureFunction77137028",
+              "AllowBucketNotificationsToSocialNetworkCdkStackupdateDBProfilePictureFunction0C61FED1": {
+                "id": "AllowBucketNotificationsToSocialNetworkCdkStackupdateDBProfilePictureFunction0C61FED1",
+                "path": "SocialNetworkCdkStack/ImageStorage/AllowBucketNotificationsToSocialNetworkCdkStackupdateDBProfilePictureFunction0C61FED1",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                   "aws:cdk:cloudformation:props": {
                     "action": "lambda:InvokeFunction",
                     "functionName": {
                       "Fn::GetAtt": [
-                        "UpdateProfilePictureFunction78295F9B",
+                        "updateDBProfilePictureFunction4F2F4DA1",
                         "Arn"
                       ]
                     },
@@ -508,7 +527,26 @@
                 "path": "SocialNetworkCdkStack/PostsStorage/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
-                  "aws:cdk:cloudformation:props": {}
+                  "aws:cdk:cloudformation:props": {
+                    "corsConfiguration": {
+                      "corsRules": [
+                        {
+                          "allowedHeaders": [
+                            "*"
+                          ],
+                          "allowedMethods": [
+                            "GET",
+                            "PUT",
+                            "POST"
+                          ],
+                          "allowedOrigins": [
+                            "*"
+                          ],
+                          "exposedHeaders": []
+                        }
+                      ]
+                    }
+                  }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
@@ -1039,7 +1077,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "2236996cddb405468735dcc5af8d18555118cff4c25bedbf986038c6b4309890.zip"
+                      "s3Key": "517e0ff80f49ec149322a418ec979030dbc5cb270985bff6cd90007fd626e4f6.zip"
                     },
                     "environment": {
                       "variables": {
@@ -1375,7 +1413,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "bf92ac1b08790a0ef378740bd8c17fded76fd7b796141ce5b3cd3b51c43e0662.zip"
+                      "s3Key": "977628d4965b0f3986b45e185f91a036b7c9f0e0cd22e3a357add337944591aa.zip"
                     },
                     "environment": {
                       "variables": {
@@ -2401,17 +2439,17 @@
               "version": "2.146.0"
             }
           },
-          "UpdateProfilePictureFunction": {
-            "id": "UpdateProfilePictureFunction",
-            "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction",
+          "updateDBProfilePictureFunction": {
+            "id": "updateDBProfilePictureFunction",
+            "path": "SocialNetworkCdkStack/updateDBProfilePictureFunction",
             "children": {
               "Code": {
                 "id": "Code",
-                "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Code",
+                "path": "SocialNetworkCdkStack/updateDBProfilePictureFunction/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Code/Stage",
+                    "path": "SocialNetworkCdkStack/updateDBProfilePictureFunction/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.146.0"
@@ -2419,7 +2457,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Code/AssetBucket",
+                    "path": "SocialNetworkCdkStack/updateDBProfilePictureFunction/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.146.0"
@@ -2433,15 +2471,15 @@
               },
               "SecurityGroup": {
                 "id": "SecurityGroup",
-                "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup",
+                "path": "SocialNetworkCdkStack/updateDBProfilePictureFunction/SecurityGroup",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup/Resource",
+                    "path": "SocialNetworkCdkStack/updateDBProfilePictureFunction/SecurityGroup/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
                       "aws:cdk:cloudformation:props": {
-                        "groupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackUpdateProfilePictureFunction77137028",
+                        "groupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackupdateDBProfilePictureFunction0C61FED1",
                         "securityGroupEgress": [
                           {
                             "cidrIp": "0.0.0.0/0",
@@ -2465,7 +2503,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "SocialNetworkCdkStack/UpdateProfilePictureFunction/Resource",
+                "path": "SocialNetworkCdkStack/updateDBProfilePictureFunction/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -2494,7 +2532,7 @@
                       "securityGroupIds": [
                         {
                           "Fn::GetAtt": [
-                            "UpdateProfilePictureFunctionSecurityGroupE88B9621",
+                            "updateDBProfilePictureFunctionSecurityGroupA1198177",
                             "GroupId"
                           ]
                         }

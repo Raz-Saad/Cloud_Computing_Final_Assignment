@@ -74,9 +74,14 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const getPresignUrlForUplodingProfileImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, usersTable, vpc, profileImageBucket);
     const getPresignUrlForUplodingPostImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, usersTable, vpc, postsBucket);
 
-    // create an api gateway
+    // Create API Gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
       restApiName: 'Social Network Service',
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: apigateway.Cors.ALL_METHODS,
+        allowHeaders: apigateway.Cors.DEFAULT_HEADERS,
+      },
     });
 
     // Output API Gateway URL
@@ -87,19 +92,54 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     // creating API endpoints
     const registration = api.root.addResource('registration');
-    registration.addMethod('POST', new apigateway.LambdaIntegration(registrationFunction));
+    registration.addMethod('POST', new apigateway.LambdaIntegration(registrationFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
 
     const getUser = api.root.addResource('getUser');
-    getUser.addMethod('GET', new apigateway.LambdaIntegration(getUserFunction));
+    getUser.addMethod('GET', new apigateway.LambdaIntegration(getUserFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
 
     const deleteUser = api.root.addResource('deleteUser');
-    deleteUser.addMethod('DELETE', new apigateway.LambdaIntegration(deleteUserFunction));
+    deleteUser.addMethod('DELETE', new apigateway.LambdaIntegration(deleteUserFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
 
     const getPresignUrlForUplodingProfileImage = api.root.addResource('getPresignUrlForUplodingProfileImage');
-    getPresignUrlForUplodingProfileImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingProfileImageFunction));
+    getPresignUrlForUplodingProfileImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingProfileImageFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
 
     const getPresignUrlForUplodingPostImage = api.root.addResource('getPresignUrlForUplodingPostImage');
-    getPresignUrlForUplodingPostImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingPostImageFunction));
+    getPresignUrlForUplodingPostImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingPostImageFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
 
     // Lambda function that gets called with a trigger
     const updateDBProfilePictureFunction = this.createupdateDBProfilePictureFunction(labRole, usersTable, profileImageBucket, vpc);
@@ -148,31 +188,39 @@ export class SocialNetworkCdkStack extends cdk.Stack {
   }
 
   private createBucket(bucketname: string, labRole: iam.IRole) {
-    // Create image storage bucket
+    // Create image storage bucket with CORS configuration
     const bucket = new s3.Bucket(this, bucketname, {
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      notificationsHandlerRole: labRole
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+        notificationsHandlerRole: labRole,
+        cors: [
+            {
+                allowedHeaders: ["*"],
+                allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT, s3.HttpMethods.POST],
+                allowedOrigins: ["*"], // Allow all origins
+                exposedHeaders: []
+            }
+        ]
     });
 
     // Add policy to the bucket
     bucket.addToResourcePolicy(
-      new iam.PolicyStatement({
-        resources: [
-          bucket.arnForObjects("*"),
-          bucket.bucketArn,
-        ],
-        actions: ["s3:List*", "s3:Get*", "s3:PutObject", "s3:DeleteObject"],
-        principals: [new iam.ArnPrincipal("arn:aws:iam::361602391862:role/LabRole")]
-      })
+        new iam.PolicyStatement({
+            resources: [
+                bucket.arnForObjects("*"),
+                bucket.bucketArn,
+            ],
+            actions: ["s3:List*", "s3:Get*", "s3:PutObject", "s3:DeleteObject"],
+            principals: [new iam.ArnPrincipal("arn:aws:iam::361602391862:role/LabRole")]
+        })
     );
 
-    //Output bucket name
+    // Output bucket name
     new cdk.CfnOutput(this, `${bucketname}Output`, {
-      value: bucket.bucketName,
+        value: bucket.bucketName,
     });
 
     return bucket;
-  }
+}
 
   private createSQSQueue(queueName: string): sqs.Queue {
     const queue = new sqs.Queue(this, queueName, {

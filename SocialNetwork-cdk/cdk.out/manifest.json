@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/99815bca9d01614406f2331c95d1d8da1d225ab7bb87ac413f64802f9676b027.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/23378873110cf088e92e74c76d23e07f21c8f7743c80953503ff306f83fc2ff0.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -114,10 +114,10 @@
             "data": "ImageStorageNotifications61C33B66"
           }
         ],
-        "/SocialNetworkCdkStack/ImageStorage/AllowBucketNotificationsToSocialNetworkCdkStackUpdateProfilePictureFunction77137028": [
+        "/SocialNetworkCdkStack/ImageStorage/AllowBucketNotificationsToSocialNetworkCdkStackupdateDBProfilePictureFunction0C61FED1": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ImageStorageAllowBucketNotificationsToSocialNetworkCdkStackUpdateProfilePictureFunction77137028B355E236"
+            "data": "ImageStorageAllowBucketNotificationsToSocialNetworkCdkStackupdateDBProfilePictureFunction0C61FED135478B60"
           }
         ],
         "/SocialNetworkCdkStack/ImageStorageOutput": [
@@ -408,16 +408,16 @@
             "data": "ApiUrl"
           }
         ],
-        "/SocialNetworkCdkStack/UpdateProfilePictureFunction/SecurityGroup/Resource": [
+        "/SocialNetworkCdkStack/updateDBProfilePictureFunction/SecurityGroup/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "UpdateProfilePictureFunctionSecurityGroupE88B9621"
+            "data": "updateDBProfilePictureFunctionSecurityGroupA1198177"
           }
         ],
-        "/SocialNetworkCdkStack/UpdateProfilePictureFunction/Resource": [
+        "/SocialNetworkCdkStack/updateDBProfilePictureFunction/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "UpdateProfilePictureFunction78295F9B"
+            "data": "updateDBProfilePictureFunction4F2F4DA1"
           }
         ],
         "/SocialNetworkCdkStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource": [

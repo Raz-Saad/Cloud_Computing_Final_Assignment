@@ -83,20 +83,22 @@
         return;
       }
 
-      const url = `https://kly6q4zi90.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForUplodingProfileImage/${username}`;
+      // Fetch pre-signed URL
+      const presignedUrlRequestUrl = `https://kly6q4zi90.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForUplodingProfileImage/?username=${username}`;
 
       try {
-        const response = await fetch(url);
+        const response = await fetch(presignedUrlRequestUrl);
         const data = await response.json();
         
-        if (!response.ok || !data.url) {
+        if (!response.ok || !data.uploadUrl) {
           throw new Error('Failed to get pre-signed URL.');
         }
 
-        const presignedUrl = data.url;
+        const presignedUrl = data.uploadUrl;
 
+        // Upload the file using the pre-signed URL
         const uploadResponse = await fetch(presignedUrl, {
-          method: 'PUT',
+          method: 'PUT', // Use PUT to upload the file
           headers: {
             'Content-Type': fileInput.type
           },
