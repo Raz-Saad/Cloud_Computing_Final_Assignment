@@ -74,6 +74,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const getPresignUrlForUplodingProfileImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, usersTable, vpc, profileImageBucket);
     const getPresignUrlForUplodingPostImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, usersTable, vpc, postsBucket);
     const userLoginFunction = this.createApiLambdaFunction('UserLoginFunction', 'lambdas/userLogin', labRole, usersTable, vpc, profileImageBucket);
+    const getPresignUrlForViewingProfileImageFunction = this.createApiLambdaFunction('GetPresignUrlForViewingProfileImage', 'lambdas/getPresignUrlForViewingProfileImage', labRole, usersTable, vpc, profileImageBucket);
 
     // Create API Gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
@@ -143,7 +144,17 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     });
 
     const userLogin = api.root.addResource('login');
-    userLogin.addMethod('GET', new apigateway.LambdaIntegration(userLoginFunction), {
+    userLogin.addMethod('POST', new apigateway.LambdaIntegration(userLoginFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
+
+    const getPresignUrlForViewingProfileImage = api.root.addResource('getPresignUrlForViewingProfileImage');
+    getPresignUrlForViewingProfileImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForViewingProfileImageFunction), {
       methodResponses: [{
         statusCode: '200',
         responseParameters: {
@@ -216,12 +227,12 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     // Add policy to the bucket
     bucket.addToResourcePolicy(
         new iam.PolicyStatement({
+            actions: ["s3:ListBucket", "s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
             resources: [
-                bucket.arnForObjects("*"),
                 bucket.bucketArn,
+                bucket.arnForObjects("*"),
             ],
-            actions: ["s3:List*", "s3:Get*", "s3:PutObject", "s3:DeleteObject"],
-            principals: [new iam.ArnPrincipal("arn:aws:iam::361602391862:role/LabRole")]
+            principals: [new iam.ArnPrincipal(labRole.roleArn)]
         })
     );
 

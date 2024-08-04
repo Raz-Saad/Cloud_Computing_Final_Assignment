@@ -411,8 +411,8 @@
                             {
                               "Action": [
                                 "s3:DeleteObject",
-                                "s3:Get*",
-                                "s3:List*",
+                                "s3:GetObject",
+                                "s3:ListBucket",
                                 "s3:PutObject"
                               ],
                               "Effect": "Allow",
@@ -571,8 +571,8 @@
                             {
                               "Action": [
                                 "s3:DeleteObject",
-                                "s3:Get*",
-                                "s3:List*",
+                                "s3:GetObject",
+                                "s3:ListBucket",
                                 "s3:PutObject"
                               ],
                               "Effect": "Allow",
@@ -1637,7 +1637,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-                      "s3Key": "c2291ef938c6f39364c2781b72bb55312914fd77f04b25ac19ab64fc6d8c2bcf.zip"
+                      "s3Key": "cd9d2809c46b70706ab3f72795a63c0c40c3dde56aa206e6e98f634392f1c5e4.zip"
                     },
                     "environment": {
                       "variables": {
@@ -1661,6 +1661,118 @@
                         {
                           "Fn::GetAtt": [
                             "UserLoginFunctionSecurityGroup89AC532C",
+                            "GroupId"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.146.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.146.0"
+            }
+          },
+          "GetPresignUrlForViewingProfileImage": {
+            "id": "GetPresignUrlForViewingProfileImage",
+            "path": "SocialNetworkCdkStack/GetPresignUrlForViewingProfileImage",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "SocialNetworkCdkStack/GetPresignUrlForViewingProfileImage/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "SocialNetworkCdkStack/GetPresignUrlForViewingProfileImage/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.146.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "SocialNetworkCdkStack/GetPresignUrlForViewingProfileImage/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.146.0"
+                }
+              },
+              "SecurityGroup": {
+                "id": "SecurityGroup",
+                "path": "SocialNetworkCdkStack/GetPresignUrlForViewingProfileImage/SecurityGroup",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SocialNetworkCdkStack/GetPresignUrlForViewingProfileImage/SecurityGroup/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                      "aws:cdk:cloudformation:props": {
+                        "groupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackGetPresignUrlForViewingProfileImageD814FE7F",
+                        "securityGroupEgress": [
+                          {
+                            "cidrIp": "0.0.0.0/0",
+                            "description": "Allow all outbound traffic by default",
+                            "ipProtocol": "-1"
+                          }
+                        ],
+                        "vpcId": "vpc-05fc44f3c7d685edb"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                      "version": "2.146.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                  "version": "2.146.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SocialNetworkCdkStack/GetPresignUrlForViewingProfileImage/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+                      "s3Key": "590776bf4de2df9b2c606910966aa527f1b88c7832c773912567ea1415d4ffcd.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "TABLE_NAME": {
+                          "Ref": "Users0A0EEA89"
+                        },
+                        "IMAGE_BUCKET_NAME": {
+                          "Ref": "ImageStorage82E68681"
+                        }
+                      }
+                    },
+                    "handler": "index.handler",
+                    "role": "arn:aws:iam::361602391862:role/LabRole",
+                    "runtime": "nodejs20.x",
+                    "vpcConfig": {
+                      "subnetIds": [
+                        "subnet-0c2283da7ffab1df2",
+                        "subnet-0cff5a0113ea24898"
+                      ],
+                      "securityGroupIds": [
+                        {
+                          "Fn::GetAtt": [
+                            "GetPresignUrlForViewingProfileImageSecurityGroup92999990",
                             "GroupId"
                           ]
                         }
@@ -1735,7 +1847,7 @@
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
                       "aws:cdk:cloudformation:props": {
                         "deploymentId": {
-                          "Ref": "SocialNetworkApiDeploymentA74B3F222f0c9ab2e5fc9e26e8a937cd3f880284"
+                          "Ref": "SocialNetworkApiDeploymentA74B3F2210e09bcbdba28fc1ce781d90e13d0e7c"
                         },
                         "restApiId": {
                           "Ref": "SocialNetworkApiACB67AB1"
@@ -3007,13 +3119,13 @@
                           "version": "2.146.0"
                         }
                       },
-                      "GET": {
-                        "id": "GET",
-                        "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/login/GET",
+                      "POST": {
+                        "id": "POST",
+                        "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/login/POST",
                         "children": {
-                          "ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..login": {
-                            "id": "ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..login",
-                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/login/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..login",
+                          "ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..login": {
+                            "id": "ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..login",
+                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/login/POST/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..login",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                               "aws:cdk:cloudformation:props": {
@@ -3037,7 +3149,7 @@
                                       {
                                         "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
                                       },
-                                      "/GET/login"
+                                      "/POST/login"
                                     ]
                                   ]
                                 }
@@ -3048,9 +3160,9 @@
                               "version": "2.146.0"
                             }
                           },
-                          "ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..login": {
-                            "id": "ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..login",
-                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/login/GET/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..login",
+                          "ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..login": {
+                            "id": "ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..login",
+                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/login/POST/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..login",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                               "aws:cdk:cloudformation:props": {
@@ -3070,7 +3182,7 @@
                                       {
                                         "Ref": "SocialNetworkApiACB67AB1"
                                       },
-                                      "/test-invoke-stage/GET/login"
+                                      "/test-invoke-stage/POST/login"
                                     ]
                                   ]
                                 }
@@ -3083,12 +3195,12 @@
                           },
                           "Resource": {
                             "id": "Resource",
-                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/login/GET/Resource",
+                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/login/POST/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
                               "aws:cdk:cloudformation:props": {
                                 "authorizationType": "NONE",
-                                "httpMethod": "GET",
+                                "httpMethod": "POST",
                                 "integration": {
                                   "type": "AWS_PROXY",
                                   "uri": {
@@ -3118,6 +3230,225 @@
                                 ],
                                 "resourceId": {
                                   "Ref": "SocialNetworkApiloginAB36793F"
+                                },
+                                "restApiId": {
+                                  "Ref": "SocialNetworkApiACB67AB1"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.146.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.146.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                      "version": "2.146.0"
+                    }
+                  },
+                  "getPresignUrlForViewingProfileImage": {
+                    "id": "getPresignUrlForViewingProfileImage",
+                    "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForViewingProfileImage",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForViewingProfileImage/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                          "aws:cdk:cloudformation:props": {
+                            "parentId": {
+                              "Fn::GetAtt": [
+                                "SocialNetworkApiACB67AB1",
+                                "RootResourceId"
+                              ]
+                            },
+                            "pathPart": "getPresignUrlForViewingProfileImage",
+                            "restApiId": {
+                              "Ref": "SocialNetworkApiACB67AB1"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                          "version": "2.146.0"
+                        }
+                      },
+                      "OPTIONS": {
+                        "id": "OPTIONS",
+                        "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForViewingProfileImage/OPTIONS",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForViewingProfileImage/OPTIONS/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "apiKeyRequired": false,
+                                "authorizationType": "NONE",
+                                "httpMethod": "OPTIONS",
+                                "integration": {
+                                  "type": "MOCK",
+                                  "requestTemplates": {
+                                    "application/json": "{ statusCode: 200 }"
+                                  },
+                                  "integrationResponses": [
+                                    {
+                                      "statusCode": "204",
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+                                      }
+                                    }
+                                  ]
+                                },
+                                "methodResponses": [
+                                  {
+                                    "statusCode": "204",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Headers": true,
+                                      "method.response.header.Access-Control-Allow-Origin": true,
+                                      "method.response.header.Access-Control-Allow-Methods": true
+                                    }
+                                  }
+                                ],
+                                "resourceId": {
+                                  "Ref": "SocialNetworkApigetPresignUrlForViewingProfileImageAFEF31D8"
+                                },
+                                "restApiId": {
+                                  "Ref": "SocialNetworkApiACB67AB1"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.146.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.146.0"
+                        }
+                      },
+                      "GET": {
+                        "id": "GET",
+                        "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForViewingProfileImage/GET",
+                        "children": {
+                          "ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForViewingProfileImage": {
+                            "id": "ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForViewingProfileImage",
+                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForViewingProfileImage/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForViewingProfileImage",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                              "aws:cdk:cloudformation:props": {
+                                "action": "lambda:InvokeFunction",
+                                "functionName": {
+                                  "Fn::GetAtt": [
+                                    "GetPresignUrlForViewingProfileImageD73A632C",
+                                    "Arn"
+                                  ]
+                                },
+                                "principal": "apigateway.amazonaws.com",
+                                "sourceArn": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:aws:execute-api:us-east-1:361602391862:",
+                                      {
+                                        "Ref": "SocialNetworkApiACB67AB1"
+                                      },
+                                      "/",
+                                      {
+                                        "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
+                                      },
+                                      "/GET/getPresignUrlForViewingProfileImage"
+                                    ]
+                                  ]
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                              "version": "2.146.0"
+                            }
+                          },
+                          "ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForViewingProfileImage": {
+                            "id": "ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForViewingProfileImage",
+                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForViewingProfileImage/GET/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getPresignUrlForViewingProfileImage",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                              "aws:cdk:cloudformation:props": {
+                                "action": "lambda:InvokeFunction",
+                                "functionName": {
+                                  "Fn::GetAtt": [
+                                    "GetPresignUrlForViewingProfileImageD73A632C",
+                                    "Arn"
+                                  ]
+                                },
+                                "principal": "apigateway.amazonaws.com",
+                                "sourceArn": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:aws:execute-api:us-east-1:361602391862:",
+                                      {
+                                        "Ref": "SocialNetworkApiACB67AB1"
+                                      },
+                                      "/test-invoke-stage/GET/getPresignUrlForViewingProfileImage"
+                                    ]
+                                  ]
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                              "version": "2.146.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getPresignUrlForViewingProfileImage/GET/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "authorizationType": "NONE",
+                                "httpMethod": "GET",
+                                "integration": {
+                                  "type": "AWS_PROXY",
+                                  "uri": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+                                        {
+                                          "Fn::GetAtt": [
+                                            "GetPresignUrlForViewingProfileImageD73A632C",
+                                            "Arn"
+                                          ]
+                                        },
+                                        "/invocations"
+                                      ]
+                                    ]
+                                  },
+                                  "integrationHttpMethod": "POST"
+                                },
+                                "methodResponses": [
+                                  {
+                                    "statusCode": "200",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Origin": true
+                                    }
+                                  }
+                                ],
+                                "resourceId": {
+                                  "Ref": "SocialNetworkApigetPresignUrlForViewingProfileImageAFEF31D8"
                                 },
                                 "restApiId": {
                                   "Ref": "SocialNetworkApiACB67AB1"

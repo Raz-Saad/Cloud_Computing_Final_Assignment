@@ -93,3 +93,14 @@ cdk deploy
 ```bash
 curl -X PUT -T "file path" "pre-signed URL"
 ```
+
+## Running HTML pages locally
+* first download http-server
+```bash
+npm install -g http-server
+```
+* Then run the following command
+```bash
+http-server -p 8000 --cors -c-1
+```
+

@@ -25,6 +25,12 @@
     h2 {
       margin-bottom: 20px;
     }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
     input[type="file"] {
       width: 100%;
       padding: 10px;
@@ -59,16 +65,66 @@
 </head>
 <body>
   <div class="container">
-    <h2>Profile Image Upload</h2>
-    <form id="profileForm">
-      <input type="file" id="fileInput" accept="image/*" required>
-      <button type="submit">Upload Image</button>
+    <h2>User Profile</h2>
+    <img id="profilePicture" src="" alt="Profile Picture">
+    <div id="userInfo">
+      <p id="username">Username: </p>
+      <p id="fullname">Full Name: </p>
+      <p id="email">Email: </p>
+    </div>
+    <form id="uploadForm">
+      <input type="file" id="fileInput" accept="image/*">
+      <button type="submit">Upload New Picture</button>
     </form>
     <div id="message" class="message"></div>
   </div>
 
   <script>
-    document.getElementById('profileForm').addEventListener('submit', async function(event) {
+    document.addEventListener('DOMContentLoaded', async function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get('username');
+      
+      if (!username) {
+        const messageElement = document.getElementById('message');
+        messageElement.textContent = "Username not provided.";
+        messageElement.classList.add('error');
+        return;
+      }
+
+      try {
+        // Fetch user data
+        const userDataResponse = await fetch(`https://lzdz2zcm36.execute-api.us-east-1.amazonaws.com/prod/getUser/?username=${username}`);
+        if (!userDataResponse.ok) {
+          throw new Error('Failed to fetch user data.');
+        }
+
+        const userData = await userDataResponse.json();
+        document.getElementById('username').textContent = `Username: ${userData.username}`;
+        document.getElementById('fullname').textContent = `Full Name: ${userData.fullname}`;
+        document.getElementById('email').textContent = `Email: ${userData.email}`;
+
+        // Fetch profile picture URL
+        const presignedUrlResponse = await fetch(`https://lzdz2zcm36.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForViewingProfileImage/?username=${username}`);
+        if (!presignedUrlResponse.ok) {
+          throw new Error('Failed to fetch presigned URL.');
+        }
+
+        const presignedUrlData = await presignedUrlResponse.json();
+        const profilePictureUrl = presignedUrlData.url;
+
+        if (profilePictureUrl) {
+          document.getElementById('profilePicture').src = profilePictureUrl;
+        } else {
+          document.getElementById('profilePicture').alt = "No profile picture available";
+        }
+      } catch (error) {
+        const messageElement = document.getElementById('message');
+        messageElement.textContent = error.message;
+        messageElement.classList.add('error');
+      }
+    });
+
+    document.getElementById('uploadForm').addEventListener('submit', async function(event) {
       event.preventDefault();
 
       const fileInput = document.getElementById('fileInput').files[0];
@@ -112,19 +168,12 @@
         messageElement.textContent = "Image uploaded successfully!";
         messageElement.classList.remove('error');
         messageElement.classList.add('success');
+
+        // Update the profile picture immediately after upload
+        document.getElementById('profilePicture').src = URL.createObjectURL(fileInput);
       } catch (error) {
         messageElement.textContent = error.message;
         messageElement.classList.remove('success');
-        messageElement.classList.add('error');
-      }
-    });
-
-    window.addEventListener('load', () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const username = urlParams.get('username');
-      if (!username) {
-        const messageElement = document.getElementById('message');
-        messageElement.textContent = "Username not provided.";
         messageElement.classList.add('error');
       }
     });
