@@ -73,6 +73,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const deleteUserFunction = this.createApiLambdaFunction('DeleteUserByIdFunction', 'lambdas/deleteUserById', labRole, usersTable, vpc, profileImageBucket);
     const getPresignUrlForUplodingProfileImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingProfileImage', 'lambdas/getPresignUrlForUplodingProfileImage', labRole, usersTable, vpc, profileImageBucket);
     const getPresignUrlForUplodingPostImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, usersTable, vpc, postsBucket);
+    const userLoginFunction = this.createApiLambdaFunction('UserLoginFunction', 'lambdas/userLogin', labRole, usersTable, vpc, profileImageBucket);
 
     // Create API Gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
@@ -133,6 +134,16 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     const getPresignUrlForUplodingPostImage = api.root.addResource('getPresignUrlForUplodingPostImage');
     getPresignUrlForUplodingPostImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingPostImageFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
+
+    const userLogin = api.root.addResource('login');
+    userLogin.addMethod('GET', new apigateway.LambdaIntegration(userLoginFunction), {
       methodResponses: [{
         statusCode: '200',
         responseParameters: {
