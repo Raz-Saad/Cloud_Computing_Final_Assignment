@@ -18,11 +18,15 @@ exports.handler = async (event) => {
   if (username == null) {
     return {
       statusCode: 400,
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: "Missing username parameter" }),
     };
   }
-
 
   try {
     // Check if user exists before attempting deletion
@@ -30,7 +34,12 @@ exports.handler = async (event) => {
     if (!existingUser) {
       return {
         statusCode: 404,
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        },
         body: JSON.stringify({ message: `User '${username}' not found` }),
       };
     }
@@ -72,6 +81,12 @@ exports.handler = async (event) => {
     // Return the signed URL as the response
     return {
       statusCode: 200,
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ uploadUrl: signedUrl })
     };
 
@@ -79,6 +94,12 @@ exports.handler = async (event) => {
     console.error(error);
     return {
       statusCode: 500,
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: 'Internal Server Error' })
     };
   }
@@ -100,3 +121,4 @@ async function getUserByUsername(username) {
     throw new Error("Error checking user existence");
   }
 }
+
