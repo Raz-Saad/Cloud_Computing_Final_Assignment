@@ -10,30 +10,57 @@ const client = new DynamoDBClient({ region: process.env.AWS_REGION });
 exports.handler = async function(event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
 
-  // Extracting parameters from query string if present
-  const username = event.queryStringParameters ? event.queryStringParameters.username : null;
-  const email = event.queryStringParameters ? event.queryStringParameters.email : null;
-  const password = event.queryStringParameters ? event.queryStringParameters.password : null;
-  const fullname = event.queryStringParameters ? event.queryStringParameters.fullname : null;
-
-  // Validate input
-  if (username==null || email==null || password==null || fullname==null) {
+  // Parse the JSON body
+  let requestBody;
+  try {
+    requestBody = JSON.parse(event.body);
+  } catch (error) {
     return {
       statusCode: 400,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
+      body: JSON.stringify({ message: "Invalid JSON format" }),
+    };
+  }
+
+  // Extracting parameters from parsed JSON body
+  const username = requestBody.username || null;
+  const email = requestBody.email || null;
+  const password = requestBody.password || null;
+  const fullname = requestBody.fullname || null;
+
+  // Validate input
+  if (username == null || email == null || password == null || fullname == null) {
+    return {
+      statusCode: 400,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: "Missing required parameters" }),
     };
   }
 
   // Check if extra parameters are provided
   const validParams = ["username", "email", "password", "fullname"];
-  const providedParams = event.queryStringParameters ? Object.keys(event.queryStringParameters) : [];
-  
+  const providedParams = Object.keys(requestBody);
+
   for (const key of providedParams) {
     if (!validParams.includes(key)) {
       return {
         statusCode: 400,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        },
         body: JSON.stringify({ message: "Invalid parameters provided" }),
       };
     }
@@ -44,7 +71,12 @@ exports.handler = async function(event) {
   if (userExists) {
     return {
       statusCode: 400,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: "Username already exists" }),
     };
   }
@@ -70,14 +102,24 @@ exports.handler = async function(event) {
 
     return {
       statusCode: 201,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: "User created successfully" }),
     };
   } catch (error) {
     console.error("Error inserting user:", error);
     return {
       statusCode: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
       body: JSON.stringify({ message: "Internal server error" }),
     };
   }

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .message {
+      margin-top: 20px;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Profile Image Upload</h2>
+    <form id="profileForm">
+      <input type="file" id="fileInput" accept="image/*" required>
+      <button type="submit">Upload Image</button>
+    </form>
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    document.getElementById('profileForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const fileInput = document.getElementById('fileInput').files[0];
+      const messageElement = document.getElementById('message');
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get('username');
+
+      if (!username || !fileInput) {
+        messageElement.textContent = "Failed to retrieve username or file input.";
+        messageElement.classList.add('error');
+        return;
+      }
+
+      const url = `https://kly6q4zi90.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForUplodingProfileImage/${username}`;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (!response.ok || !data.url) {
+          throw new Error('Failed to get pre-signed URL.');
+        }
+
+        const presignedUrl = data.url;
+
+        const uploadResponse = await fetch(presignedUrl, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': fileInput.type
+          },
+          body: fileInput
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error('Failed to upload the image.');
+        }
+
+        messageElement.textContent = "Image uploaded successfully!";
+        messageElement.classList.remove('error');
+        messageElement.classList.add('success');
+      } catch (error) {
+        messageElement.textContent = error.message;
+        messageElement.classList.remove('success');
+        messageElement.classList.add('error');
+      }
+    });
+
+    window.addEventListener('load', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get('username');
+      if (!username) {
+        const messageElement = document.getElementById('message');
+        messageElement.textContent = "Username not provided.";
+        messageElement.classList.add('error');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1596,7 +1596,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "a429b4f23554516a7b0dfbf409663789455417e976c871c0655d5183c062333e.zip"
+     "S3Key": "c6ec1c23e0cc61e3025a47bf35ef4bde6d8ec2d7e9d6b05421e2fe594a481ef9.zip"
     },
     "Environment": {
      "Variables": {
@@ -1614,7 +1614,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/TextractFunction/Resource",
-    "aws:asset:path": "asset.a429b4f23554516a7b0dfbf409663789455417e976c871c0655d5183c062333e",
+    "aws:asset:path": "asset.c6ec1c23e0cc61e3025a47bf35ef4bde6d8ec2d7e9d6b05421e2fe594a481ef9",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -1641,7 +1641,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "9a54a5793ac8078b8c690c5e9f23cd87c6fff5ba81a217cdcaca2bf44dbeddee.zip"
+     "S3Key": "1954a261ef240ea326c5bd5e327489568ef3a354575b960cf47a1199b075a8ee.zip"
     },
     "Environment": {
      "Variables": {
@@ -1656,7 +1656,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/StorePostFromSQStoDb/Resource",
-    "aws:asset:path": "asset.9a54a5793ac8078b8c690c5e9f23cd87c6fff5ba81a217cdcaca2bf44dbeddee",
+    "aws:asset:path": "asset.1954a261ef240ea326c5bd5e327489568ef3a354575b960cf47a1199b075a8ee",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }

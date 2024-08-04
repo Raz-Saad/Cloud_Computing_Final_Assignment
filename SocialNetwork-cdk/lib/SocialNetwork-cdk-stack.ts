@@ -102,8 +102,8 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     getPresignUrlForUplodingPostImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForUplodingPostImageFunction));
 
     // Lambda function that gets called with a trigger
-    const updateProfilePictureFunction = this.createUpdateProfilePictureFunction(labRole, usersTable, profileImageBucket, vpc);
-    this.setupS3TriggerToLambda(profileImageBucket, updateProfilePictureFunction);
+    const updateDBProfilePictureFunction = this.createupdateDBProfilePictureFunction(labRole, usersTable, profileImageBucket, vpc);
+    this.setupS3TriggerToLambda(profileImageBucket, updateDBProfilePictureFunction);
 
     // create lambda for extract text from an image and pass the result to sqs called: sqsQueueTextractResult
     this.createTextractLambda('TextractFunction', labRole, postsBucket, sqsQueueImageUpload, sqsQueueTextractResult);
@@ -260,16 +260,16 @@ export class SocialNetworkCdkStack extends cdk.Stack {
   }
 
   // lambda for updating DB with user's profile picture
-  private createUpdateProfilePictureFunction(labRole: iam.IRole, table: dynamodb.Table, Bucket: s3.Bucket, vpc: cdk.aws_ec2.IVpc) {
+  private createupdateDBProfilePictureFunction(labRole: iam.IRole, table: dynamodb.Table, Bucket: s3.Bucket, vpc: cdk.aws_ec2.IVpc) {
     // Grant permissions to Lambda function
     table.grantReadWriteData(labRole);
     Bucket.grantRead(labRole); // Grant read permissions to the bucket
 
     // Create Lambda function
-    return new lambda.Function(this, 'UpdateProfilePictureFunction', {
+    return new lambda.Function(this, 'updateDBProfilePictureFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
       handler: 'index.handler',
-      code: lambda.Code.fromAsset('lambdas/updateProfilePicture'),
+      code: lambda.Code.fromAsset('lambdas/updateDBProfilePicture'),
       role: labRole,
       environment: {
         TABLE_NAME: table.tableName,
