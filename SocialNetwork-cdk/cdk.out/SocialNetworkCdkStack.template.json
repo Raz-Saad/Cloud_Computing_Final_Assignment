@@ -1319,7 +1319,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "b025eaafb025742d95bf3e3ce9dbce0e3fc5d5d2939dea296587f3bdc3b46d93.zip"
+     "S3Key": "20d8c4a1a5ec586d7f7b06eb0bbec9a9a0f21649a851e9609f51b328d132cfce.zip"
     },
     "Environment": {
      "Variables": {
@@ -1351,7 +1351,7 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/getAllDonePosts/Resource",
-    "aws:asset:path": "asset.b025eaafb025742d95bf3e3ce9dbce0e3fc5d5d2939dea296587f3bdc3b46d93",
+    "aws:asset:path": "asset.20d8c4a1a5ec586d7f7b06eb0bbec9a9a0f21649a851e9609f51b328d132cfce",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }

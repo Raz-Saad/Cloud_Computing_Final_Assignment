@@ -1,3 +1,5 @@
+//uploadTextPost
+
 const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
 
 const TABLE_NAME = process.env.TABLE_NAME;

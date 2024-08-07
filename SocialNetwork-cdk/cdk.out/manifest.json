@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/c430c90ac9f502d69e2d180745dd6a4ee77d75aac3f23e81242724e385780818.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/6cc961daeae4c23fa5797f5b4bc75ecad6cdd0d716f6666f39f0cc252e140539.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [

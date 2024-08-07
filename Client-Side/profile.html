@@ -124,7 +124,7 @@
 
       try {
         // Fetch user data
-        const userDataResponse = await fetch(`https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/getUser/?username=${username}`);
+        const userDataResponse = await fetch(`https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/getUser/?username=${username}`);
         if (!userDataResponse.ok) {
           throw new Error('Failed to fetch user data.');
         }
@@ -135,7 +135,7 @@
         document.getElementById('email').textContent = userData.email;
 
         // Fetch profile picture URL
-        const presignedUrlResponse = await fetch(`https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForViewingProfileImage/?username=${username}`);
+        const presignedUrlResponse = await fetch(`https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForViewingProfileImage/?username=${username}`);
         const presignedUrlData = await presignedUrlResponse.json();
         const profilePictureUrl = presignedUrlData.url;
 
@@ -171,7 +171,7 @@
       }
 
       // Fetch pre-signed URL
-      const presignedUrlRequestUrl = `https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForUplodingProfileImage/?username=${username}`;
+      const presignedUrlRequestUrl = `https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForUplodingProfileImage/?username=${username}`;
 
       try {
         const response = await fetch(presignedUrlRequestUrl);

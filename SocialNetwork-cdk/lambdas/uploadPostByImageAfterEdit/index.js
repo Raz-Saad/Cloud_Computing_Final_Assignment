@@ -1,3 +1,5 @@
+//uploadPostByImageAfterEdit
+
 const { DynamoDBClient, UpdateItemCommand } = require('@aws-sdk/client-dynamodb');
 
 const TABLE_NAME = process.env.TABLE_NAME;
