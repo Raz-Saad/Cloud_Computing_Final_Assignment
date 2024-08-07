@@ -75,6 +75,9 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const getPresignUrlForUplodingPostImageFunction = this.createApiLambdaFunction('GetPresignUrlForUplodingPostImage', 'lambdas/getPresignUrlForUplodingPostImage', labRole, usersTable, vpc, postsBucket);
     const userLoginFunction = this.createApiLambdaFunction('UserLoginFunction', 'lambdas/userLogin', labRole, usersTable, vpc, profileImageBucket);
     const getPresignUrlForViewingProfileImageFunction = this.createApiLambdaFunction('GetPresignUrlForViewingProfileImage', 'lambdas/getPresignUrlForViewingProfileImage', labRole, usersTable, vpc, profileImageBucket);
+    const getStagingAndErrorPostsFunction = this.createApiLambdaFunction('getStagingAndErrorPosts', 'lambdas/getStagingAndErrorPosts', labRole, postsTable, vpc, profileImageBucket);
+    const uploadTextPostFunction = this.createApiLambdaFunction('uploadTextPost', 'lambdas/uploadTextPost', labRole, postsTable, vpc, profileImageBucket);
+    const uploadPostByImageAfterEditFunction = this.createApiLambdaFunction('uploadPostByImageAfterEdit', 'lambdas/uploadPostByImageAfterEdit', labRole, postsTable, vpc, profileImageBucket);
 
     // Create API Gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
@@ -155,6 +158,36 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     const getPresignUrlForViewingProfileImage = api.root.addResource('getPresignUrlForViewingProfileImage');
     getPresignUrlForViewingProfileImage.addMethod('GET', new apigateway.LambdaIntegration(getPresignUrlForViewingProfileImageFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
+
+    const getStagingAndErrorPosts = api.root.addResource('getStagingAndErrorPosts');
+    getStagingAndErrorPosts.addMethod('GET', new apigateway.LambdaIntegration(getStagingAndErrorPostsFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
+
+    const uploadTextPost = api.root.addResource('uploadTextPost');
+    uploadTextPost.addMethod('POST', new apigateway.LambdaIntegration(uploadTextPostFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
+
+    const uploadPostByImageAfterEdit = api.root.addResource('uploadPostByImageAfterEdit');
+    uploadPostByImageAfterEdit.addMethod('POST', new apigateway.LambdaIntegration(uploadPostByImageAfterEditFunction), {
       methodResponses: [{
         statusCode: '200',
         responseParameters: {
@@ -282,7 +315,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     postsTable.addGlobalSecondaryIndex({
       indexName: 'UsernameIndex',
-      partitionKey: { name: 'Username', type: dynamodb.AttributeType.STRING },
+      partitionKey: { name: 'UserName', type: dynamodb.AttributeType.STRING },
       projectionType: dynamodb.ProjectionType.ALL,
       readCapacity: 1,
       writeCapacity: 1,
@@ -298,7 +331,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     postsTable.addGlobalSecondaryIndex({
       indexName: 'UsernameStagingIndex',
-      partitionKey: { name: 'Username', type: dynamodb.AttributeType.STRING },
+      partitionKey: { name: 'UserName', type: dynamodb.AttributeType.STRING },
       sortKey: { name: 'Staging', type: dynamodb.AttributeType.STRING },
       projectionType: dynamodb.ProjectionType.ALL,
       readCapacity: 1,

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload and Manage Posts</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 600px;
+      text-align: left;
+    }
+    h1, h2 ,h4 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 10px;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .post-box {
+      border: 2px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .post-box.error {
+      border-color: red;
+    }
+    .message {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Manage Posts</h1>
+
+    <!-- Image Upload Section -->
+    <h2>Upload an Image</h2>
+    <form id="uploadImageForm">
+      <input type="file" id="imageFile" accept="image/*" />
+      <button type="submit">Upload Image</button>
+    </form>
+
+    <!-- Text Post Upload Section -->
+    <h2>Upload a Post</h2>
+    <textarea id="postContent" placeholder="Enter your post content here..."></textarea>
+    <button onclick="uploadPost()">Upload Post</button>
+
+    <!-- Posts Display Section -->
+    <h2>Edit Posts</h2>
+    <h4>(Only you see those posts)</h4>
+    <div id="postsContainer"></div>
+
+    <!-- Status Message -->
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    const presignUrlApi = 'https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForUplodingPostImage';
+    const uploadTextPostApi = 'https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/uploadTextPost';
+    const getStagingAndErrorPostsApi = 'https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/getStagingAndErrorPosts';
+    const uploadPostByImageAfterEditApi = 'https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/uploadPostByImageAfterEdit';
+
+    document.getElementById('uploadImageForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const fileInput = document.getElementById('imageFile').files[0];
+      const messageElement = document.getElementById('message');
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get('username');
+
+      if (!username || !fileInput) {
+        messageElement.textContent = "Failed to retrieve username or file input.";
+        messageElement.classList.add('error');
+        return;
+      }
+
+      try {
+        // Fetch pre-signed URL
+        const presignedUrlRequestUrl = `${presignUrlApi}/?username=${username}`;
+        const response = await fetch(presignedUrlRequestUrl);
+        const data = await response.json();
+        
+        if (!response.ok || !data.uploadUrl) {
+          throw new Error('Failed to get pre-signed URL.');
+        }
+
+        const presignedUrl = data.uploadUrl;
+
+        // Upload the file using the pre-signed URL
+        const uploadResponse = await fetch(presignedUrl, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': fileInput.type
+          },
+          body: fileInput
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error('Failed to upload the image.');
+        }
+
+        messageElement.textContent = "Image uploaded successfully!";
+        messageElement.classList.remove('error');
+        messageElement.classList.add('success');
+        fetchPosts();
+
+      } catch (error) {
+        messageElement.textContent = error.message;
+        messageElement.classList.remove('success');
+        messageElement.classList.add('error');
+      }
+    });
+
+    async function uploadPost() {
+      const content = document.getElementById('postContent').value;
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get('username');
+      
+      if (!content) {
+        alert('Please enter content for the post.');
+        return;
+      }
+
+      try {
+        const response = await fetch(uploadTextPostApi, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username ,content })
+        });
+
+        if (response.ok) {
+          alert('Post uploaded successfully.');
+          fetchPosts(); // Refresh posts after uploading
+        } else {
+          alert('Failed to upload post.');
+        }
+      } catch (error) {
+        console.error('Error uploading post:', error);
+        alert('Error uploading post.');
+      }
+    }
+
+    async function fetchPosts() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username');
+        const response = await fetch(`${getStagingAndErrorPostsApi}/?username=${username}`);
+        const data = await response.json();
+        const postsContainer = document.getElementById('postsContainer');
+        postsContainer.innerHTML = '';
+
+        data.forEach(post => {
+          const postBox = document.createElement('div');
+          postBox.className = 'post-box' + (post.Staging === 'error' ? ' error' : '');
+          postBox.innerHTML = `
+            <textarea>${post.Content}</textarea>
+            <button onclick="updatePost('${post.PostID}', this)">Post</button>
+          `;
+          postsContainer.appendChild(postBox);
+        });
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    }
+
+    async function updatePost(postID, button) {
+      const postBox = button.parentElement;
+      const content = postBox.querySelector('textarea').value;
+      const urlParams = new URLSearchParams(window.location.search);
+
+
+      try {
+        const response = await fetch(uploadPostByImageAfterEditApi, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({postid: postID, content })
+        });
+
+        if (response.ok) {
+          alert('Post updated successfully.');
+          fetchPosts(); // Refresh posts after updating
+        } else {
+          alert('Failed to update post.');
+        }
+      } catch (error) {
+        console.error('Error updating post:', error);
+        alert('Error updating post.');
+      }
+    }
+
+    // Fetch posts on page load
+    fetchPosts();
+  </script>
+
+</body>
+</html>

@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/6860751a935e2bcb3d97bb6e5d6e7c679b7791d5599323f77ceddba24ffcf736.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/29d120e5ff249528a27ae6a1f99ec81eca98a492c7b8b29e7f9d6bd948da86e9.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -282,6 +282,42 @@
             "data": "GetPresignUrlForViewingProfileImageD73A632C"
           }
         ],
+        "/SocialNetworkCdkStack/getStagingAndErrorPosts/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getStagingAndErrorPostsSecurityGroup062D5D39"
+          }
+        ],
+        "/SocialNetworkCdkStack/getStagingAndErrorPosts/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getStagingAndErrorPosts064C0EE9"
+          }
+        ],
+        "/SocialNetworkCdkStack/uploadTextPost/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "uploadTextPostSecurityGroup45363C58"
+          }
+        ],
+        "/SocialNetworkCdkStack/uploadTextPost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "uploadTextPost3E54342F"
+          }
+        ],
+        "/SocialNetworkCdkStack/uploadPostByImageAfterEdit/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "uploadPostByImageAfterEditSecurityGroup158B9D94"
+          }
+        ],
+        "/SocialNetworkCdkStack/uploadPostByImageAfterEdit/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "uploadPostByImageAfterEdit7237AC04"
+          }
+        ],
         "/SocialNetworkCdkStack/SocialNetworkApi/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -291,7 +327,7 @@
         "/SocialNetworkCdkStack/SocialNetworkApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SocialNetworkApiDeploymentA74B3F2210e09bcbdba28fc1ce781d90e13d0e7c"
+            "data": "SocialNetworkApiDeploymentA74B3F22473686e2029a15714ba783641d1a56c6"
           }
         ],
         "/SocialNetworkCdkStack/SocialNetworkApi/DeploymentStage.prod/Resource": [
@@ -520,6 +556,96 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "SocialNetworkApigetPresignUrlForViewingProfileImageGET053EB249"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getStagingAndErrorPosts/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetStagingAndErrorPosts67A2A7D9"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getStagingAndErrorPosts/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetStagingAndErrorPostsOPTIONS7A11429E"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getStagingAndErrorPosts/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getStagingAndErrorPosts": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetStagingAndErrorPostsGETApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetStagingAndErrorPosts21E33CB1"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getStagingAndErrorPosts/GET/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getStagingAndErrorPosts": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetStagingAndErrorPostsGETApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetStagingAndErrorPosts7B3D1B5C"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/getStagingAndErrorPosts/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApigetStagingAndErrorPostsGET500244AA"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/uploadTextPost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiuploadTextPostE438E460"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/uploadTextPost/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiuploadTextPostOPTIONS2284D96E"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/uploadTextPost/POST/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..uploadTextPost": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiuploadTextPostPOSTApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9POSTuploadTextPostD303A824"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/uploadTextPost/POST/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..uploadTextPost": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiuploadTextPostPOSTApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9POSTuploadTextPost62A87971"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/uploadTextPost/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiuploadTextPostPOST60233A94"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/uploadPostByImageAfterEdit/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiuploadPostByImageAfterEditA4C5AAAA"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/uploadPostByImageAfterEdit/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiuploadPostByImageAfterEditOPTIONSF393D0D3"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/uploadPostByImageAfterEdit/POST/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..uploadPostByImageAfterEdit": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiuploadPostByImageAfterEditPOSTApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9POSTuploadPostByImageAfterEdit67381B88"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/uploadPostByImageAfterEdit/POST/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.POST..uploadPostByImageAfterEdit": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiuploadPostByImageAfterEditPOSTApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9POSTuploadPostByImageAfterEdit4F7ED30A"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/uploadPostByImageAfterEdit/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApiuploadPostByImageAfterEditPOSTC814D6C1"
           }
         ],
         "/SocialNetworkCdkStack/ApiUrl": [
