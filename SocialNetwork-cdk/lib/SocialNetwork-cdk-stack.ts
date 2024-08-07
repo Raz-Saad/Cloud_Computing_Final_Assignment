@@ -60,6 +60,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const uploadTextPostFunction = this.createApiLambdaFunction('uploadTextPost', 'lambdas/uploadTextPost', labRole, postsTable, vpc, profileImageBucket);
     const uploadPostByImageAfterEditFunction = this.createApiLambdaFunction('uploadPostByImageAfterEdit', 'lambdas/uploadPostByImageAfterEdit', labRole, postsTable, vpc, profileImageBucket);
     const deletePostFunction = this.createApiLambdaFunction('deletePost', 'lambdas/deletePost', labRole, postsTable, vpc, profileImageBucket);
+    const getAllDonePostsFunction = this.createApiLambdaFunction('getAllDonePosts', 'lambdas/getAllDonePosts', labRole, postsTable, vpc, profileImageBucket);
 
     // Create API Gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
@@ -187,6 +188,18 @@ export class SocialNetworkCdkStack extends cdk.Stack {
         },
       }],
     });
+
+    const getAllDonePosts = api.root.addResource('getAllDonePosts');
+    getAllDonePosts.addMethod('GET', new apigateway.LambdaIntegration(getAllDonePostsFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
+
+    
 
     // Lambda function that gets called with a trigger
     const updateDBProfilePictureFunction = this.createupdateDBProfilePictureFunction(labRole, usersTable, profileImageBucket, vpc);

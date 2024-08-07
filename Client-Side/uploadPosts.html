@@ -91,17 +91,24 @@
         .error {
             color: red;
         }
-        
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
         .delete-button {
             background-color: red;
             color: white;
             border: none;
             border-radius: 4px;
-            padding: 5px 10px;
+            padding: 5px 20px;
+            /* Adjust padding to make the button smaller */
             cursor: pointer;
             font-size: 14px;
         }
-        
+
         .delete-button:hover {
             background-color: darkred;
         }
@@ -113,21 +120,22 @@
     <div class="container">
         <h1>Manage Posts</h1>
 
-        <!-- Image Upload Section -->
-        <h2>Upload an Image</h2>
-        <form id="uploadImageForm">
-            <input type="file" id="imageFile" accept="image/*" />
-            <button type="submit">Upload Image</button>
-        </form>
-
         <!-- Text Post Upload Section -->
         <h2>Upload a Post</h2>
         <textarea id="postContent" placeholder="Enter your post content here..."></textarea>
         <button onclick="uploadPost()">Upload Post</button>
 
+        <!-- Image Upload Section -->
+        <h2>Upload an Image</h2>
+        <h4>(Extracting the text from the image)</h4>
+        <form id="uploadImageForm">
+            <input type="file" id="imageFile" accept="image/*" />
+            <button type="submit">Upload Image</button>
+        </form>
+
         <!-- Posts Display Section -->
         <h2>Edit Posts</h2>
-        <h4>(Only you see those posts)</h4>
+        <h4>(Only you can see those posts)</h4>
         <div id="postsContainer"></div>
 
         <!-- Status Message -->
@@ -150,8 +158,7 @@
             const username = urlParams.get('username');
 
             if (!username || !fileInput) {
-                messageElement.textContent = "Failed to retrieve username or file input.";
-                messageElement.classList.add('error');
+                alert('Failed to retrieve username or file input.');
                 return;
             }
 
@@ -178,7 +185,7 @@
 
                 if (uploadResponse.ok) {
                     alert('Image uploaded successfully!');
-                    await sleep(1000);
+                    await sleep(2000);
                     await fetchPosts(); // Refresh posts after updating
                 } else {
                     alert('Failed to upload the image.');
@@ -235,10 +242,12 @@
                     const postBox = document.createElement('div');
                     postBox.className = 'post-box' + (post.Staging === 'error' ? ' error' : '');
                     postBox.innerHTML = `
-            <textarea>${post.Content}</textarea>
-            <button onclick="updatePost('${post.PostID}', this)">Post</button>
-            <button class="delete-button" onclick="deletePost('${post.PostID}', this)">Delete</button>
-          `;
+                        <textarea>${post.Content}</textarea>
+                        <div class="button-group">
+                            <button onclick="updatePost('${post.PostID}', this)">Post</button>
+                            <button class="delete-button" onclick="deletePost('${post.PostID}', this)">Delete</button>
+                        </div>
+                    `;
                     postsContainer.appendChild(postBox);
                 });
             } catch (error) {
@@ -247,7 +256,7 @@
         }
 
         async function updatePost(postID, button) {
-            const postBox = button.parentElement;
+            const postBox = button.parentElement.parentElement;
             const content = postBox.querySelector('textarea').value;
             const urlParams = new URLSearchParams(window.location.search);
 
@@ -273,7 +282,7 @@
         }
 
         async function deletePost(postID, button) {
-            const postBox = button.parentElement;
+            const postBox = button.parentElement.parentElement;
 
             try {
                 const response = await fetch(deletePostApi, {
@@ -286,8 +295,7 @@
 
                 if (response.ok) {
                     alert('Post deleted successfully.');
-                    postBox.remove(); // Remove post from the UI
-                    await fetchPosts(); // Refresh posts after updating
+                    postBox.remove(); // Remove post element from DOM
                 } else {
                     alert('Failed to delete post.');
                 }
@@ -302,7 +310,7 @@
         }
 
         // Fetch posts on page load
-        fetchPosts();
+        document.addEventListener('DOMContentLoaded', fetchPosts);
     </script>
 
 </body>

@@ -8,11 +8,31 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .header-buttons {
+      background-color: #6c757d;
+      padding: 10px;
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
+      position: relative; /* Changed from fixed */
+      width: 100%;
+    }
+    .nav-button {
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      margin: 0 5px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      text-align: center;
+    }
+    .nav-button:hover {
+      background-color: #5a6268;
     }
     .container {
       background-color: white;
@@ -21,8 +41,9 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       width: 300px;
       text-align: left;
+      margin: 20px auto;
     }
-    h2,h3 {
+    h2, h3 {
       margin-bottom: 20px;
       text-align: center;
     }
@@ -68,6 +89,11 @@
   </style>
 </head>
 <body>
+  <div class="header-buttons">
+    <a href="homepage.html?username=" class="nav-button" id="homepageButton">Home</a>
+    <a href="uploadPosts.html?username=" class="nav-button" id="uploadPostsButton">Upload Posts</a>
+  </div>
+
   <div class="container">
     <h2>User Profile</h2>
     <img id="profilePicture" src="" alt="Profile Picture">
@@ -110,10 +136,6 @@
 
         // Fetch profile picture URL
         const presignedUrlResponse = await fetch(`https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForViewingProfileImage/?username=${username}`);
-        // if (!presignedUrlResponse.ok) {
-        //   throw new Error('Failed to fetch presigned URL.');
-        // }
-
         const presignedUrlData = await presignedUrlResponse.json();
         const profilePictureUrl = presignedUrlData.url;
 
@@ -122,6 +144,10 @@
         } else {
           document.getElementById('profilePicture').src = './defaultprofile.jpg';
         }
+
+        // Update navigation buttons with the username parameter
+        document.getElementById('homepageButton').href += username;
+        document.getElementById('uploadPostsButton').href += username;
       } catch (error) {
         const messageElement = document.getElementById('message');
         messageElement.textContent = error.message;

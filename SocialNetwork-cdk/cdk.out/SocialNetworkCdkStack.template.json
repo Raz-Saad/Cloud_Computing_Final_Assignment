@@ -1260,7 +1260,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
-     "S3Key": "beae8cb0ff4f928a31e549dcfdc951e9cf448f42346ed9ba5c0dc17c929f535f.zip"
+     "S3Key": "8e92e15f79d76720f047d678b4ec37b901aa613de2e32a117b3e5484434e019e.zip"
     },
     "Environment": {
      "Variables": {
@@ -1292,7 +1292,66 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/deletePost/Resource",
-    "aws:asset:path": "asset.beae8cb0ff4f928a31e549dcfdc951e9cf448f42346ed9ba5c0dc17c929f535f",
+    "aws:asset:path": "asset.8e92e15f79d76720f047d678b4ec37b901aa613de2e32a117b3e5484434e019e",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "getAllDonePostsSecurityGroupFF3F0A03": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatic security group for Lambda Function SocialNetworkCdkStackgetAllDonePosts4533F803",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": "vpc-05fc44f3c7d685edb"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/getAllDonePosts/SecurityGroup/Resource"
+   }
+  },
+  "getAllDonePosts951614DF": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-361602391862-us-east-1",
+     "S3Key": "b025eaafb025742d95bf3e3ce9dbce0e3fc5d5d2939dea296587f3bdc3b46d93.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "Posts868B3EAD"
+      },
+      "IMAGE_BUCKET_NAME": {
+       "Ref": "ImageStorage82E68681"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": "arn:aws:iam::361602391862:role/LabRole",
+    "Runtime": "nodejs20.x",
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "getAllDonePostsSecurityGroupFF3F0A03",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      "subnet-0c2283da7ffab1df2",
+      "subnet-0cff5a0113ea24898"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/getAllDonePosts/Resource",
+    "aws:asset:path": "asset.b025eaafb025742d95bf3e3ce9dbce0e3fc5d5d2939dea296587f3bdc3b46d93",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -1306,7 +1365,7 @@
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Resource"
    }
   },
-  "SocialNetworkApiDeploymentA74B3F22e85a49055ca4e0d53549ae910c067000": {
+  "SocialNetworkApiDeploymentA74B3F22eebe4089cbb55fe2e1ed185313c01d58": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -1321,6 +1380,9 @@
     "SocialNetworkApideleteUserDELETE3193D5E6",
     "SocialNetworkApideleteUserOPTIONS22904A0C",
     "SocialNetworkApideleteUserCFD79263",
+    "SocialNetworkApigetAllDonePostsGET30412FAC",
+    "SocialNetworkApigetAllDonePostsOPTIONS2B27FEFC",
+    "SocialNetworkApigetAllDonePosts05D5E50A",
     "SocialNetworkApigetPresignUrlForUplodingPostImageGET97DC1964",
     "SocialNetworkApigetPresignUrlForUplodingPostImageOPTIONSC92E7565",
     "SocialNetworkApigetPresignUrlForUplodingPostImageD0895DD3",
@@ -1358,7 +1420,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "SocialNetworkApiDeploymentA74B3F22e85a49055ca4e0d53549ae910c067000"
+     "Ref": "SocialNetworkApiDeploymentA74B3F22eebe4089cbb55fe2e1ed185313c01d58"
     },
     "RestApiId": {
      "Ref": "SocialNetworkApiACB67AB1"
@@ -3217,6 +3279,170 @@
    },
    "Metadata": {
     "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/deletePost/DELETE/Resource"
+   }
+  },
+  "SocialNetworkApigetAllDonePosts05D5E50A": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "SocialNetworkApiACB67AB1",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "getAllDonePosts",
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getAllDonePosts/Resource"
+   }
+  },
+  "SocialNetworkApigetAllDonePostsOPTIONS2B27FEFC": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SocialNetworkApigetAllDonePosts05D5E50A"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getAllDonePosts/OPTIONS/Resource"
+   }
+  },
+  "SocialNetworkApigetAllDonePostsGETApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetAllDonePostsADD6F59B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "getAllDonePosts951614DF",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:361602391862:",
+       {
+        "Ref": "SocialNetworkApiACB67AB1"
+       },
+       "/",
+       {
+        "Ref": "SocialNetworkApiDeploymentStageprod4C6E8575"
+       },
+       "/GET/getAllDonePosts"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getAllDonePosts/GET/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getAllDonePosts"
+   }
+  },
+  "SocialNetworkApigetAllDonePostsGETApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9GETgetAllDonePosts9796C7C3": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "getAllDonePosts951614DF",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:361602391862:",
+       {
+        "Ref": "SocialNetworkApiACB67AB1"
+       },
+       "/test-invoke-stage/GET/getAllDonePosts"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getAllDonePosts/GET/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.GET..getAllDonePosts"
+   }
+  },
+  "SocialNetworkApigetAllDonePostsGET30412FAC": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "getAllDonePosts951614DF",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Origin": true
+      },
+      "StatusCode": "200"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SocialNetworkApigetAllDonePosts05D5E50A"
+    },
+    "RestApiId": {
+     "Ref": "SocialNetworkApiACB67AB1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SocialNetworkCdkStack/SocialNetworkApi/Default/getAllDonePosts/GET/Resource"
    }
   },
   "updateDBProfilePictureFunctionSecurityGroupA1198177": {

@@ -104,7 +104,7 @@
           messageElement.textContent = "Registration successful!";
           messageElement.classList.add('success');
           setTimeout(() => {
-            window.location.href = `profile.html?username=${username}`;
+            window.location.href = `homepage.html?username=${username}`;
           }, 2000);
         } else {
           messageElement.textContent = data.message;
