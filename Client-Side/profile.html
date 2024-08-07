@@ -20,10 +20,11 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       width: 300px;
-      text-align: center;
+      text-align: left;
     }
-    h2 {
+    h2,h3 {
       margin-bottom: 20px;
+      text-align: center;
     }
     img {
       max-width: 100%;
@@ -61,6 +62,9 @@
     .error {
       color: red;
     }
+    .label {
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -68,10 +72,11 @@
     <h2>User Profile</h2>
     <img id="profilePicture" src="" alt="Profile Picture">
     <div id="userInfo">
-      <p id="username">Username: </p>
-      <p id="fullname">Full Name: </p>
-      <p id="email">Email: </p>
+      <p><span class="label">Username:</span> <span id="username"></span></p> 
+      <p><span class="label">Full Name:</span> <span id="fullname"></span></p>
+      <p><span class="label">Email:</span> <span id="email"></span></p>
     </div>
+    <h3>Update Profile Picture</h3>
     <form id="uploadForm">
       <input type="file" id="fileInput" accept="image/*">
       <button type="submit">Upload New Picture</button>
@@ -93,21 +98,21 @@
 
       try {
         // Fetch user data
-        const userDataResponse = await fetch(`https://lzdz2zcm36.execute-api.us-east-1.amazonaws.com/prod/getUser/?username=${username}`);
+        const userDataResponse = await fetch(`https://qs8ebjrvy0.execute-api.us-east-1.amazonaws.com/prod/getUser/?username=${username}`);
         if (!userDataResponse.ok) {
           throw new Error('Failed to fetch user data.');
         }
 
         const userData = await userDataResponse.json();
-        document.getElementById('username').textContent = `Username: ${userData.username}`;
-        document.getElementById('fullname').textContent = `Full Name: ${userData.fullname}`;
-        document.getElementById('email').textContent = `Email: ${userData.email}`;
+        document.getElementById('username').textContent = userData.username;
+        document.getElementById('fullname').textContent = userData.fullname;
+        document.getElementById('email').textContent = userData.email;
 
         // Fetch profile picture URL
-        const presignedUrlResponse = await fetch(`https://lzdz2zcm36.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForViewingProfileImage/?username=${username}`);
-        if (!presignedUrlResponse.ok) {
-          throw new Error('Failed to fetch presigned URL.');
-        }
+        const presignedUrlResponse = await fetch(`https://qs8ebjrvy0.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForViewingProfileImage/?username=${username}`);
+        // if (!presignedUrlResponse.ok) {
+        //   throw new Error('Failed to fetch presigned URL.');
+        // }
 
         const presignedUrlData = await presignedUrlResponse.json();
         const profilePictureUrl = presignedUrlData.url;
@@ -115,7 +120,7 @@
         if (profilePictureUrl) {
           document.getElementById('profilePicture').src = profilePictureUrl;
         } else {
-          document.getElementById('profilePicture').alt = "No profile picture available";
+          document.getElementById('profilePicture').src = './defaultprofile.jpg';
         }
       } catch (error) {
         const messageElement = document.getElementById('message');
@@ -140,7 +145,7 @@
       }
 
       // Fetch pre-signed URL
-      const presignedUrlRequestUrl = `https://lzdz2zcm36.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForUplodingProfileImage/?username=${username}`;
+      const presignedUrlRequestUrl = `https://qs8ebjrvy0.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForUplodingProfileImage/?username=${username}`;
 
       try {
         const response = await fetch(presignedUrlRequestUrl);

@@ -56,6 +56,15 @@
     .error {
       color: red;
     }
+    .link {
+      margin-top: 10px;
+      display: block;
+      color: #007bff;
+      text-decoration: none;
+    }
+    .link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -67,6 +76,7 @@
       <button type="submit">Login</button>
     </form>
     <div id="message" class="message"></div>
+    <a href="register.html" class="link">Don't have an account? Register here</a>
   </div>
 
   <script>
@@ -76,7 +86,7 @@
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
 
-      const url = 'https://lzdz2zcm36.execute-api.us-east-1.amazonaws.com/prod/login';
+      const url = 'https://qs8ebjrvy0.execute-api.us-east-1.amazonaws.com/prod/login';
 
       fetch(url, {
         method: 'POST',
