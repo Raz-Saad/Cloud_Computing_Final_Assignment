@@ -166,15 +166,30 @@
         }
       }
     },
-    "618886a5f2aee5f1104cab51222a57795de2280aca69d135b336afebd1e27db0": {
+    "123c44113a14606ae8f934ab7ebc5a7166392a21f56b5364aad677e0783e85fb": {
       "source": {
-        "path": "asset.618886a5f2aee5f1104cab51222a57795de2280aca69d135b336afebd1e27db0",
+        "path": "asset.123c44113a14606ae8f934ab7ebc5a7166392a21f56b5364aad677e0783e85fb",
         "packaging": "zip"
       },
       "destinations": {
         "361602391862-us-east-1": {
           "bucketName": "cdk-hnb659fds-assets-361602391862-us-east-1",
-          "objectKey": "618886a5f2aee5f1104cab51222a57795de2280aca69d135b336afebd1e27db0.zip",
+          "objectKey": "123c44113a14606ae8f934ab7ebc5a7166392a21f56b5364aad677e0783e85fb.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
+          "assumeRoleExternalId": ""
+        }
+      }
+    },
+    "beae8cb0ff4f928a31e549dcfdc951e9cf448f42346ed9ba5c0dc17c929f535f": {
+      "source": {
+        "path": "asset.beae8cb0ff4f928a31e549dcfdc951e9cf448f42346ed9ba5c0dc17c929f535f",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "361602391862-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-361602391862-us-east-1",
+          "objectKey": "beae8cb0ff4f928a31e549dcfdc951e9cf448f42346ed9ba5c0dc17c929f535f.zip",
           "region": "us-east-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
           "assumeRoleExternalId": ""
@@ -226,7 +241,7 @@
         }
       }
     },
-    "29d120e5ff249528a27ae6a1f99ec81eca98a492c7b8b29e7f9d6bd948da86e9": {
+    "05f18da6cab66bbcd5c15f9fc09ac2fddd2b0e982c3a37f670f73555c2d301af": {
       "source": {
         "path": "SocialNetworkCdkStack.template.json",
         "packaging": "file"
@@ -234,7 +249,7 @@
       "destinations": {
         "361602391862-us-east-1": {
           "bucketName": "cdk-hnb659fds-assets-361602391862-us-east-1",
-          "objectKey": "29d120e5ff249528a27ae6a1f99ec81eca98a492c7b8b29e7f9d6bd948da86e9.json",
+          "objectKey": "05f18da6cab66bbcd5c15f9fc09ac2fddd2b0e982c3a37f670f73555c2d301af.json",
           "region": "us-east-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
           "assumeRoleExternalId": ""

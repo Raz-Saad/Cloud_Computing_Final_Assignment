@@ -19,7 +19,7 @@
         "assumeRoleExternalId": "",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::361602391862:role/LabRole",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/29d120e5ff249528a27ae6a1f99ec81eca98a492c7b8b29e7f9d6bd948da86e9.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-361602391862-us-east-1/05f18da6cab66bbcd5c15f9fc09ac2fddd2b0e982c3a37f670f73555c2d301af.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -318,6 +318,18 @@
             "data": "uploadPostByImageAfterEdit7237AC04"
           }
         ],
+        "/SocialNetworkCdkStack/deletePost/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deletePostSecurityGroup98394CD8"
+          }
+        ],
+        "/SocialNetworkCdkStack/deletePost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deletePost14F3F5AA"
+          }
+        ],
         "/SocialNetworkCdkStack/SocialNetworkApi/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -327,7 +339,7 @@
         "/SocialNetworkCdkStack/SocialNetworkApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SocialNetworkApiDeploymentA74B3F22473686e2029a15714ba783641d1a56c6"
+            "data": "SocialNetworkApiDeploymentA74B3F22e85a49055ca4e0d53549ae910c067000"
           }
         ],
         "/SocialNetworkCdkStack/SocialNetworkApi/DeploymentStage.prod/Resource": [
@@ -646,6 +658,36 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "SocialNetworkApiuploadPostByImageAfterEditPOSTC814D6C1"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/deletePost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApideletePost128C8FD0"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/deletePost/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApideletePostOPTIONSC18E87C8"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/deletePost/DELETE/ApiPermission.SocialNetworkCdkStackSocialNetworkApiAC936AE9.DELETE..deletePost": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApideletePostDELETEApiPermissionSocialNetworkCdkStackSocialNetworkApiAC936AE9DELETEdeletePostE6E6B568"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/deletePost/DELETE/ApiPermission.Test.SocialNetworkCdkStackSocialNetworkApiAC936AE9.DELETE..deletePost": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApideletePostDELETEApiPermissionTestSocialNetworkCdkStackSocialNetworkApiAC936AE9DELETEdeletePost180E03A0"
+          }
+        ],
+        "/SocialNetworkCdkStack/SocialNetworkApi/Default/deletePost/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SocialNetworkApideletePostDELETE0ED0157E"
           }
         ],
         "/SocialNetworkCdkStack/ApiUrl": [

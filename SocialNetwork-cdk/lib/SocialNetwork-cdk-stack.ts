@@ -23,25 +23,6 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       vpcId: 'vpc-05fc44f3c7d685edb',
     });
 
-    // Create VPC
-    // const vpc = new ec2.Vpc(this, 'VPC', {
-    //   cidr: '10.0.0.0/16',
-    //   maxAzs: 2,
-    //   subnetConfiguration: [
-    //     {
-    //       subnetType: ec2.SubnetType.PUBLIC,
-    //       name: 'Public',
-    //       cidrMask: 24,
-    //     },
-    //     {
-    //       subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-    //       name: 'Private',
-    //       cidrMask: 24,
-    //     },
-    //   ],
-    //   natGateways: 0,
-    // });
-
     this.createNatGatewayForPrivateSubnet(vpc);
 
     //creating a Dynamo DB Table for storing user's data
@@ -78,6 +59,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     const getStagingAndErrorPostsFunction = this.createApiLambdaFunction('getStagingAndErrorPosts', 'lambdas/getStagingAndErrorPosts', labRole, postsTable, vpc, profileImageBucket);
     const uploadTextPostFunction = this.createApiLambdaFunction('uploadTextPost', 'lambdas/uploadTextPost', labRole, postsTable, vpc, profileImageBucket);
     const uploadPostByImageAfterEditFunction = this.createApiLambdaFunction('uploadPostByImageAfterEdit', 'lambdas/uploadPostByImageAfterEdit', labRole, postsTable, vpc, profileImageBucket);
+    const deletePostFunction = this.createApiLambdaFunction('deletePost', 'lambdas/deletePost', labRole, postsTable, vpc, profileImageBucket);
 
     // Create API Gateway
     const api = new apigateway.RestApi(this, 'SocialNetworkApi', {
@@ -188,6 +170,16 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     const uploadPostByImageAfterEdit = api.root.addResource('uploadPostByImageAfterEdit');
     uploadPostByImageAfterEdit.addMethod('POST', new apigateway.LambdaIntegration(uploadPostByImageAfterEditFunction), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
+
+    const deletePost = api.root.addResource('deletePost');
+    deletePost.addMethod('DELETE', new apigateway.LambdaIntegration(deletePostFunction), {
       methodResponses: [{
         statusCode: '200',
         responseParameters: {

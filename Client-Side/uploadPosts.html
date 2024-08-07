@@ -91,6 +91,20 @@
         .error {
             color: red;
         }
+        
+        .delete-button {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .delete-button:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 
@@ -125,6 +139,7 @@
         const uploadTextPostApi = 'https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/uploadTextPost';
         const getStagingAndErrorPostsApi = 'https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/getStagingAndErrorPosts';
         const uploadPostByImageAfterEditApi = 'https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/uploadPostByImageAfterEdit';
+        const deletePostApi = 'https://t3zlppizhj.execute-api.us-east-1.amazonaws.com/prod/deletePost';
 
         document.getElementById('uploadImageForm').addEventListener('submit', async function (event) {
             event.preventDefault();
@@ -161,7 +176,7 @@
                     body: fileInput
                 });
 
-                if (response.ok) {
+                if (uploadResponse.ok) {
                     alert('Image uploaded successfully!');
                     await sleep(1000);
                     await fetchPosts(); // Refresh posts after updating
@@ -222,6 +237,7 @@
                     postBox.innerHTML = `
             <textarea>${post.Content}</textarea>
             <button onclick="updatePost('${post.PostID}', this)">Post</button>
+            <button class="delete-button" onclick="deletePost('${post.PostID}', this)">Delete</button>
           `;
                     postsContainer.appendChild(postBox);
                 });
@@ -253,6 +269,31 @@
             } catch (error) {
                 console.error('Error updating post:', error);
                 alert('Error updating post.');
+            }
+        }
+
+        async function deletePost(postID, button) {
+            const postBox = button.parentElement;
+
+            try {
+                const response = await fetch(deletePostApi, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ postid: postID })
+                });
+
+                if (response.ok) {
+                    alert('Post deleted successfully.');
+                    postBox.remove(); // Remove post from the UI
+                    await fetchPosts(); // Refresh posts after updating
+                } else {
+                    alert('Failed to delete post.');
+                }
+            } catch (error) {
+                console.error('Error deleting post:', error);
+                alert('Error deleting post.');
             }
         }
 
