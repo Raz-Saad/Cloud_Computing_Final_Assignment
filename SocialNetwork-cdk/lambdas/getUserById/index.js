@@ -60,7 +60,7 @@ exports.handler = async function (event) {
     console.log("Unmarshalled user:", user);
 
     // Extract specific attributes
-    const { UserName, Email, FullName } = user;
+    const { UserName, Email, FullName, validProfilePicture } = user;
 
     return {
       statusCode: 200,
@@ -70,7 +70,12 @@ exports.handler = async function (event) {
         "Access-Control-Allow-Methods": "GET, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
       },
-      body: JSON.stringify({ username: UserName, email: Email, fullname: FullName }),
+      body: JSON.stringify({
+        username: UserName,
+        email: Email,
+        fullname: FullName,
+        validProfilePicture: validProfilePicture || false
+      }),
     };
   } catch (error) {
     console.error("Error retrieving user:", error);

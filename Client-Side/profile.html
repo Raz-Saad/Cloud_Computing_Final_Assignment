@@ -149,11 +149,14 @@
         document.getElementById('username').textContent = userData.username;
         document.getElementById('fullname').textContent = userData.fullname;
         document.getElementById('email').textContent = userData.email;
-
-        // Fetch profile picture URL
-        const presignedUrlResponse = await fetch(`${baseURL}getPresignUrlForViewingProfileImage/?username=${username}`);
-        const presignedUrlData = await presignedUrlResponse.json();
-        const profilePictureUrl = presignedUrlData.url;
+        const validProfilePicture = userData.validProfilePicture;
+        let profilePictureUrl;
+        if (validProfilePicture) {
+          // Fetch profile picture URL
+          const presignedUrlResponse = await fetch(`${baseURL}getPresignUrlForViewingProfileImage/?username=${username}`);
+          const presignedUrlData = await presignedUrlResponse.json();
+          profilePictureUrl = presignedUrlData.url;
+        }
 
         if (profilePictureUrl) {
           document.getElementById('profilePicture').src = profilePictureUrl;
