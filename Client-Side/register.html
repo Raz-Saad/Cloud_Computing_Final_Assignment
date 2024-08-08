@@ -46,6 +46,12 @@
     button:hover {
       background-color: #0056b3;
     }
+    .link {
+      margin-top: 10px;
+      display: block;
+      color: #007bff;
+      text-decoration: none;
+    }
     .message {
       margin-top: 20px;
     }
@@ -68,6 +74,7 @@
       <button type="submit">Register</button>
     </form>
     <div id="message" class="message"></div>
+    <a href="login.html" class="link">Have an account? Login here</a>
   </div>
 
   <script>
@@ -78,8 +85,9 @@
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       const fullname = document.getElementById('fullname').value;
+      const baseURL = `https://y1rrpxh9l9.execute-api.us-east-1.amazonaws.com/prod/`;
 
-      const url = 'https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/registration';
+      const url = `${baseURL}registration`;
 
       fetch(url, {
         method: 'POST',

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,50 +10,60 @@
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
       margin: 0;
-      padding: 0;
-    }
-    .header-buttons {
-      background-color: #6c757d;
-      padding: 10px;
+      padding: 20px;
       display: flex;
-      justify-content: center;
-      position: relative; /* Changed from fixed */
-      width: 100%;
+      flex-direction: column;
+      align-items: center;
     }
-    .nav-button {
-      background-color: #6c757d;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 20px;
-      margin: 0 5px;
-      cursor: pointer;
-      font-size: 16px;
-      text-decoration: none;
-      text-align: center;
-    }
-    .nav-button:hover {
-      background-color: #5a6268;
-    }
+
     .container {
       background-color: white;
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
+      width: 400px;
       text-align: left;
       margin: 20px auto;
     }
-    h2, h3 {
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .nav-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .nav-button:hover {
+      background-color: #0056b3;
+    }
+
+    h2,
+    h3 {
       margin-bottom: 20px;
       text-align: center;
     }
+
     img {
-      max-width: 100%;
+      max-width: 80%;
       height: auto;
       border-radius: 50%;
       margin-bottom: 20px;
+      display: block;
+      margin: 0 auto;
     }
+
     input[type="file"] {
       width: 100%;
       padding: 10px;
@@ -61,6 +72,7 @@
       border-radius: 4px;
       box-sizing: border-box;
     }
+
     button {
       width: 100%;
       padding: 10px;
@@ -71,34 +83,39 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     button:hover {
       background-color: #0056b3;
     }
+
     .message {
       margin-top: 20px;
     }
+
     .success {
       color: green;
     }
+
     .error {
       color: red;
     }
+
     .label {
       font-weight: bold;
     }
   </style>
 </head>
-<body>
-  <div class="header-buttons">
-    <a href="homepage.html?username=" class="nav-button" id="homepageButton">Home</a>
-    <a href="uploadPosts.html?username=" class="nav-button" id="uploadPostsButton">Upload Posts</a>
-  </div>
 
+<body>
   <div class="container">
+    <div class="navigation-buttons">
+      <a href="homepage.html?username=" class="nav-button" id="homepageButton">Home</a>
+      <a href="uploadPosts.html?username=" class="nav-button" id="uploadPostsButton">Upload Posts</a>
+    </div>
     <h2>User Profile</h2>
     <img id="profilePicture" src="" alt="Profile Picture">
     <div id="userInfo">
-      <p><span class="label">Username:</span> <span id="username"></span></p> 
+      <p><span class="label">Username:</span> <span id="username"></span></p>
       <p><span class="label">Full Name:</span> <span id="fullname"></span></p>
       <p><span class="label">Email:</span> <span id="email"></span></p>
     </div>
@@ -111,10 +128,11 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', async function() {
+    document.addEventListener('DOMContentLoaded', async function () {
       const urlParams = new URLSearchParams(window.location.search);
       const username = urlParams.get('username');
-      
+      const baseURL = `https://y1rrpxh9l9.execute-api.us-east-1.amazonaws.com/prod/`;
+
       if (!username) {
         const messageElement = document.getElementById('message');
         messageElement.textContent = "Username not provided.";
@@ -124,7 +142,7 @@
 
       try {
         // Fetch user data
-        const userDataResponse = await fetch(`https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/getUser/?username=${username}`);
+        const userDataResponse = await fetch(`${baseURL}getUser/?username=${username}`);
         if (!userDataResponse.ok) {
           throw new Error('Failed to fetch user data.');
         }
@@ -135,7 +153,7 @@
         document.getElementById('email').textContent = userData.email;
 
         // Fetch profile picture URL
-        const presignedUrlResponse = await fetch(`https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForViewingProfileImage/?username=${username}`);
+        const presignedUrlResponse = await fetch(`${baseURL}getPresignUrlForViewingProfileImage/?username=${username}`);
         const presignedUrlData = await presignedUrlResponse.json();
         const profilePictureUrl = presignedUrlData.url;
 
@@ -155,7 +173,7 @@
       }
     });
 
-    document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+    document.getElementById('uploadForm').addEventListener('submit', async function (event) {
       event.preventDefault();
 
       const fileInput = document.getElementById('fileInput').files[0];
@@ -163,6 +181,7 @@
 
       const urlParams = new URLSearchParams(window.location.search);
       const username = urlParams.get('username');
+      const baseURL = `https://y1rrpxh9l9.execute-api.us-east-1.amazonaws.com/prod/`;
 
       if (!username || !fileInput) {
         messageElement.textContent = "Failed to retrieve username or file input.";
@@ -171,12 +190,12 @@
       }
 
       // Fetch pre-signed URL
-      const presignedUrlRequestUrl = `https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForUplodingProfileImage/?username=${username}`;
+      const presignedUrlRequestUrl = `${baseURL}getPresignUrlForUplodingProfileImage/?username=${username}`;
 
       try {
         const response = await fetch(presignedUrlRequestUrl);
         const data = await response.json();
-        
+
         if (!response.ok || !data.uploadUrl) {
           throw new Error('Failed to get pre-signed URL.');
         }
@@ -210,4 +229,5 @@
     });
   </script>
 </body>
+
 </html>

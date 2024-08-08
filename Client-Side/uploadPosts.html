@@ -104,7 +104,6 @@
             border: none;
             border-radius: 4px;
             padding: 5px 20px;
-            /* Adjust padding to make the button smaller */
             cursor: pointer;
             font-size: 14px;
         }
@@ -112,12 +111,38 @@
         .delete-button:hover {
             background-color: darkred;
         }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .nav-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
 <body>
-
     <div class="container">
+        <div class="navigation-buttons">
+            <a href="homepage.html?username=" class="nav-button" id="homepageButton">Home</a>
+            <a href="profile.html?username=" class="nav-button" id="profileButton">Profile</a>
+        </div>
         <h1>Manage Posts</h1>
 
         <!-- Text Post Upload Section -->
@@ -143,11 +168,13 @@
     </div>
 
     <script>
-        const presignUrlApi = 'https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/getPresignUrlForUplodingPostImage';
-        const uploadTextPostApi = 'https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/uploadTextPost';
-        const getStagingAndErrorPostsApi = 'https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/getStagingAndErrorPosts';
-        const uploadPostByImageAfterEditApi = 'https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/uploadPostByImageAfterEdit';
-        const deletePostApi = 'https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/deletePost';
+        const baseURL = `https://y1rrpxh9l9.execute-api.us-east-1.amazonaws.com/prod/`;
+
+        const presignUrlApi = `${baseURL}getPresignUrlForUplodingPostImage`;
+        const uploadTextPostApi = `${baseURL}uploadTextPost`;
+        const getStagingAndErrorPostsApi = `${baseURL}getStagingAndErrorPosts`;
+        const uploadPostByImageAfterEditApi = `${baseURL}uploadPostByImageAfterEdit`;
+        const deletePostApi = `${baseURL}deletePost`;
 
         document.getElementById('uploadImageForm').addEventListener('submit', async function (event) {
             event.preventDefault();
@@ -255,10 +282,11 @@
             }
         }
 
-        async function updatePost(postID, button) {
+        async function updatePost(postid, button) {
             const postBox = button.parentElement.parentElement;
             const content = postBox.querySelector('textarea').value;
             const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get('username');
 
             try {
                 const response = await fetch(uploadPostByImageAfterEditApi, {
@@ -266,12 +294,12 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ postid: postID, content })
+                    body: JSON.stringify({ postid, content })
                 });
 
                 if (response.ok) {
                     alert('Post updated successfully.');
-                    await fetchPosts(); // Refresh posts after updating
+                    await fetchPosts(); 
                 } else {
                     alert('Failed to update post.');
                 }
@@ -281,8 +309,10 @@
             }
         }
 
-        async function deletePost(postID, button) {
+        async function deletePost(postid, button) {
             const postBox = button.parentElement.parentElement;
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get('username');
 
             try {
                 const response = await fetch(deletePostApi, {
@@ -290,12 +320,13 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ postid: postID })
+                    body: JSON.stringify({ postid })
                 });
 
                 if (response.ok) {
+                    postBox.remove();
                     alert('Post deleted successfully.');
-                    postBox.remove(); // Remove post element from DOM
+                    await fetchPosts();
                 } else {
                     alert('Failed to delete post.');
                 }
@@ -305,14 +336,27 @@
             }
         }
 
+        // Helper function to simulate sleep
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        // Fetch posts on page load
-        document.addEventListener('DOMContentLoaded', fetchPosts);
-    </script>
+        // Extract username from URL and set it in navigation buttons
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get('username');
 
+            if (username) {
+                document.getElementById('homepageButton').href = `homepage.html?username=${username}`;
+                document.getElementById('profileButton').href = `profile.html?username=${username}`;
+            } else {
+                alert('Failed to retrieve username.');
+            }
+        });
+
+        // Fetch posts on page load
+        fetchPosts();
+    </script>
 </body>
 
 </html>

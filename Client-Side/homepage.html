@@ -104,8 +104,9 @@
     </div>
 
     <script>
-        const apiUrl = 'https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/getAllDonePosts';
-        const deletePostApi = 'https://s7xk9t2ieh.execute-api.us-east-1.amazonaws.com/prod/deletePost';
+        const baseURL = `https://y1rrpxh9l9.execute-api.us-east-1.amazonaws.com/prod/`;
+        const apiUrl = `${baseURL}getAllDonePosts`;
+        const deletePostApi = `${baseURL}deletePost`;
 
         document.addEventListener('DOMContentLoaded', async function () {
             const username = getUsernameFromUrl();
