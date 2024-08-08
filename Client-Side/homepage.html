@@ -126,6 +126,8 @@
                 const data = await response.json();
                 const postsContainer = document.getElementById('postsContainer');
                 postsContainer.innerHTML = '';
+                // Sort posts by PostID in descending order (newest first)
+                data.sort((a, b) => b.PostID - a.PostID);
 
                 data.forEach(post => {
                     const postBox = document.createElement('div');

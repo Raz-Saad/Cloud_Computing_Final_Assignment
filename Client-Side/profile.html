@@ -134,9 +134,7 @@
       const baseURL = `https://y1rrpxh9l9.execute-api.us-east-1.amazonaws.com/prod/`;
 
       if (!username) {
-        const messageElement = document.getElementById('message');
-        messageElement.textContent = "Username not provided.";
-        messageElement.classList.add('error');
+        alert('Username not provided.');
         return;
       }
 
@@ -184,8 +182,7 @@
       const baseURL = `https://y1rrpxh9l9.execute-api.us-east-1.amazonaws.com/prod/`;
 
       if (!username || !fileInput) {
-        messageElement.textContent = "Failed to retrieve username or file input.";
-        messageElement.classList.add('error');
+        alert('Failed to retrieve username or file input.');
         return;
       }
 
@@ -215,9 +212,7 @@
           throw new Error('Failed to upload the image.');
         }
 
-        messageElement.textContent = "Image uploaded successfully!";
-        messageElement.classList.remove('error');
-        messageElement.classList.add('success');
+        alert('Image uploaded successfully!');
 
         // Update the profile picture immediately after upload
         document.getElementById('profilePicture').src = URL.createObjectURL(fileInput);
