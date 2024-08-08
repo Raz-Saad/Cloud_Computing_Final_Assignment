@@ -11,7 +11,7 @@ const BUCKET_NAME = process.env.IMAGE_BUCKET_NAME;
 const dynamoDbClient = new DynamoDBClient({ region: AWS_REGION });
 const s3Client = new S3Client({ region: AWS_REGION });
 
-exports.handler = async function(event) {
+exports.handler = async function (event) {
   console.log("Received event:", JSON.stringify(event, undefined, 2));
 
   // Extracting username from query string parameters
@@ -58,7 +58,7 @@ exports.handler = async function(event) {
     const deleteParams = {
       TableName: TABLE_NAME,
       Key: {
-        UserName: { S: username } 
+        UserName: { S: username }
       }
     };
 

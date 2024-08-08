@@ -2,28 +2,31 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
-//const baseURL = 'https://ybr1iagk0m.execute-api.us-east-1.amazonaws.com/prod/'; // need to be updated each deploy
 const baseURL = process.env.API_URL; // environment variable for api gateway
 
 describe('Registration API', () => {
   it('should register a new user successfully', async () => {
-    const username = 'testuser';
-    const email = 'testuser@example.com';
-    const password = 'password123';
-    const fullname = 'Test User';
+    const userData = {
+      username: 'testuser',
+      email: 'testuser@example.com',
+      password: 'password123',
+      fullname: 'Test User',
+    };
 
-    const response = await axios.post(`${baseURL}registration?username=${username}&email=${email}&password=${password}&fullname=${fullname}`);
+    const response = await axios.post(`${baseURL}registration`, userData);
     expect(response.status).toBe(201);
     expect(response.data.message).toBe('User created successfully');
   });
 
   it('should handle missing parameters', async () => {
-    const email = 'testuser@example.com';
-    const password = 'password123';
-    const fullname = 'Test User';
+    const userData = {
+      email: 'testuser@example.com',
+      password: 'password123',
+      fullname: 'Test User',
+    };
 
     try {
-      const response = await axios.post(`${baseURL}registration?email=${email}&password=${password}&fullname=${fullname}`);
+      await axios.post(`${baseURL}registration`, userData);
     } catch (error) {
       expect(error.response.status).toBe(400);
       expect(error.response.data.message).toBe('Missing required parameters');
@@ -31,14 +34,16 @@ describe('Registration API', () => {
   });
 
   it('should handle invalid parameters - extra parameter', async () => {
-    const username = 'testuser';
-    const email = 'testuser@example.com';
-    const password = 'password123';
-    const fullname = 'Test User';
-    const extra = 'extra';
+    const userData = {
+      username: 'testuser',
+      email: 'testuser@example.com',
+      password: 'password123',
+      fullname: 'Test User',
+      extra: 'extra',
+    };
 
     try {
-      const response = await axios.post(`${baseURL}registration?username=${username}&email=${email}&password=${password}&fullname=${fullname}&extra=${extra}`);
+      await axios.post(`${baseURL}registration`, userData);
     } catch (error) {
       expect(error.response.status).toBe(400);
       expect(error.response.data.message).toBe('Invalid parameters provided');
@@ -47,17 +52,17 @@ describe('Registration API', () => {
 });
 
 describe('GetUser API', () => {
-    it('should retrieve user details successfully', async () => {
-        const username = 'testuser';
-        const email = 'testuser@example.com';
-        const fullname = 'Test User';
+  it('should retrieve user details successfully', async () => {
+    const username = 'testuser';
+    const email = 'testuser@example.com';
+    const fullname = 'Test User';
 
-        const response = await axios.get(`${baseURL}getUser?username=${username}`);
-        expect(response.status).toBe(200);
-        expect(response.data.username).toBe(username);
-        expect(response.data.email).toBe(email);
-        expect(response.data.fullname).toBe(fullname);
-      });
+    const response = await axios.get(`${baseURL}getUser?username=${username}`);
+    expect(response.status).toBe(200);
+    expect(response.data.username).toBe(username);
+    expect(response.data.email).toBe(email);
+    expect(response.data.fullname).toBe(fullname);
+  });
 
   it('should handle missing username parameter', async () => {
     try {
@@ -83,12 +88,12 @@ describe('GetUser API', () => {
 
 describe('getPresignUrlForUplodingProfileImage API', () => {
   it('should get a PUT presign URL and upload an image', async () => {
-    const username = 'testuser'; 
+    const username = 'testuser';
 
     try {
       const response = await axios.get(`${baseURL}getPresignUrlForUplodingProfileImage?username=${username}`);
       expect(response.status).toBe(200);
-      
+
       const uploadUrl = response.data.uploadUrl;
       console.log('Pre-signed URL:', uploadUrl);
 
@@ -105,7 +110,7 @@ describe('getPresignUrlForUplodingProfileImage API', () => {
       });
 
       expect(putResponse.status).toBe(200);
-     
+
     } catch (error) {
       console.error('Error uploading profile picture:', error.response ? error.response.data : error.message);
       throw error;

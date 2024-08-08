@@ -11,7 +11,7 @@ exports.handler = async (event) => {
     console.log('Received event:', JSON.stringify(event, null, 2));
 
     // Parse input JSON
-    const {postid, content } = JSON.parse(event.body);
+    const { postid, content } = JSON.parse(event.body);
 
     if (!postid || !content) {
         return {
@@ -34,7 +34,7 @@ exports.handler = async (event) => {
         UpdateExpression: 'SET Content = :content, Staging = :staging',
         ExpressionAttributeValues: {
             ':content': { S: content },
-            ':staging': { S: 'done' } 
+            ':staging': { S: 'done' }
         },
         ConditionExpression: 'attribute_exists(PostID)' // Ensures the item exists
     };

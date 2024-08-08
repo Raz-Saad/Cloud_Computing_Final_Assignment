@@ -199,7 +199,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       }],
     });
 
-    
+
 
     // Lambda function that gets called with a trigger
     const updateDBProfilePictureFunction = this.createupdateDBProfilePictureFunction(labRole, usersTable, profileImageBucket, vpc);
@@ -250,37 +250,37 @@ export class SocialNetworkCdkStack extends cdk.Stack {
   private createBucket(bucketname: string, labRole: iam.IRole) {
     // Create image storage bucket with CORS configuration
     const bucket = new s3.Bucket(this, bucketname, {
-        removalPolicy: cdk.RemovalPolicy.DESTROY,
-        notificationsHandlerRole: labRole,
-        cors: [
-            {
-                allowedHeaders: ["*"],
-                allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT, s3.HttpMethods.POST],
-                allowedOrigins: ["*"], // Allow all origins
-                exposedHeaders: []
-            }
-        ]
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      notificationsHandlerRole: labRole,
+      cors: [
+        {
+          allowedHeaders: ["*"],
+          allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT, s3.HttpMethods.POST],
+          allowedOrigins: ["*"], // Allow all origins
+          exposedHeaders: []
+        }
+      ]
     });
 
     // Add policy to the bucket
     bucket.addToResourcePolicy(
-        new iam.PolicyStatement({
-            actions: ["s3:ListBucket", "s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
-            resources: [
-                bucket.bucketArn,
-                bucket.arnForObjects("*"),
-            ],
-            principals: [new iam.ArnPrincipal(labRole.roleArn)]
-        })
+      new iam.PolicyStatement({
+        actions: ["s3:ListBucket", "s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+        resources: [
+          bucket.bucketArn,
+          bucket.arnForObjects("*"),
+        ],
+        principals: [new iam.ArnPrincipal(labRole.roleArn)]
+      })
     );
 
     // Output bucket name
     new cdk.CfnOutput(this, `${bucketname}Output`, {
-        value: bucket.bucketName,
+      value: bucket.bucketName,
     });
 
     return bucket;
-}
+  }
 
   private createSQSQueue(queueName: string): sqs.Queue {
     const queue = new sqs.Queue(this, queueName, {
@@ -301,11 +301,6 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       writeCapacity: 1,
     });
 
-    // Output table name
-    // new cdk.CfnOutput(this, 'TableName', {
-    //   value: table.tableName,
-    // });
-
     return table;
   }
 
@@ -314,14 +309,6 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       partitionKey: { name: 'PostID', type: dynamodb.AttributeType.STRING },
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PROVISIONED,
-      readCapacity: 1,
-      writeCapacity: 1,
-    });
-
-    postsTable.addGlobalSecondaryIndex({
-      indexName: 'UsernameIndex',
-      partitionKey: { name: 'UserName', type: dynamodb.AttributeType.STRING },
-      projectionType: dynamodb.ProjectionType.ALL,
       readCapacity: 1,
       writeCapacity: 1,
     });
@@ -346,6 +333,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     return postsTable;
   }
 
+  // general creation of lambda that conncted to apigateway
   private createApiLambdaFunction(id: string, path: string, labRole: iam.IRole, table: dynamodb.Table, vpc: cdk.aws_ec2.IVpc, Bucket: s3.Bucket) {
     // Grant permissions to Lambda function
     table.grantReadWriteData(labRole);
@@ -432,7 +420,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
     textractLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueImageUpload));
   }
 
-
+  // lambda for storing the result of textract into the posts dynamo db table
   private createTextractResultLambda(functionName: string, labRole: iam.IRole, sqsQueueTextractResult: sqs.IQueue, postsTable: dynamodb.Table) {
 
     const textractResultLambda = new lambda.Function(this, functionName, {

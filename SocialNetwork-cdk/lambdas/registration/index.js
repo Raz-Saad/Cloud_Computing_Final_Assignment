@@ -7,7 +7,7 @@ const crypto = require('crypto');
 const TABLE_NAME = process.env.TABLE_NAME;
 const client = new DynamoDBClient({ region: process.env.AWS_REGION });
 
-exports.handler = async function(event) {
+exports.handler = async function (event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
 
   // Parse the JSON body

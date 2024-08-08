@@ -36,7 +36,7 @@ exports.handler = async (event) => {
 
         return {
             statusCode: 200,
-            headers: { 
+            headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",  // Allow from all origins
                 "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -49,7 +49,7 @@ exports.handler = async (event) => {
 
         return {
             statusCode: 500,
-            headers: { 
+            headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",  // Allow from all origins
                 "Access-Control-Allow-Methods": "GET, OPTIONS",

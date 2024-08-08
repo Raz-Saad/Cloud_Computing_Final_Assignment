@@ -1,7 +1,7 @@
 //textract
 
 const { TextractClient, DetectDocumentTextCommand } = require('@aws-sdk/client-textract');
-const { SQSClient, SendMessageCommand, DeleteMessageCommand  } = require('@aws-sdk/client-sqs');
+const { SQSClient, SendMessageCommand, DeleteMessageCommand } = require('@aws-sdk/client-sqs');
 
 // Create Textract and SQS clients
 const textractClient = new TextractClient();
@@ -12,13 +12,13 @@ exports.handler = async (event) => {
 
   const promises = event.Records.map(async (record) => {
     console.log('Processing record:', JSON.stringify(record, null, 2));
-    
+
     if (!record.body) {
       console.error('No s3 object in record:', record);
       return;
     }
-    
-    
+
+
     // Parse the body to extract the bucket name and key
     const body = JSON.parse(record.body);
     const s3Record = body.Records[0].s3;
@@ -27,11 +27,11 @@ exports.handler = async (event) => {
       console.error('No s3 object in body:', record);
       return;
     }
-    
+
     const bucket = s3Record.bucket.name;
     const key = decodeURIComponent(s3Record.object.key.replace(/\+/g, ' '));
     console.log(`bucket: ${bucket} and key ${key}`);
-    
+
     // Only process images
     if (!key.endsWith('.jpg') && !key.endsWith('.png')) {
       console.log("Not an image. Skipping...");
@@ -56,7 +56,7 @@ exports.handler = async (event) => {
       const command = new DetectDocumentTextCommand(params);
       const data = await textractClient.send(command);
       console.log('Extracted Text Metadata:', JSON.stringify(data, null, 2));
-      
+
       // Extract lines of text 
       const blocks = data.Blocks.filter(block => block.BlockType === 'LINE');
       let extractedText;
@@ -66,20 +66,19 @@ exports.handler = async (event) => {
         extractedText = 'No text detected in the image.';
         isError = 'True';
       }
-      else
-      {
-        
-      //sort line of text by their position on the page
-      blocks.sort((a, b) => a.Geometry.BoundingBox.Top - b.Geometry.BoundingBox.Top);
-      
-      // Combine the lines of text into a single string
-      extractedText = blocks.map(block => block.Text).join(' ');
-      console.log(`Extracted Text: ${extractedText}`);
+      else {
+
+        //sort line of text by their position on the page
+        blocks.sort((a, b) => a.Geometry.BoundingBox.Top - b.Geometry.BoundingBox.Top);
+
+        // Combine the lines of text into a single string
+        extractedText = blocks.map(block => block.Text).join(' ');
+        console.log(`Extracted Text: ${extractedText}`);
       }
-      
+
       const sqsParams = {
         QueueUrl: process.env.OUTPUT_QUEUE_URL,
-        MessageBody: JSON.stringify({ username, bucket, key, text: extractedText , isError})
+        MessageBody: JSON.stringify({ username, bucket, key, text: extractedText, isError })
       };
 
       const sqsCommand = new SendMessageCommand(sqsParams);

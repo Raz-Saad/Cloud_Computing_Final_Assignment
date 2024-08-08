@@ -9,7 +9,7 @@ const AWS_REGION = process.env.AWS_REGION;
 
 const client = new DynamoDBClient({ region: AWS_REGION });
 
-exports.handler = async function(event) {
+exports.handler = async function (event) {
   console.log("Received event:", JSON.stringify(event, undefined, 2));
 
   // Extracting username from query string parameters
@@ -19,7 +19,7 @@ exports.handler = async function(event) {
   if (username == null) {
     return {
       statusCode: 400,
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",  // Allow from all origins
         "Access-Control-Allow-Methods": "GET, OPTIONS", // Updated to allow GET method
@@ -45,7 +45,7 @@ exports.handler = async function(event) {
     if (!data.Item) {
       return {
         statusCode: 404,
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",  // Allow from all origins
           "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -64,7 +64,7 @@ exports.handler = async function(event) {
 
     return {
       statusCode: 200,
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",  // Allow from all origins
         "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -76,7 +76,7 @@ exports.handler = async function(event) {
     console.error("Error retrieving user:", error);
     return {
       statusCode: 500,
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",  // Allow from all origins
         "Access-Control-Allow-Methods": "GET, OPTIONS",

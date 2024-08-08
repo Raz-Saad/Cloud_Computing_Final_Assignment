@@ -34,7 +34,7 @@ exports.handler = async (event) => {
         // Get current date and format as "YYYY-MM-DD"
         const todayDate = new Date();
         const postDate = `${todayDate.getUTCFullYear()}-${String(todayDate.getUTCMonth() + 1).padStart(2, '0')}-${String(todayDate.getUTCDate()).padStart(2, '0')}`;
-        
+
         // Define parameters for inserting the post into DynamoDB
         const params = {
             TableName: TABLE_NAME,

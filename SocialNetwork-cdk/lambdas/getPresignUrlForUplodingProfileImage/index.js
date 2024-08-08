@@ -18,7 +18,7 @@ exports.handler = async (event) => {
   if (username == null) {
     return {
       statusCode: 400,
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS , GET",
@@ -34,7 +34,7 @@ exports.handler = async (event) => {
     if (!existingUser) {
       return {
         statusCode: 404,
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "POST, OPTIONS , GET",
@@ -43,7 +43,7 @@ exports.handler = async (event) => {
         body: JSON.stringify({ message: `User '${username}' not found` }),
       };
     }
-    
+
     // Define the folder path
     const folderPath = `${username}/`;
 
@@ -54,7 +54,7 @@ exports.handler = async (event) => {
     };
 
     const listedObjects = await s3Client.send(new ListObjectsV2Command(listParams));
-    
+
     // listedObjects.KeyCount indicating how many files matched the prefix path BUCKET_NAME/username/
     if (listedObjects.KeyCount === 0) {
       // Create a dummy file in the folder to ensure it gets created
@@ -81,7 +81,7 @@ exports.handler = async (event) => {
     // Return the signed URL as the response
     return {
       statusCode: 200,
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS , GET",
@@ -94,7 +94,7 @@ exports.handler = async (event) => {
     console.error(error);
     return {
       statusCode: 500,
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS , GET",

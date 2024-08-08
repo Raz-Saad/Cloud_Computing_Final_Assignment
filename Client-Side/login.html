@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
       height: 100vh;
       margin: 0;
     }
+
     .container {
       background-color: white;
       padding: 20px;
@@ -22,10 +24,13 @@
       width: 300px;
       text-align: center;
     }
+
     h2 {
       margin-bottom: 20px;
     }
-    input[type="text"], input[type="password"] {
+
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
       padding: 10px;
       margin: 10px 0;
@@ -33,6 +38,7 @@
       border-radius: 4px;
       box-sizing: border-box;
     }
+
     button {
       width: 100%;
       padding: 10px;
@@ -43,29 +49,36 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     button:hover {
       background-color: #0056b3;
     }
+
     .message {
       margin-top: 20px;
     }
+
     .success {
       color: green;
     }
+
     .error {
       color: red;
     }
+
     .link {
       margin-top: 10px;
       display: block;
       color: #007bff;
       text-decoration: none;
     }
+
     .link:hover {
       text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h2>Login</h2>
@@ -79,7 +92,7 @@
   </div>
 
   <script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
       event.preventDefault();
 
       const username = document.getElementById('username').value;
@@ -97,32 +110,33 @@
           password: password
         })
       })
-      .then(response => response.json())
-      .then(data => {
-        const messageElement = document.getElementById('message');
-        
-        // Clear previous message classes
-        messageElement.classList.remove('success', 'error');
+        .then(response => response.json())
+        .then(data => {
+          const messageElement = document.getElementById('message');
 
-        if (data.message === "Login successful") {
-          messageElement.textContent = "Login successful! Redirecting...";
-          messageElement.classList.add('success');
-          setTimeout(() => {
-            window.location.href = `homepage.html?username=${username}`;
-          }, 2000);
-        } else {
-          messageElement.textContent = data.message;
+          // Clear previous message classes
+          messageElement.classList.remove('success', 'error');
+
+          if (data.message === "Login successful") {
+            messageElement.textContent = "Login successful! Redirecting...";
+            messageElement.classList.add('success');
+            setTimeout(() => {
+              window.location.href = `homepage.html?username=${username}`;
+            }, 2000);
+          } else {
+            messageElement.textContent = data.message;
+            messageElement.classList.add('error');
+          }
+        })
+        .catch(error => {
+          const messageElement = document.getElementById('message');
+          // Clear previous message classes
+          messageElement.classList.remove('success', 'error');
+          messageElement.textContent = "An error occurred. Please try again.";
           messageElement.classList.add('error');
-        }
-      })
-      .catch(error => {
-        const messageElement = document.getElementById('message');
-        // Clear previous message classes
-        messageElement.classList.remove('success', 'error');
-        messageElement.textContent = "An error occurred. Please try again.";
-        messageElement.classList.add('error');
-      });
+        });
     });
   </script>
 </body>
+
 </html>

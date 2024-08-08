@@ -22,7 +22,7 @@ exports.handler = async (event) => {
     const postDate = `${todayDate.getUTCFullYear()}-${String(todayDate.getUTCMonth() + 1).padStart(2, '0')}-${String(todayDate.getUTCDate()).padStart(2, '0')}`;
     const staging = isError === 'True' ? 'error' : 'staging';
 
-    
+
     const params = {
       TableName: process.env.POSTS_TABLE_NAME,
       Item: {
@@ -30,7 +30,7 @@ exports.handler = async (event) => {
         UserName: { S: username },
         Staging: { S: staging },
         Content: { S: text },
-        PostDate: { S: postDate }, 
+        PostDate: { S: postDate },
       },
       ConditionExpression: "attribute_not_exists(PostID)"
     };

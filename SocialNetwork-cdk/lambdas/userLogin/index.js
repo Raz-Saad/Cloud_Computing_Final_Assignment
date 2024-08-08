@@ -9,7 +9,7 @@ const AWS_REGION = process.env.AWS_REGION;
 
 const client = new DynamoDBClient({ region: AWS_REGION });
 
-exports.handler = async function(event) {
+exports.handler = async function (event) {
   console.log("Received event:", JSON.stringify(event, undefined, 2));
 
   // Extracting username and password from the request body
