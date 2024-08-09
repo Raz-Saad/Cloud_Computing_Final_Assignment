@@ -64,12 +64,12 @@ cdk deploy
 
 
 # Part A: Build a basic user system
-## Features
+## Lambdas
 ### Registration
 A Lambda function that receives a username, email, password, and full name, then creates a user in the DynamoDB user’s table with the hashed password. <br>
-* API Endpoint: /register
+* API Endpoint: /registration
 * Method: POST
-* Payload:
+* Request:
   ```bash
   {
     "username": "user123",
@@ -80,7 +80,7 @@ A Lambda function that receives a username, email, password, and full name, then
   ```
 ### Get User By ID
 A Lambda function that retrieves user information by username from the DynamoDB user’s table.
-* API Endpoint: 
+* API Endpoint: /getUser 
 * Method: GET
 * Response:
   ```bash
@@ -94,12 +94,12 @@ A Lambda function that retrieves user information by username from the DynamoDB 
 
 ### Delete User By ID
 A Lambda function that deletes a user by username from the DynamoDB user’s table.
-* API Endpoint: 
+* API Endpoint: /deleteUser
 * Method: DELETE
 
 ### Get Pre-signed URL for Uploading Profile Image
 A Lambda function that generates and returns a PUT pre-signed URL for uploading a profile image into the S3 bucket named "ImageStorage".
-* API Endpoint: 
+* API Endpoint: /getPresignUrlForUplodingProfileImage
 * Method: GET
 * Response:
   ```bash
@@ -110,6 +110,7 @@ A Lambda function that generates and returns a PUT pre-signed URL for uploading 
 
 ### Update DB Profile Picture
 A Lambda function that gets triggered when an image is uploaded to the "ImageStorage" S3 bucket, then updates the DynamoDB user’s table with a valid profile picture flag and the URL to the image in the bucket.
+*  <b>Triggered by</b>: S3 Bucket
 
 ## Technologies Used
 * AWS Lambda
@@ -119,17 +120,25 @@ A Lambda function that gets triggered when an image is uploaded to the "ImageSto
 * AWS DynamoDB
 * Node.js
 * Axios
+
+## How to run tests:
+### installation
+* npm install --save-dev jest
+* npm install axios
   
+### Test command
+* chmod +x runTests.sh && ./runTests.sh
+
 # Part B: Innovative Feature
 ## Overview
 In this part, an innovative feature for our social network is implemented that allows users to upload posts by submitting images.<br>
 Amazon Textract is utilized to extract text from the uploaded images, allowing users to edit the extracted text before finalizing and uploading the post.<br>
-This feature includes multiple Lambda functions, an SQS queue, and a DynamoDB table to manage the posts.
+This feature includes multiple Lambda functions, SQS queues, and a DynamoDB table to manage the posts.
 
-## Features
+## Lambdas
 ### Get Pre-signed URL for Uploading Post Image
 A Lambda function that generates and returns a PUT pre-signed URL for uploading an image into the posts S3 bucket.
-* API Endpoint:
+* API Endpoint: /getPresignUrlForUplodingPostImage
 * Method: GET
 * Response:
   ```bash
@@ -140,7 +149,7 @@ A Lambda function that generates and returns a PUT pre-signed URL for uploading 
 
 ### Get Pre-signed URL for Viewing Profile Image
 A Lambda function that generates and returns a GET pre-signed URL for viewing the user's profile picture.
-* API Endpoint:
+* API Endpoint: /getPresignUrlForViewingProfileImage
 * Method: GET
 * Response:
   ```bash
@@ -150,7 +159,7 @@ A Lambda function that generates and returns a GET pre-signed URL for viewing th
   ```
 ### Get All Done Posts
 A Lambda function that returns all posts with the status 'done'.
-* API Endpoint:
+* API Endpoint: /getAllDonePosts
 * Method: GET
 * Response:
   ```bash
@@ -167,12 +176,12 @@ A Lambda function that returns all posts with the status 'done'.
 
 ### Delete Post
 A Lambda function that deletes a post by post ID from the DynamoDB posts table.
-* API Endpoint:
+* API Endpoint: /deletePost
 * Method: DELETE
 
 ### Get Staging and Error Posts
 A Lambda function that returns all posts with the status 'staging' or 'error' for a specific user.
-* API Endpoint:
+* API Endpoint: /getStagingAndErrorPosts
 * Method: GET
 * Response:
   ```bash
@@ -189,9 +198,9 @@ A Lambda function that returns all posts with the status 'staging' or 'error' fo
 
 ### Upload Post By Image After Edit
 A Lambda function that updates the content of a post by post ID and changes the status to 'done' in the DynamoDB posts table.
-* API Endpoint:
+* API Endpoint: /uploadPostByImageAfterEdit
 * Method: POST
-* Payload:
+* Request:
   ```bash
     {
       "postid": "123123"
@@ -201,9 +210,9 @@ A Lambda function that updates the content of a post by post ID and changes the 
 
 ### Upload Text Post
 A Lambda function that creates a new text post in the DynamoDB posts table.
-* API Endpoint:
+* API Endpoint: /uploadTextPost
 * Method: POST
-* Payload:
+* Request:
   ```bash
     {
       "username": "user123",
@@ -213,9 +222,9 @@ A Lambda function that creates a new text post in the DynamoDB posts table.
 
 ### User Login
 A Lambda function that checks whether the provided username and password are correct.
-* API Endpoint:
+* API Endpoint: /login
 * Method: POST
-* Payload:
+* Request:
   ```bash
     {
       "username": "user123",
@@ -225,11 +234,11 @@ A Lambda function that checks whether the provided username and password are cor
 
 ### Textract Image
 A Lambda function triggered by an SQS event to use Amazon Textract to extract text from an image and send the result to another SQS queue.
-*  <b>Trigger</b>: SQS
+*  <b>Triggered by</b>: SQS
 
 ### Store Post From SQS to DB
 A Lambda function triggered by an SQS event with the extracted text to create a new record in the DynamoDB posts table.
-*  <b>Trigger</b>: SQS
+*  <b>Triggered by</b>: SQS
 
 ### Empty Bucket
 A Lambda function to empty S3 buckets – only for destroy purposes.
@@ -244,14 +253,8 @@ A Lambda function to empty S3 buckets – only for destroy purposes.
 * AWS DynamoDB
 * Node.js
 
-## How to run tests:
-### installation
-* npm install --save-dev jest
-* npm install axios
+
   
-### Test command
-* chmod +x runTests.sh && ./runTests.sh
-* 
 ## Create a package for lambda function
 * npm init -y
 * npm install aws-sdk
