@@ -284,7 +284,16 @@ npm install -g http-server
 ```bash
 http-server -p 8000 --cors -c-1
 ```
-## Demo
+# Demo
+## Videos
+
+https://github.com/user-attachments/assets/dd11b803-7546-4c92-a65b-4d8f268fc252
+
+
+https://github.com/user-attachments/assets/f4099837-ed89-44a8-954d-fdc7090023a6
+
+
+## Screenshots
 ### Login page
 ![login](https://github.com/user-attachments/assets/8da37b0c-5e7a-41b6-95d7-e9ed460b9592)
 
