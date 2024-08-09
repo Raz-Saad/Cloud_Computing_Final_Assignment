@@ -1,6 +1,7 @@
 # Social Network User System
 ## Overview
-This project implements the foundational user system for a social network. The system includes APIs for creating, retrieving, and deleting users, as well as uploading profile pictures securely. The project is built using AWS services such as Lambda, CDK, API Gateway, S3, and DynamoDB.
+This project comprises two main parts, each implementing essential features for a social network. The system is built using AWS services such as Lambda, CDK, API Gateway, S3, DynamoDB, Textract, and SQS.<br>
+The primary objectives are to establish a foundational user system and introduce an innovative feature for post creation through image uploads and text extraction.
 
 ## Setup
 ### Prerequisites
@@ -64,6 +65,9 @@ cdk deploy
 
 
 # Part A: Build a basic user system
+## Overview
+In this part we implement the foundational user system for a social network. The system includes APIs for creating, retrieving, and deleting users, as well as uploading profile pictures securely. The project is built using AWS services such as Lambda, CDK, API Gateway, S3, and DynamoDB.
+
 ## Lambdas
 ### Registration
 A Lambda function that receives a username, email, password, and full name, then creates a user in the DynamoDB user’s table with the hashed password. <br>
