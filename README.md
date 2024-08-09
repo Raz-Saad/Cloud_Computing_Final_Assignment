@@ -7,8 +7,8 @@ The primary objectives are to establish a foundational user system and introduce
 ### Prerequisites
 * Node.js and npm installed
 * AWS CLI configured with appropriate credentials
-* AWS CDK installed globally (npm install -g aws-cdk)
-
+* AWS CDK installed globally
+  
 #### Install AWS CLI
 ```bash
 # Download the AWS CLI 
@@ -46,7 +46,7 @@ cdk --version
 > Note that: If you already bootstrap your account, no need to execute that action
 ```bash
 # Go to CDK Directory
-cd restaurants-cdk
+cd SocialNetwork-cdk
 
 # Install NPM models
 npm install
@@ -58,7 +58,7 @@ cdk bootstrap --template bootstrap-template.yaml
 ### Deploy the Base Stack
 Make sure that you are at folder `SocialNetwork-cdk`
 Change the Account ID and the VPC ID for your own details,
-you can find all the places easily when searching `Students TODO Account Details`
+you can find all the places easily when searching `TODO Account Details` (in lib and bin folders)
 ```bash
 cdk deploy
 ```
@@ -108,7 +108,7 @@ A Lambda function that generates and returns a PUT pre-signed URL for uploading 
 * Response:
   ```bash
   {
-    "preSignedUrl": "https://s3.amazonaws.com/ImageStorage/..."
+    "uploadUrl": "https://s3.amazonaws.com/ImageStorage/..."
   }
   ```
 
@@ -126,12 +126,21 @@ A Lambda function that gets triggered when an image is uploaded to the "ImageSto
 * Axios
 
 ## How to run tests:
+<b>Navigate to Tests folder</b>
+```bash
+cd Tests
+```
 ### installation
 * npm install --save-dev jest
 * npm install axios
   
 ### Test command
 * chmod +x runTests.sh && ./runTests.sh
+
+## Diagram - Upload User Profile Picture
+
+![Diagram Part A -  Upload User Profile Picture](https://github.com/user-attachments/assets/9fce362f-c900-485d-bcbd-74a40724c8d4)
+
 
 # Part B: Innovative Feature
 ## Overview
@@ -147,7 +156,7 @@ A Lambda function that generates and returns a PUT pre-signed URL for uploading 
 * Response:
   ```bash
   {
-  "preSignedUrl": "https://s3.amazonaws.com/PostImages/..."
+    "uploadUrl": "https://s3.amazonaws.com/PostImages/..."
   }
   ```
 
@@ -158,7 +167,7 @@ A Lambda function that generates and returns a GET pre-signed URL for viewing th
 * Response:
   ```bash
   {
-  "preSignedUrl": "https://s3.amazonaws.com/ImageStorage/..."
+    "uploadUrl": "https://s3.amazonaws.com/ImageStorage/..."
   }
   ```
 ### Get All Done Posts
@@ -256,19 +265,14 @@ A Lambda function to empty S3 buckets – only for destroy purposes.
 * AWS S3
 * AWS DynamoDB
 * Node.js
+## Diagram - Upload A Post By An Image
+![Diagram Part B -  Upload A Post By An Image](https://github.com/user-attachments/assets/f03623ce-76ba-414e-b9d3-840842712de4)
 
-
-  
-## Create a package for lambda function
-* npm init -y
-* npm install aws-sdk
-
-## How to upload an image via CMD using curl
+### Running HTML pages locally
+<b>Navigate to Client-Side folder</b>
 ```bash
-curl -X PUT -T "file path" "pre-signed URL"
+cd Client-Side
 ```
-
-## Running HTML pages locally
 * first download http-server
 ```bash
 npm install -g http-server
@@ -277,4 +281,35 @@ npm install -g http-server
 ```bash
 http-server -p 8000 --cors -c-1
 ```
+## Demo
+### Login page
+![login](https://github.com/user-attachments/assets/8da37b0c-5e7a-41b6-95d7-e9ed460b9592)
+
+### Register page
+![register](https://github.com/user-attachments/assets/60575c7f-398b-4b17-82f5-a3a00be5021e)
+
+### Profile page
+![profile](https://github.com/user-attachments/assets/d3fa84df-2904-4674-8a87-a2168012208b)
+
+### Homepage page
+![homepage](https://github.com/user-attachments/assets/7e4825b5-a300-47aa-b28d-edbf5edcf588)
+
+### Uploading Posts page
+![upload a post](https://github.com/user-attachments/assets/96c77f3c-b37b-4357-85c9-b7b4f486a907)
+![upload a post - edit](https://github.com/user-attachments/assets/cb00ae73-909a-459b-966c-0d31af733786)
+
+## Notes:
+### How to create a package for lambda function
+```bash
+npm init -y
+npm install aws-sdk
+```
+
+
+### How to upload an image via CMD using curl
+```bash
+curl -X PUT -T "file path" "pre-signed URL"
+```
+
+
 
