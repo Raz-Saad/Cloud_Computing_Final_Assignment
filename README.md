@@ -277,6 +277,7 @@ cd Client-Side
 ```bash
 npm install -g http-server
 ```
+* After you deployed the stack, you need to update in every html page the variable "baseURL" with updated apigateway URL (you see this after the deployment is done)
 * Then run the following command
 ```bash
 http-server -p 8000 --cors -c-1
