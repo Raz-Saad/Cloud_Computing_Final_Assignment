@@ -1,7 +1,4 @@
 //storePostFromSQStoDb
-/*
-a lambda that gets an event from SQS with the extracted text and create a new record in the posts table in the DynamoDB
-*/
 
 const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
 const { SQSClient, DeleteMessageCommand } = require('@aws-sdk/client-sqs');

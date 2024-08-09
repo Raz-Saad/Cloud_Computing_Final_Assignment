@@ -1,7 +1,4 @@
 //getPresignUrlForUplodingProfileImage
-/*
-a lambda that gets a username and return a PUT presignURL for uploading a profile image into S3 bucket named - ImageStorage 
-*/
 
 const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const { S3Client, PutObjectCommand, ListObjectsV2Command } = require("@aws-sdk/client-s3");

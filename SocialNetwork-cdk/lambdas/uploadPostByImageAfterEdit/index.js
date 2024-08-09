@@ -1,4 +1,7 @@
 //uploadPostByImageAfterEdit
+/*
+a lambda that gets a postID and content,update the content by postID and change the status to ‘done’ in the DynamoDB posts table 
+*/
 
 const { DynamoDBClient, UpdateItemCommand } = require('@aws-sdk/client-dynamodb');
 

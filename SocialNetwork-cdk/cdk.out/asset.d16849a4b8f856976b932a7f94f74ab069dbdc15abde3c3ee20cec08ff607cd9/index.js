@@ -1,7 +1,4 @@
 //userLogin
-/*
-a lambda that gets a username and password, checks whether the info is correct
-*/
 
 const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const crypto = require('crypto');

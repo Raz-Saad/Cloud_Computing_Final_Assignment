@@ -1,7 +1,4 @@
-//getPresignUrlForUplodingProfileImage
-/*
-a lambda that gets a username and return a PUT presignURL for uploading a profile image into S3 bucket named - ImageStorage 
-*/
+//getPresignUrlForUplodingPostImage
 
 const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const { S3Client, PutObjectCommand, ListObjectsV2Command } = require("@aws-sdk/client-s3");
@@ -23,7 +20,7 @@ exports.handler = async (event) => {
       statusCode: 400,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "*",  // Allow from all origins
         "Access-Control-Allow-Methods": "POST, OPTIONS , GET",
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
       },
@@ -39,7 +36,7 @@ exports.handler = async (event) => {
         statusCode: 404,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "*",  // Allow from all origins
           "Access-Control-Allow-Methods": "POST, OPTIONS , GET",
           "Access-Control-Allow-Headers": "Content-Type, Authorization"
         },
@@ -71,7 +68,7 @@ exports.handler = async (event) => {
     }
 
     // Generate a pre-signed URL for uploading an image to this folder
-    const fileName = `${username}_ProfilePicture.jpg`;
+    const fileName = `${username}_Post` + Date.now() + `.jpg`;
     const uploadParams = {
       Bucket: BUCKET_NAME,
       Key: `${folderPath}${fileName}`,
@@ -86,7 +83,7 @@ exports.handler = async (event) => {
       statusCode: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "*",  // Allow from all origins
         "Access-Control-Allow-Methods": "POST, OPTIONS , GET",
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
       },
@@ -99,7 +96,7 @@ exports.handler = async (event) => {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "*",  // Allow from all origins
         "Access-Control-Allow-Methods": "POST, OPTIONS , GET",
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
       },
@@ -124,4 +121,3 @@ async function getUserByUsername(username) {
     throw new Error("Error checking user existence");
   }
 }
-

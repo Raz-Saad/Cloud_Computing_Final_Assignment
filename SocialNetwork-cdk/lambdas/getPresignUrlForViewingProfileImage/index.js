@@ -1,4 +1,7 @@
 //getPresignUrlForViewingProfileImage
+/*
+a lambda that gets a username and return a GET presignURL for viewing the user’s profile picture  
+*/
 
 const { DynamoDBClient, GetItemCommand } = require('@aws-sdk/client-dynamodb');
 const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');

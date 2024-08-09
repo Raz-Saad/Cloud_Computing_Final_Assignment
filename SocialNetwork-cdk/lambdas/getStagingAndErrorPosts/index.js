@@ -1,4 +1,7 @@
 //getStagingAndErrorPosts
+/*
+a lambda that gets a username and return all the posts that in status ‘staging’ or ‘error’ for this specific user 
+*/
 const { DynamoDBClient, QueryCommand } = require("@aws-sdk/client-dynamodb");
 
 const TABLE_NAME = process.env.TABLE_NAME;

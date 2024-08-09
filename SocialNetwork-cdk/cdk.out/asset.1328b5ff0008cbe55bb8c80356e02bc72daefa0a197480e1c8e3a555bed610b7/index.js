@@ -1,7 +1,5 @@
 //Registration
-/*
- a lambda that gets a username, email, password,full name and create a user in the DynamoDB user’s table (the password is hashed)
-*/
+
 
 const { DynamoDBClient, GetItemCommand, PutItemCommand } = require("@aws-sdk/client-dynamodb");
 const crypto = require('crypto');

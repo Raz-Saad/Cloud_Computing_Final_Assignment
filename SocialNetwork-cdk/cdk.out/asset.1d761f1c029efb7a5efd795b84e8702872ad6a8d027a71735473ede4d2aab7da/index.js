@@ -1,7 +1,4 @@
 //deleteUserById
-/*
-a lambda that gets a username and delete the user from the DynamoDB user’s table
-*/
 
 const { DynamoDBClient, DeleteItemCommand, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const { S3Client, ListObjectsV2Command, DeleteObjectsCommand } = require("@aws-sdk/client-s3");

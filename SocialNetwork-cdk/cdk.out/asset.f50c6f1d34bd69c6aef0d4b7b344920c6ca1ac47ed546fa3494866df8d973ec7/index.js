@@ -1,7 +1,4 @@
 //getUserById
-/*
-a lambda that gets a username and return the user info from the DynamoDB user’s table (username, email, fullname, validProfilePicture)
-*/
 
 const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const { unmarshall } = require("@aws-sdk/util-dynamodb");

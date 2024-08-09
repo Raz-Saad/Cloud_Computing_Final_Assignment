@@ -1,4 +1,8 @@
 //updateProfilePicture
+/*
+a lambda that gets triggered when an image is uploaded to the ImageStorage S3 bucket and update the DynamoDB user’s 
+table with that he has a valid profile picture and the URL to the image in the bucket
+*/
 
 const { DynamoDBClient, UpdateItemCommand } = require('@aws-sdk/client-dynamodb');
 

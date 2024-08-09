@@ -1,4 +1,7 @@
 //getPresignUrlForUplodingPostImage
+/*
+a lambda that gets a username and return a PUT presignURL for uploading an image into the posts s3 bucket
+*/
 
 const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const { S3Client, PutObjectCommand, ListObjectsV2Command } = require("@aws-sdk/client-s3");

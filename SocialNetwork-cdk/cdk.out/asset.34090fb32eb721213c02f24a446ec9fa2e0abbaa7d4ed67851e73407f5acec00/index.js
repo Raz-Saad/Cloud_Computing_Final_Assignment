@@ -1,7 +1,4 @@
 //uploadTextPost
-/*
-a lambda that gets a username and content,create a new record in the DynamoDB posts table 
-*/
 
 const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
 

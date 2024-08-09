@@ -1,7 +1,4 @@
-//textractImage
-/*
-a lambda that gets an event from SQS, using TEXTRACT to extract the text from the image and send the result to another SQS
-*/
+//textract
 
 const { TextractClient, DetectDocumentTextCommand } = require('@aws-sdk/client-textract');
 const { SQSClient, SendMessageCommand, DeleteMessageCommand } = require('@aws-sdk/client-sqs');

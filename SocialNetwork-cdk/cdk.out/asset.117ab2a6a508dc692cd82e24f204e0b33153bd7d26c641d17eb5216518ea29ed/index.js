@@ -1,7 +1,5 @@
+
 //getAllDonePosts
-/*
-a lambda that return all the posts that in status ‘done’  
-*/
 
 const { DynamoDBClient, QueryCommand } = require("@aws-sdk/client-dynamodb");
 

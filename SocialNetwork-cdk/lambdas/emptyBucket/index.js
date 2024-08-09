@@ -1,4 +1,7 @@
 // empty a bucket from all is content
+/*
+a lambda that empty S3 buckets – *only for destroy 
+*/
 
 const { S3Client, ListObjectsV2Command, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
 
