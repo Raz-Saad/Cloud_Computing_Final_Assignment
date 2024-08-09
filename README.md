@@ -234,6 +234,16 @@ A Lambda function triggered by an SQS event with the extracted text to create a 
 ### Empty Bucket
 A Lambda function to empty S3 buckets – only for destroy purposes.
 
+## Technologies Used
+* Amazon Textract
+* AWS SQS
+* AWS Lambda
+* AWS CDK
+* AWS API Gateway
+* AWS S3
+* AWS DynamoDB
+* Node.js
+
 ## How to run tests:
 ### installation
 * npm install --save-dev jest
