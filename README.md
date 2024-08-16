@@ -54,6 +54,27 @@ npm install
 # Run bootsrap
 cdk bootstrap --template bootstrap-template.yaml
 ```
+### Create a VPC
+Our cdk doesn't create VPC, you will need to create it manually once.<br>
+Those are the settings you need to choose:<br>
+
+* IPv4 CIDR block : 10.0.0.0/16
+* IPv6 CIDR block: No IPv6 CIDR block
+* Tenancy: Default
+* Number of Availability Zones (AZs): 2
+  * First availability zone: us-east-1a
+  * Second availability zone: us-east-1b
+* Number of public subnets: 2
+* Number of private subnets: 2
+  * Public subnet CIDR block in us-east-1a   : 10.0.0.0/24
+  * Public subnet CIDR block in us-east-1b  : 10.0.1.0/24
+  * Private subnet CIDR block in us-east-1a : 10.0.2.0/24
+  * Private subnet CIDR block in us-east-1b : 10.0.3.0/24
+* NAT gateways ($):
+  * None (we create NAT with the cdk) 
+* DNS options:
+  * Enable DNS hostnames
+  * Enable DNS resolution
 
 ### Deploy the Base Stack
 Make sure that you are at folder `SocialNetwork-cdk`
