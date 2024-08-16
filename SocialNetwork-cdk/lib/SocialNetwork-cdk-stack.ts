@@ -417,6 +417,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
       resources: ['*'],
     }));
 
+    // link lambda to sqs
     textractLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueImageUpload));
   }
 
@@ -435,6 +436,7 @@ export class SocialNetworkCdkStack extends cdk.Stack {
 
     sqsQueueTextractResult.grantConsumeMessages(textractResultLambda);
     postsTable.grantWriteData(textractResultLambda);
+    // link lambda to sqs
     textractResultLambda.addEventSource(new lambdaEventSources.SqsEventSource(sqsQueueTextractResult));
   }
 

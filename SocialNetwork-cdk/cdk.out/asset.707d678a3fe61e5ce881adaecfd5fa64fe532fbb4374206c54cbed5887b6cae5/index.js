@@ -70,7 +70,7 @@ exports.handler = async function (event) {
           "Access-Control-Allow-Methods": "POST, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type, Authorization"
         },
-        body: JSON.stringify({ message: "There is an error please try again." }),
+        body: JSON.stringify({ message: "Username or password is incorrect" }),
       };
     }
 
