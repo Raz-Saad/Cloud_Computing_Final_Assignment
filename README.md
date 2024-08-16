@@ -81,6 +81,10 @@ Make sure that you are at folder `SocialNetwork-cdk`
 Change the Account ID and the VPC ID for your own details,
 you can find all the places easily when searching `TODO Account Details` (in lib and bin folders)
 ```bash
+# Install NPM models if you haven't already
+npm install
+
+#Deploy stack
 cdk deploy
 ```
 
