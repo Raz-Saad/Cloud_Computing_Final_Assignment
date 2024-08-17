@@ -160,7 +160,9 @@ cd Tests
 * npm install axios
   
 ### Test command
-* chmod +x runTests.sh && ./runTests.sh
+```bash
+chmod +x runTests.sh && ./runTests.sh
+```
 
 ## Diagram - Upload User Profile Picture
 
