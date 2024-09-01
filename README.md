@@ -1,4 +1,9 @@
 # Social Network User System
+
+## Contributors
+* <a href="https://github.com/Raz-Saad">Raz Saad<a>
+* <a href="https://github.com/ofekats">Ofek Kats<a>
+
 ## Overview
 This project comprises two main parts, each implementing essential features for a social network. The system is built using AWS services such as Lambda, CDK, API Gateway, S3, DynamoDB, Textract, and SQS.<br>
 The primary objectives are to establish a foundational user system and introduce an innovative feature for post creation through image uploads and text extraction.
